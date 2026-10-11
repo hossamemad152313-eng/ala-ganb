@@ -97,7 +97,7 @@ window.__boot=()=>{'use strict';
 const T=THREE,$=id=>document.getElementById(id),PI=Math.PI;
 const rnd=(a,b)=>a+Math.random()*(b-a),pick=a=>a[Math.random()*a.length|0],cl=(v,a,b)=>v<a?a:v>b?b:v;
 const R=new T.WebGLRenderer({canvas:$('g'),antialias:true});R.setPixelRatio(Math.min(devicePixelRatio||1,1.5));R.toneMapping=T.ACESFilmicToneMapping;R.toneMappingExposure=1.05;R.shadowMap.enabled=true;R.shadowMap.type=T.PCFShadowMap;
-const sc=new T.Scene();sc.fog=new T.FogExp2(0xe0c3a0,.0068);
+const sc=new T.Scene();sc.fog=new T.FogExp2(0xe0c3a0,.0068);let ENV=null;function mkEnv(){try{const pm=new T.PMREMGenerator(R),es=new T.Scene(),c=document.createElement('canvas');c.width=4;c.height=256;const x=c.getContext('2d'),g=x.createLinearGradient(0,0,0,256);g.addColorStop(0,'#5d8fd6');g.addColorStop(.45,'#cfe0f5');g.addColorStop(.5,'#ffe2b8');g.addColorStop(.52,'#6b5a48');g.addColorStop(1,'#2a2420');x.fillStyle=g;x.fillRect(0,0,4,256);es.add(new T.Mesh(new T.SphereGeometry(50,32,16),new T.MeshBasicMaterial({map:new T.CanvasTexture(c),side:T.BackSide})));ENV=pm.fromScene(es).texture;pm.dispose()}catch(e){ENV=null}return ENV}const SV=document.createElement('div');SV.style.cssText='position:fixed;inset:0;pointer-events:none;z-index:2;opacity:0;background:radial-gradient(ellipse at center,transparent 55%,rgba(255,255,255,.3) 100%)';document.body.appendChild(SV);
 const cam=new T.PerspectiveCamera(62,1,.35,1500);sc.add(cam);
 function rs(){const a=$('app'),w=a.clientWidth||innerWidth,H=a.clientHeight||innerHeight;R.setSize(w,H,false);cam.aspect=w/H;cam.updateProjectionMatrix();if(COMP){COMP.setPixelRatio(R.getPixelRatio());COMP.setSize(w,H)}}addEventListener('resize',rs);addEventListener('orientationchange',()=>setTimeout(rs,250));if(window.ResizeObserver)new ResizeObserver(rs).observe($('app'));rs();
 function ct(w,h,f,rep){const c=document.createElement('canvas');c.width=w;c.height=h;f(c.getContext('2d'),w,h);const t=new T.CanvasTexture(c);t.anisotropy=8;if(rep)t.wrapS=t.wrapT=T.RepeatWrapping;return t}
@@ -600,9 +600,9 @@ var COMP=null,GPS=null,HQ=0;
 const GRADE={uniforms:{tDiffuse:{value:null},tm:{value:0}},vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',fragmentShader:'uniform sampler2D tDiffuse;uniform float tm;varying vec2 vUv;float hh(vec2 p){return fract(sin(dot(p,vec2(12.9898,78.233)))*43758.5453);}void main(){vec4 c=texture2D(tDiffuse,vUv);vec2 d=vUv-.5;float v=smoothstep(.9,.3,length(d));c.rgb*=mix(.7,1.,v);float l=dot(c.rgb,vec3(.299,.587,.114));c.rgb=mix(vec3(l),c.rgb,1.12);c.rgb=(c.rgb-.5)*1.05+.5;c.rgb+=(hh(vUv*vec2(900.)+tm)-.5)*.018;gl_FragColor=c;}'};
 function setHQ(on){if(on){if(!T.EffectComposer||!T.UnrealBloomPass||!T.RenderPass||!T.ShaderPass||!T.CopyShader||!T.WebGLMultisampleRenderTarget){say('الجودة العالية مش متاحة هنا',1);return false}
   const a=$('app'),w=a.clientWidth||innerWidth,H=a.clientHeight||innerHeight,pr=R.getPixelRatio();
-  try{const rt=new T.WebGLMultisampleRenderTarget(w*pr,H*pr,{format:T.RGBAFormat});COMP=new T.EffectComposer(R,rt);COMP.addPass(new T.RenderPass(sc,cam));COMP.addPass(new T.UnrealBloomPass(new T.Vector2(w/2,H/2),.35,.6,.85));GPS=new T.ShaderPass(GRADE);GPS.renderToScreen=true;COMP.addPass(GPS);COMP.setPixelRatio(pr);COMP.setSize(w,H)}catch(e){COMP=null;GPS=null;say('الجودة العالية مش مدعومة على الجهاز ده',1);return false}
-  sun.shadow.mapSize.set(2048,2048);if(sun.shadow.map){sun.shadow.map.dispose();sun.shadow.map=null}HQ=1;return true}
- COMP=null;GPS=null;HQ=0;sun.shadow.mapSize.set(1024,1024);if(sun.shadow.map){sun.shadow.map.dispose();sun.shadow.map=null}return true}
+  try{const rt=new T.WebGLMultisampleRenderTarget(w*pr,H*pr,{format:T.RGBAFormat});COMP=new T.EffectComposer(R,rt);COMP.addPass(new T.RenderPass(sc,cam));COMP.addPass(new T.UnrealBloomPass(new T.Vector2(w/2,H/2),.5,.7,.8));GPS=new T.ShaderPass(GRADE);GPS.renderToScreen=true;COMP.addPass(GPS);COMP.setPixelRatio(pr);COMP.setSize(w,H)}catch(e){COMP=null;GPS=null;say('الجودة العالية مش مدعومة على الجهاز ده',1);return false}
+  sun.shadow.mapSize.set(2048,2048);if(sun.shadow.map){sun.shadow.map.dispose();sun.shadow.map=null}sc.environment=ENV||mkEnv();HQ=1;return true}
+ COMP=null;GPS=null;HQ=0;sc.environment=null;sun.shadow.mapSize.set(1024,1024);if(sun.shadow.map){sun.shadow.map.dispose();sun.shadow.map=null}return true}
 $('hq').onclick=()=>{if(HQ){setHQ(false);S.hq=0;$('hq').textContent='الجودة: عادية';STR=3}else if(setHQ(true)){S.hq=1;Q.pr=Math.min(Q.max,Q.pr+.25);applyPR();STR=4;$('hq').textContent='الجودة: عالية ✨'}saveS()};
 if(S.hq&&setHQ(true)){$('hq').textContent='الجودة: عالية ✨'}
 let last=performance.now(),mmT=0,cullT=0;cam.rotation.order='YXZ';
@@ -625,7 +625,7 @@ function frame(now){requestAnimationFrame(frame);const raw=Math.min(.2,(now-last
  pyr.position.set(px,0,pz);{const ssx=Math.round(px),ssz=Math.round(pz);sun.position.set(ssx-34,24,ssz+12);sun.target.position.set(ssx,0,ssz-8)}
  pv.g.visible=!cock||onFoot;ck.visible=cock&&!onFoot;if(AV)AV.g.visible=onFoot;pv.g.position.set(px,Math.sin(t*25)*.012*cl(Math.abs(v)/30,0,1),pz);pv.g.rotation.y=hd;
  shake*=.9;const sx=(Math.random()-.5)*shake,sy=(Math.random()-.5)*shake;chd+=angd(onFoot&&AV?AV.h:hd+angd(td,hd)*.35,chd)*Math.min(1,dt*5);
- cam.fov=(cock?66:58)+Math.min(14,Math.abs(v)*.26);cam.updateProjectionMatrix();
+ cam.fov=(cock?66:58)+Math.min(18,Math.abs(v)*.32);cam.updateProjectionMatrix();SV.style.opacity=HQ?Math.min(.55,Math.max(0,(Math.abs(v)-16)/38)):0;
  if(onFoot&&AV){const cx=-Math.sin(chd),cz=-Math.cos(chd);cam.position.set(AV.x-cx*4.2+sx,2.1+sy,AV.z-cz*4.2);cam.lookAt(AV.x+cx*6,1.4,AV.z+cz*6)}else if(cock){cam.position.set(px+PFX*1.6-Math.cos(hd)*.45+sx*.3,1.62+sy*.3,pz+PFZ*1.6+Math.sin(hd)*.45);cam.rotation.set(-.03,hd-st*.05,0)}
  else{const cx=-Math.sin(chd),cz=-Math.cos(chd),av=Math.abs(v);cdist+=(5.4+av*.05-cdist)*Math.min(1,dt*3);cam.position.set(px-cx*cdist+sx,1.85+av*.012+sy,pz-cz*cdist);cam.lookAt(px+cx*12,.35,pz+cz*12)}
  HLM.visible=dayF<.5&&!onFoot&&started;if(HLM.visible){HLM.position.set(px+PFX*11,.12,pz+PFZ*11);HLM.rotation.y=hd;HLM.material.opacity=cl(1-dayF*1.6,0,1)}
