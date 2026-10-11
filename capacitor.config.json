@@ -1,0 +1,8 @@
+{
+ "appId": "com.alaganb.yasta",
+ "appName": "على جنب يا اسطى",
+ "webDir": "www",
+ "server": {
+  "androidScheme": "https"
+ }
+}
