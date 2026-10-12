@@ -23,12 +23,26 @@ jobs:
           distribution: temurin
           java-version: 17
       - run: npm install
+      - name: Tests (logic, static, smoke)
+        run: npm test
       - run: npx cap add android
       - name: App icon
         continue-on-error: true
         run: |
           npm install --no-save @capacitor/assets@3
           npx capacitor-assets generate --android --iconBackgroundColor '#1f5fd1' --splashBackgroundColor '#1b1a22'
+      - name: Cache-bust the service worker
+        run: sed -i "s/agy-__BUILD__/agy-${GITHUB_RUN_NUMBER}/" www/sw.js
+      - name: Stable debug signing key (from secret DEBUG_KEYSTORE_BASE64, optional)
+        env:
+          DEBUG_KEYSTORE_BASE64: ${{ secrets.DEBUG_KEYSTORE_BASE64 }}
+        run: |
+          if [ -n "$DEBUG_KEYSTORE_BASE64" ]; then
+            mkdir -p ~/.android && echo "$DEBUG_KEYSTORE_BASE64" | base64 -d > ~/.android/debug.keystore
+            echo "Using the stable debug key from the secret."
+          else
+            echo "::warning::DEBUG_KEYSTORE_BASE64 not set. This build is signed with a NEW random debug key, so it will not install over a previous build. See docs/ANDROID-BUILD.md."
+          fi
       - run: npx cap sync android
       - name: Landscape and fullscreen
         run: |
