@@ -61,22 +61,30 @@ html,body{overscroll-behavior:none}
 .go{margin-top:18px;border:0;border-radius:14px;background:var(--cobalt);color:#fff;font:800 22px Cairo,sans-serif;padding:8px 38px;box-shadow:0 4px 0 rgba(0,0,0,.4)}
 #app{position:fixed;left:0;top:0;width:100vw;height:100vh;width:100dvw;height:100dvh;transform:translateZ(0);overflow:hidden}
 @media (orientation:portrait){#app{width:100vh;height:100vw;width:100dvh;height:100dvw;transform-origin:0 0;transform:translateX(100vw) rotate(90deg)}}
-</style></head><body><div id="app">
+</style><style>
+#hud #gv{color:#7fe3ff}#hud #sg b{opacity:.22;color:#ffb300;transition:opacity .05s}#hud #sg b.on{opacity:1;text-shadow:0 0 8px #ffb300}
+#xc{position:fixed;left:calc(16px + env(safe-area-inset-left,0px));bottom:calc(clamp(56px,13vmin,84px)*2 + 54px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:8px;direction:ltr;pointer-events:none;z-index:2}
+#xc .xr{display:flex;gap:8px}#xc .mn{display:none}#app.man #xc .mn{display:flex}
+#bf{right:184px;top:calc(146px + env(safe-area-inset-top,0px))}
+#iab{margin-top:10px;background:#7a1f1f;border-radius:10px;padding:6px 12px;font-weight:700;font-size:14px;line-height:1.5}
+</style>
+</head><body><div id="app">
 <div id="inst"><span id="it">📲 حمّل اللعبة كتطبيق</span><button id="ib">تثبيت</button><button id="ix">✕</button></div>
 <canvas id="g"></canvas>
-<div id="hud"><div class="hr"><span>🏆 <b id="sc">0</b></span><span>📍 <b id="ds">0.00</b> كم</span></div><div class="hr" id="mnp" style="cursor:pointer"><span>👛 <b id="mn">٠</b></span></div><div class="hr"><span>🚗 <b id="spd">٠</b> كم/س</span></div><div class="hr" id="gg"><span id="gf">⛽ ١٠٠٪</span><span id="go2">🛢 ١٠٠٪</span><span id="ge">☕ ١٠٠٪</span><span id="gd">🔧 ٠٪</span><span id="ck">🕔</span></div></div>
+<div id="hud"><div class="hr"><span>🏆 <b id="sc">0</b></span><span>📍 <b id="ds">0.00</b> كم</span></div><div class="hr" id="mnp" style="cursor:pointer"><span>👛 <b id="mn">٠</b></span></div><div class="hr"><span>🚗 <b id="spd">٠</b> كم/س</span><span id="gv">⚙ <b id="gear">D</b></span></div><div class="hr"><span>🧍 <b id="pax">٠/٨</b></span><span id="sg"><b id="sgl">◀</b> <b id="sgr">▶</b></span></div><div class="hr" id="gg"><span id="gf">⛽ ١٠٠٪</span><span id="go2">🛢 ١٠٠٪</span><span id="ge">☕ ١٠٠٪</span><span id="gd">🔧 ٠٪</span><span id="ck">🕔</span></div></div>
 <div id="job" style="top:calc(8px + env(safe-area-inset-top,0px))">اضغط «يلا بينا» وابدأ أول مشوار</div>
 <canvas id="mm" width="160" height="160"></canvas>
 <canvas id="dial" width="160" height="160"></canvas>
 <button class="tb" id="bm">🔊</button><button class="tb" id="bs">⚙</button>
 <div id="dev" class="h"></div><div id="svc" class="pnl h"></div><div id="wal" class="pnl h"></div>
-<div id="set" class="h"><b>⚙ الإعدادات</b><button class="sb" id="tm">التحكم: أزرار</button><small id="tst"></small><div id="tbar" style="height:10px;background:#333;border-radius:5px;position:relative;overflow:hidden;flex:none"><i id="tbi" style="position:absolute;top:0;bottom:0;width:6px;margin-left:-3px;background:#2fe07a;left:50%"></i></div><button class="sb" id="tw">الوقت: تلقائي</button><button class="sb" id="hq">الجودة: عادية</button><button class="sb" id="dv">أدوات المطور: مغلقة</button><button class="sb" id="dvb">حفظ القياس كخط أساس</button><button class="sb" id="ff">🔄 اقلب مقدمة العربية الحالية</button><small id="hqs"></small><label>حساسية التحكم <input type="range" id="sn" min=".5" max="1.8" step=".1" value="1"></label><label><input type="checkbox" id="inv"> اعكس اتجاه الإمالة</label><button class="sb" id="abt">ℹ️ عن اللعبة</button><small id="abx" style="display:none;line-height:1.6;max-width:260px"><b>تطوير: HOSSAM EMAD</b><br>موديلات (CC-BY 4.0، Sketchfab): Toyota Hiace — Nieve5677 · Rusty Truck — randombug · Crown Victoria — 8sianDude · Lada — tiunov.se / Aslan / davidmarton1987 · Canyon 75 — Daniel Zhabotinsky · Tuk Tuk — alnmathew · حلبة: خريطة GT Racing 2 Montreal (Sketchfab) بطابع مصري · النخيل: Poly by Google · مبنى: Kay Lousberg · الشخصيات والمباني: من Sketchfab (راجع تراخيصها) · عربيات إضافية (Sketchfab): Toyota Hiace بورسعيد، Toyota Hilux 2008، Chevrolet T-series جهينة، Pepsi Truck، Toyota Corolla، Mercedes-Benz CLS</small><button class="sb" id="cal">اظبط نقطة الصفر (امسك الموبايل مستقيم)</button><button class="sb" id="sx">تمام</button></div>
-<button class="tb" id="bp">⏸</button><button class="tb" id="bc">🎥</button>
+<div id="set" class="h"><b>⚙ الإعدادات</b><button class="sb" id="tm">التحكم: أزرار</button><small id="tst"></small><div id="tbar" style="height:10px;background:#333;border-radius:5px;position:relative;overflow:hidden;flex:none"><i id="tbi" style="position:absolute;top:0;bottom:0;width:6px;margin-left:-3px;background:#2fe07a;left:50%"></i></div><button class="sb" id="tw">الوقت: تلقائي</button><button class="sb" id="hq">الجودة: عادية</button><button class="sb" id="mt">الفتيس: أوتوماتيك</button><button class="sb" id="dv">أدوات المطور: مغلقة</button><button class="sb" id="dvb">حفظ القياس كخط أساس</button><button class="sb" id="ff">🔄 اقلب مقدمة العربية الحالية</button><small id="hqs"></small><label>حساسية التحكم <input type="range" id="sn" min=".5" max="1.8" step=".1" value="1"></label><label><input type="checkbox" id="inv"> اعكس اتجاه الإمالة</label><button class="sb" id="abt">ℹ️ عن اللعبة</button><small id="abx" style="display:none;line-height:1.6;max-width:260px"><b>تطوير: HOSSAM EMAD</b><br>موديلات (CC-BY 4.0، Sketchfab): Toyota Hiace — Nieve5677 · Rusty Truck — randombug · Crown Victoria — 8sianDude · Lada — tiunov.se / Aslan / davidmarton1987 · Canyon 75 — Daniel Zhabotinsky · Tuk Tuk — alnmathew · حلبة: خريطة GT Racing 2 Montreal (Sketchfab) بطابع مصري · النخيل: Poly by Google · مبنى: Kay Lousberg · الشخصيات والمباني: من Sketchfab (راجع تراخيصها) · عربيات إضافية (Sketchfab): Toyota Hiace بورسعيد، Toyota Hilux 2008، Chevrolet T-series جهينة، Pepsi Truck، Toyota Corolla، Mercedes-Benz CLS</small><button class="sb" id="cal">اظبط نقطة الصفر (امسك الموبايل مستقيم)</button><button class="sb" id="sx">تمام</button></div>
+<button class="tb" id="bp">⏸</button><button class="tb" id="bc">🎥</button><button class="tb" id="bf">⛶</button>
 <div id="say"></div>
 <div id="stn"></div><div id="dlg"></div>
 <div id="dz"><span>↔ اسحب هنا للتوجيه</span></div><div id="fl"></div>
 <div id="ctl"><div class="zl"><div class="aux"><button class="pad sm" data-k="H">📣<small>كلاكس</small></button><button class="pad sm" data-k="X">🚪<small>نزول/ركوب</small></button></div><div class="g"><button class="pad" data-k="L">◀</button><button class="pad" data-k="R">▶</button></div></div>
 <div class="zr"><div class="aux"><button class="pad sm" data-k="D">🌀<small>تفحيط</small></button></div><div class="g"><button class="pad" data-k="B">▼<small>فرامل</small></button><button class="pad t" data-k="G">▲<small>بنزين</small></button></div></div></div>
+<div id="xc"><div class="xr"><button class="pad sm" data-k="SL">⬅<small>غمازة</small></button><button class="pad sm" data-k="SR">➡<small>غمازة</small></button></div><div class="xr mn"><button class="pad sm" data-k="CL">🦶<small>كلتش</small></button><button class="pad sm" data-k="GD">➖<small>جير</small></button><button class="pad sm" data-k="GU">➕<small>جير</small></button></div></div>
 <div id="st"><div><svg viewBox="0 0 300 80" aria-label="HOSSAM EMAD" dir="ltr" style="direction:ltr;unicode-bidi:isolate;overflow:visible;width:250px;max-width:78%;display:block;margin:0 auto 12px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.65))"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffcf33"/><stop offset="1" stop-color="#e8590c"/></linearGradient></defs><polygon points="38,6 68,23 68,57 38,74 8,57 8,23" fill="url(#hg)" stroke="#fff" stroke-width="3"/><text x="38" y="49" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="26" fill="#1b1b1b">HE</text><text x="82" y="38" text-anchor="start" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="27" fill="#fff" letter-spacing="1.5">HOSSAM</text><text x="82" y="63" text-anchor="start" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="27" fill="#ffcf33" letter-spacing="1.5">EMAD</text><text x="188" y="63" text-anchor="start" font-family="Arial,sans-serif" font-weight="700" font-size="11" fill="#fff" fill-opacity=".85" letter-spacing="3">GAME DEV</text></svg><div class="plate">على جنب يا اسطى</div><p style="font-weight:600;font-size:18px">القاهرة المفتوحة — خد الركاب ووصّل الطلبات</p><div id="ld">جاري تحميل العالم…</div><div id="who" style="font-size:14px;margin-top:8px;font-weight:600">جاري تحميل بياناتك…</div><button class="go" id="go">يلا بينا</button><div id="apkw" style="display:none;margin-top:12px"><a id="apkb" href="ala-ganb.apk" download>📥 حمّل التطبيق (APK)</a></div></div></div>
 </div>
 <script>window.onerror=(m,s,l)=>{const d=document.getElementById("who");if(d)d.textContent="خطأ: "+m+" @"+l}</script>
@@ -394,12 +402,12 @@ function marker(kind,label,name,x,z,col,n){const g=new T.Group();g.position.set(
  if(kind==='ride')for(let i=0;i<n;i++)person(g,-.7+i*.7,0);else bx(.6,.5,.6,mat('#c9a56e'),0,.25,0,g);return g}
 function newJob(){if(!POI.length)return;const u0=Math.random(),kind=u0<.5?'ride':u0<.8?'delivery':'rush',a=(window.AGL&&SAVE.prog&&SAVE.prog.streak>0&&Math.random()<.6)?near(px,pz,60,220):near(px,pz,250,900);const b=near(a.x,a.z,450,1600);const d=Math.hypot(a.x-b.x,a.z-b.z);
  job={kind,ph:0,hold:0,a,b,n:1+(Math.random()*3|0),t:0,crash:0,chat:rnd(6,10),pitch:rnd(.8,1.5),d,pay:Math.round((15+d/20)*(kind==='ride'?1:kind==='rush'?2:1.4)),limit:0};job.m1=marker(kind,kind==='ride'?'راكب:':kind==='rush'?'⚡ مستعجل:':'طلب:',a.name,a.x,a.z,kind==='ride'?0x12b5c8:kind==='rush'?0xff5a4d:0xf2b705,job.n)}
-function pickup(){sc.remove(job.m1);job.ph=1;job.limit=job.kind==='rush'?job.d*1.15/9+20:job.d*1.5/9+30;job.m2=marker(job.kind,'وصّل إلى:',job.b.name,job.b.x,job.b.z,0x2fe07a,0);if(job.kind==='ride'){dlgSay('🧍 السلام عليكم يا اسطى!');speak('السلام عليكم يا اسطى',job.pitch,1)}else say('استلمت الطلب — يلا بسرعة!')}
-function done(){const ot=job.t<job.limit,bn=window.AGL?AGL.recordJob(SAVE.prog||(SAVE.prog=AGL.defaults().prog),true,ot,job.pay):0,p=Math.max(10,job.pay+(ot?15:0)-job.crash*6)+bn;SAVE.cash+=p;SAVE.rides++;score+=p;say('💰 +'+AR(p)+' جنيه'+(bn?' (سلسلة +'+AR(bn)+')':''));dlgSay('🧍 تسلم إيدك يا اسطى');speak('تسلم إيدك يا اسطى',job.pitch,1);sc.remove(job.m2);job=null;persist();refreshMoney()}
+function pickup(){sc.remove(job.m1);job.ph=1;job.limit=job.kind==='rush'?job.d*1.15/9+20:job.d*1.5/9+30;if(job.kind==='ride'&&Math.random()<.55){job.ch=pick(CHL);job.chv=1;setTimeout(()=>say('🎯 تحدي: '+job.ch.t+' (+'+AR(job.ch.b)+' ج)'),1200)}job.m2=marker(job.kind,'وصّل إلى:',job.b.name,job.b.x,job.b.z,0x2fe07a,0);if(job.kind==='ride'){dlgSay('🧍 السلام عليكم يا اسطى!');speak('السلام عليكم يا اسطى',job.pitch,1)}else say('استلمت الطلب — يلا بسرعة!')}
+function done(){const cb=chBonus(),ot=job.t<job.limit,bn=window.AGL?AGL.recordJob(SAVE.prog||(SAVE.prog=AGL.defaults().prog),true,ot,job.pay):0,p=Math.max(10,AGL.paxPay(job.pay,job.kind,job.n)+(ot?15:0)-job.crash*6-(job.fine||0))+bn+cb;SAVE.cash+=p;SAVE.rides++;score+=p;say('💰 +'+AR(p)+' جنيه'+(bn?' (سلسلة +'+AR(bn)+')':'')+(cb?' 🎯 +'+AR(cb):'')+(job.fine?' 🚦 −'+AR(job.fine):''));dlgSay('🧍 تسلم إيدك يا اسطى');speak('تسلم إيدك يا اسطى',job.pitch,1);sc.remove(job.m2);job=null;persist();refreshMoney()}
 function jobStep(dt){if(!started||paused)return;if(!job){newJob();if(!job)return}const m=job.ph?job.b:job.a,d=Math.hypot(px-m.x,pz-m.z);
  if(!onFoot&&d<9&&Math.abs(v)<4){job.hold+=dt;if(job.hold>1.1){job.hold=0;job.ph?done():pickup();return}}else job.hold=Math.max(0,job.hold-dt);
- if(job.ph){job.t+=dt;if(job.kind==='rush'&&job.t>job.limit){say('⏱ فات الوقت — المشوار اتلغى',1);window.AGL&&AGL.recordJob(SAVE.prog||(SAVE.prog=AGL.defaults().prog),false,false,0);sc.remove(job.m2);job=null;return}job.chat-=dt;if(job.kind==='ride'&&job.chat<=0){job.chat=rnd(9,15);const l=pick(L_CHAT);dlgSay('🧍 '+l);speak(l,job.pitch)}}
- jtT-=dt;if(jtT<=0){jtT=.25;$('job').textContent=(job.kind==='ride'?'🚕 ':job.kind==='rush'?'⚡ ':'📦 ')+(job.ph?(job.kind==='ride'?'وصّل الراكب إلى: ':'سلّم الطلب إلى: ')+job.b.name:(job.kind==='ride'?'الراكب مستنيك عند: ':'استلم الطلب من: ')+job.a.name)+' — '+AR(Math.round(d))+' م'+(d<40?' (وقّف جنب الرصيف)':'')+(job.ph?' • '+AR(Math.max(0,Math.round(job.limit-job.t)))+' ث':'')}}
+ if(job.ph){job.t+=dt;if(job.ch&&job.ch.id==='calm'&&job.chv&&Math.abs(v)*3.6>60){job.chv=0;say('🎯 التحدي فشل — السرعة عالية',1)}if(job.kind==='rush'&&job.t>job.limit){say('⏱ فات الوقت — المشوار اتلغى',1);window.AGL&&AGL.recordJob(SAVE.prog||(SAVE.prog=AGL.defaults().prog),false,false,0);sc.remove(job.m2);job=null;return}job.chat-=dt;if(job.kind==='ride'&&job.chat<=0){job.chat=rnd(9,15);const l=pick(L_CHAT);dlgSay('🧍 '+l);speak(l,job.pitch)}}
+ jtT-=dt;if(jtT<=0){jtT=.25;$('pax').textContent=AR(job.ph&&job.kind==='ride'?job.n:0)+'/٨';$('job').textContent=(job.kind==='ride'?'🚕 ':job.kind==='rush'?'⚡ ':'📦 ')+(job.ph?(job.kind==='ride'?'وصّل الراكب إلى: ':'سلّم الطلب إلى: ')+job.b.name:(job.kind==='ride'?'الراكب مستنيك عند: ':'استلم الطلب من: ')+job.a.name)+' — '+AR(Math.round(d))+' م'+(d<40?' (وقّف جنب الرصيف)':'')+(job.ph?' • '+AR(Math.max(0,Math.round(job.limit-job.t)))+' ث':'')+(job.ph&&job.ch?' • 🎯 '+job.ch.t:'')}}
 let FLIP={};try{FLIP=JSON.parse(localStorage.getItem('agy_flip')||'{}')}catch(e){}
 const MT={micro:[-PI/2,PI,.01],truck:[0,4.1265,1],crown:[0,PI,.83],ladatun:[0,PI/2,1],canyon:[0,PI/2,.92],lada7:[0,PI,1],tuk:[0,PI,1],hiaceA:[0,0,1],hiaceB:[0,0,1],hilux:[0,0,1],juhayna:[0,0,1],pepsi:[0,0,1],corolla:[0,0,1],cls:[0,0,1]};
 for(const k in MT)AT[k]=()=>loadM(k,MD[k],MT[k][0],MT[k][1]+(FLIP[k]?PI:0),MT[k][2],k==='micro'?()=>{const np=mk('micro',TLp,'#f4f1e6');np.g.position.copy(pv.g.position);sc.remove(pv.g);pv=np;sc.add(pv.g)}:null);
@@ -455,7 +463,7 @@ function stnStep(dt){stnT-=dt;if(stnT>0)return;stnT=.4;const rx=Math.round(px/PI
 initCloud();
 /* input */
 const K={},held={};let started=false,paused=false,cock=false;
-const kk={ArrowLeft:'L',a:'L',ArrowRight:'R',d:'R',ArrowUp:'G',w:'G',ArrowDown:'B',s:'B',h:'H',' ':'H',e:'X',Shift:'D',c:'D'};
+const kk={ArrowLeft:'L',a:'L',ArrowRight:'R',d:'R',ArrowUp:'G',w:'G',ArrowDown:'B',s:'B',h:'H',' ':'H',e:'X',Shift:'D',c:'D',z:'SL',v:'SR',k:'CL',Control:'CL',']':'GU','[':'GD'};
 addEventListener('keydown',e=>{if(kk[e.key])K[kk[e.key]]=1});addEventListener('keyup',e=>{if(kk[e.key])K[kk[e.key]]=0});
 document.querySelectorAll('.pad').forEach(b=>{const k=b.dataset.k,ids=new Set(),on=e=>{e.preventDefault();ids.add(e.pointerId);try{b.setPointerCapture(e.pointerId)}catch(x){}K[k]=1;b.classList.add('on')},off=e=>{ids.delete(e.pointerId);if(!ids.size){K[k]=0;b.classList.remove('on')}};b.addEventListener('pointerdown',on);['pointerup','pointercancel','lostpointercapture'].forEach(n=>b.addEventListener(n,off));b.addEventListener('contextmenu',e=>e.preventDefault())});
 $('go').onclick=()=>{A.init();TL.g0=null;TL.s=0;try{const e=document.documentElement;(e.requestFullscreen?e.requestFullscreen():Promise.resolve()).then(()=>screen.orientation&&screen.orientation.lock&&screen.orientation.lock('landscape')).catch(()=>{})}catch(e){}if(window.speechSynthesis)speechSynthesis.getVoices();started=true;$('st').classList.add('h')};$('bp').onclick=()=>{paused=!paused;$('bp').textContent=paused?'▶':'⏸'};$('bc').onclick=()=>{cock=!cock};$('bm').onclick=()=>{A.muted=!A.muted;if(A.m)A.m.gain.value=A.muted?0:.9;$('bm').textContent=A.muted?'🔇':'🔊'};
@@ -681,11 +689,60 @@ $('dv').onclick=()=>devToggle(!DEV.on);$('dvb').onclick=()=>{const s=DEV.sum;if(
 $('ff').onclick=()=>{const k=pv&&pv.key;if(!k||!MT[k]||!MD[k]){say('العربية دي مش قابلة للقلب',1);return}FLIP[k]=!FLIP[k];try{localStorage.setItem('agy_flip',JSON.stringify(FLIP))}catch(e){}loadM(k,MD[k],MT[k][0],MT[k][1]+(FLIP[k]?PI:0),MT[k][2],()=>{applyCar();say('اتقلبت مقدمة العربية — الجديدة في الزحمة هتطلع صح')})};
 if(/[?&]dev=1/.test(location.search))devToggle(true);
 let last=performance.now(),mmT=0,cullT=0,wallCd=0;cam.rotation.order='YXZ';
+
+/* ===== v3: فتيس مانيوال + غمازات + مطبات + تحديات + غرامة إشارة ===== */
+const MAN={on:!!S.man,g:0,stall:0,sT:0,gup:0,gdn:0},CHL=[{id:'smooth',t:'من غير خبطات',b:25},{id:'fast',t:'وصّل في أقل من ٧٠٪ من الوقت',b:30},{id:'calm',t:'متعديش ٦٠ كم/س',b:30},{id:'sig',t:'استخدم الغمازة',b:15}];
+function chBonus(){if(!job||!job.ch)return 0;if(AGL.challengeOk(job.ch.id,job)){return job.ch.b}say('🎯 التحدي فشل',1);return 0}
+function applyMan(){$('app').classList.toggle('man',MAN.on);$('mt').textContent='الفتيس: '+(MAN.on?'مانيوال 🕹':'أوتوماتيك');if(MAN.on){MAN.g=0;MAN.stall=0}}
+$('mt').onclick=()=>{MAN.on=!MAN.on;S.man=MAN.on?1:0;saveS();applyMan();say(MAN.on?'🕹 فتيس مانيوال: ١-٥ للجير، N فاضي، R ريفرس، K كلتش':'فتيس أوتوماتيك')};applyMan();
+function setGear(n){if(!MAN.on||!started||n===MAN.g)return;if(n===-1&&v>3){say('مينفعش ريفرس وإنت ماشي لقدّام',1);return}
+ if(!K.CL&&K.G&&Math.abs(v)>3&&MAN.g!==0&&n!==0){SAVE.dmg=Math.min(100,(SAVE.dmg||0)+.4);shake=Math.max(shake,.25);say('⚙ الجير بيصرّخ — دوس كلتش!',1)}
+ if(n>=1&&v>AGL.MB[n]*1.2)say('⚠ الموتور بيزأّ — اطلع جير أعلى',1);MAN.g=n;if(MAN.stall&&n===0)MAN.stall=0}
+addEventListener('keydown',e=>{if(!MAN.on||e.repeat)return;const k=e.key;if(k>='1'&&k<='5')setGear(+k);else if(k==='0'||k==='n'||k==='N')setGear(0);else if(k==='r'||k==='R')setGear(-1)});
+function manA(gas,brk,dt){const g=MAN.g,cl2=!!K.CL;
+ if(MAN.stall&&(cl2||g===0)){MAN.stall=0;MAN.sT=0;say('🔑 الموتور اشتغل')}
+ if(brk){MAN.sT=0;return v>.3?-36:v<-.3?36:0}
+ if(!cl2&&g>=2&&!MAN.stall&&Math.abs(v)<2.6){MAN.sT+=dt;if(MAN.sT>.45){MAN.stall=1;MAN.sT=0;say('⛔ الموتور فصل! دوس كلتش (أو N) وابدأ من جير ١',1)}}else MAN.sT=0;
+ return AGL.manualAccel(g,v,gas,cl2,MAN.stall,SAVE.dmg)}
+function manRpm(){if(MAN.stall)return 0;const g=MAN.g;if(g===0||K.CL)return K.G?4200:1000;return 1000+Math.min(1.1,Math.abs(v)/AGL.MB[g<0?1:g])*5400}
+function manKeys(){if(MAN.on){if(K.GU&&!MAN.gup)setGear(Math.min(5,MAN.g+1));if(K.GD&&!MAN.gdn)setGear(Math.max(-1,MAN.g-1))}MAN.gup=K.GU?1:0;MAN.gdn=K.GD?1:0}
+/* غمازات */
+const SIG={l:0,r:0,ph:0,h0:0,pl:0,pr:0,car:null,g:new T.Group(),m:[],hw:1,fz:-2.3,rz:2.3,y:.8},sgGeo=new T.BoxGeometry(.34,.16,.1),sgOff=new T.MeshStandardMaterial({color:0x7a5200,roughness:.5}),sgOn=new T.MeshStandardMaterial({color:0xffa000,emissive:0xff9000,emissiveIntensity:2.6,roughness:.4});
+for(let i=0;i<4;i++){const m=new T.Mesh(sgGeo,sgOff);SIG.g.add(m);SIG.m.push(m)}sc.add(SIG.g);
+function tick(hi){if(!A.ac||A.muted)return;try{const ac=A.ac,o=ac.createOscillator(),g=ac.createGain(),t0=ac.currentTime;o.type='square';o.frequency.value=hi?1800:1300;o.connect(g);g.connect(A.m);g.gain.setValueAtTime(.05,t0);g.gain.exponentialRampToValueAtTime(.0001,t0+.03);o.start(t0);o.stop(t0+.035)}catch(e){}}
+function sigFit(){try{const g=pv.g,ry=g.rotation.y;g.rotation.y=0;g.updateMatrixWorld(true);const b=new T.Box3().setFromObject(g);g.rotation.y=ry;g.updateMatrixWorld(true);if(b.isEmpty()||!isFinite(b.min.x))return;SIG.hw=cl((b.max.x-b.min.x)/2*.9,.6,1.3);SIG.fz=b.min.z-g.position.z+.05;SIG.rz=b.max.z-g.position.z-.05;SIG.y=cl(b.max.y*.42,.45,.95)}catch(e){}}
+function sigStep(dt){if(K.SL&&!SIG.pl){SIG.l=SIG.l?0:1;SIG.h0=hd;tick(1)}if(K.SR&&!SIG.pr){SIG.r=SIG.r?0:1;SIG.h0=hd;tick(1)}SIG.pl=K.SL?1:0;SIG.pr=K.SR?1:0;
+ if(SIG.l!==SIG.r&&Math.abs(angd(hd,SIG.h0))>1.1&&Math.abs(st)<.12){SIG.l=SIG.r=0}
+ const on=(SIG.l||SIG.r)&&!onFoot;if(on&&job&&job.ph)job.sig=1;const ph=on?(Math.floor(t*3)%2):0;if(ph!==SIG.ph){SIG.ph=ph;if(on)tick(ph)}
+ if(pv!==SIG.car){SIG.car=pv;sigFit()}SIG.g.visible=!onFoot&&pv.g.visible;SIG.g.position.set(px,0,pz);SIG.g.rotation.y=hd;
+ const ml=SIG.l&&ph?sgOn:sgOff,mr=SIG.r&&ph?sgOn:sgOff,m=SIG.m;m[0].material=ml;m[2].material=ml;m[1].material=mr;m[3].material=mr;
+ m[0].position.set(-SIG.hw,SIG.y,SIG.fz);m[1].position.set(SIG.hw,SIG.y,SIG.fz);m[2].position.set(-SIG.hw,SIG.y,SIG.rz);m[3].position.set(SIG.hw,SIG.y,SIG.rz);
+ $('sgl').className=SIG.l&&ph?'on':'';$('sgr').className=SIG.r&&ph?'on':''}
+/* مطبات */
+const HUM={y:0,b:0,bt:0,list:[],t:0,in:null,cx:1e9,cz:1e9};
+function stripeTex(vert){const c=document.createElement('canvas');c.width=c.height=64;const g=c.getContext('2d');for(let i=0;i<8;i++){g.fillStyle=i%2?'#f2c200':'#1b1b1b';vert?g.fillRect(i*8,0,8,64):g.fillRect(0,i*8,64,8)}const tx=new T.CanvasTexture(c);tx.wrapS=tx.wrapT=T.RepeatWrapping;return tx}
+const hbA=new T.InstancedMesh(new T.BoxGeometry(1.6,.16,11.4),new T.MeshStandardMaterial({map:stripeTex(0),roughness:.85}),40),hbB=new T.InstancedMesh(new T.BoxGeometry(11.4,.16,1.6),new T.MeshStandardMaterial({map:stripeTex(1),roughness:.85}),40),_hm=new T.Matrix4();
+hbA.material.map.repeat.set(1,6);hbB.material.map.repeat.set(6,1);hbA.count=hbB.count=0;hbA.frustumCulled=hbB.frustumCulled=false;sc.add(hbA);sc.add(hbB);
+function humpRefresh(){const ci=Math.round(px/PITCH),cj=Math.round(pz/PITCH);HUM.list=[];let na=0,nb=0;for(let i=ci-4;i<=ci+4;i++)for(let j=cj-4;j<=cj+4;j++)for(let a=0;a<2;a++){if(Math.abs(i)>=KM||Math.abs(j)>=KM||i*PITCH<-1500||i*PITCH>2500||!AGL.hasHump(i,j,a))continue;const x=a?i*PITCH:i*PITCH+PITCH/2,z=a?j*PITCH+PITCH/2:j*PITCH;HUM.list.push({x,z,a});_hm.makeTranslation(x,.08,z);if(a){if(nb<40)hbB.setMatrixAt(nb++,_hm)}else if(na<40)hbA.setMatrixAt(na++,_hm)}
+ hbA.count=na;hbB.count=nb;hbA.instanceMatrix.needsUpdate=true;hbB.instanceMatrix.needsUpdate=true;HUM.cx=px;HUM.cz=pz}
+function humpStep(dt){if(Math.hypot(px-HUM.cx,pz-HUM.cz)>60||(HUM.t+=dt)>5){HUM.t=0;humpRefresh()}
+ let inside=null;if(!onFoot)for(const h of HUM.list){if(h.a?(Math.abs(pz-h.z)<1&&Math.abs(px-h.x)<RW/2-.3):(Math.abs(px-h.x)<1&&Math.abs(pz-h.z)<RW/2-.3)){inside=h.x+','+h.z;break}}
+ if(inside&&HUM.in!==inside){const sp=Math.abs(v);if(sp>5){HUM.b=Math.min(.28,sp*.012);HUM.bt=0;v*=sp>16?.55:.88;shake=Math.max(shake,Math.min(.5,sp*.02));
+  if(sp>14){if(window.AGL)SAVE.dmg=AGL.addDamage(SAVE.dmg||0,sp*.9);say('🚧 مطب! بالراحة يا اسطى',1);if(job&&job.ph&&job.kind==='ride'){job.crash++;speak(pick(L_BAD),job.pitch,1)}}else if(sp>8)say('🚧 مطب')}}
+ HUM.in=inside;HUM.bt+=dt;HUM.b*=Math.max(0,1-dt*4);HUM.y=HUM.b*Math.abs(Math.sin(HUM.bt*12))}
+/* غرامة قطع الإشارة */
+const LF={k:0,cd:0};
+function lightFine(dt){LF.cd-=dt;if(onFoot||!started||!window.AGL)return;const ci=Math.round(px/PITCH),cj=Math.round(pz/PITCH);if(Math.abs(ci)>KM||Math.abs(cj)>KM||px>2600||px<-1500){LF.k=0;return}
+ if(Math.abs(px-ci*PITCH)<RW/2&&Math.abs(pz-cj*PITCH)<RW/2){const key=ci*1000+cj+1e6;if(LF.k!==key){LF.k=key;if(Math.abs(v)>4&&LF.cd<=0){const az=Math.abs(Math.sin(td))<.7;if(AGL.lightState(ci,cj,az?0:1,t)==='r'){LF.cd=4;say('🚦 قطعت الإشارة الحمرا! غرامة ٢٥ ج',1);speak('إشارة حمرا يا اسطى',1,1);if(job&&job.ph)job.fine=(job.fine||0)+25;else{const k=Math.min(25,SAVE.cash+SAVE.wallet);if(k>0)spend(k,'غرامة إشارة')}}}}}else LF.k=0}
+function xtra(dt){manKeys();sigStep(dt);humpStep(dt);lightFine(dt)}
+/* ملء الشاشة + تنبيه المتصفحات الداخلية */
+$('bf').onclick=()=>{try{if(document.fullscreenElement)document.exitFullscreen();else document.documentElement.requestFullscreen().then(()=>screen.orientation&&screen.orientation.lock&&screen.orientation.lock('landscape')).catch(()=>{})}catch(e){}};
+if(/FBAN|FBAV|Instagram|Messenger|Snapchat|; wv\)/i.test(navigator.userAgent||''))$('who').insertAdjacentHTML('afterend','<div id="iab">⚠ اللعبة مفتوحة من متصفح داخلي (Messenger/Instagram). افتح الرابط من كروم عشان الأداء والشاشة الكاملة.</div>');
 function frame(now){requestAnimationFrame(frame);const raw=Math.min(.2,(now-last)/1000),dt=Math.min(.05,raw);last=now;FRM++;devTick(raw);Q.ema+=(raw*1000-Q.ema)*.05;Q.t+=raw;if(Q.t>1.5){Q.t=0;if(t>4)adapt()}
  if(!paused){t+=dt;dayStep(dt);COR.visible=px<-1650;stnStep(dt);streamBlocks(4);tlStep(dt);{const cn=px>2700;if(cn!==CIRC.on){CIRC.on=cn;palmsDirty=true;if(cn&&!CIRC.seen){CIRC.seen=1;say('🏁 حلبة القاهرة للتفحيط — اعمل اللي نفسك فيه!')}}}if(palmsDirty)rebuildPalms();if(needRefresh&&performance.now()>refreshAt){needRefresh=false;refreshBlocks()}
   if(!spawned&&((MG.micro&&MG.truck&&MG.crown&&MG.lada7&&MG.tuk)||t>25)){spawned=1;for(let i=0;i<20;i++)spawnCar();for(let i=0;i<6;i++)spawnParked()}
   const str=steerIn(dt),dead=SAVE.fuel<=0||!!SAVE.burnt,gas=started&&!onFoot&&K.G&&!K.B&&!dead,brk=started&&!onFoot&&K.B;
-  let a;if(gas)a=(14*(1-Math.max(0,v)/48)+(v<0?12:0))*(1-.004*(SAVE.dmg||0));else if(brk)a=v>.3?-36:(v>-6?-5:0);else a=-Math.sign(v)*(2+Math.abs(v)*.03);
+  let a;if(MAN.on&&started&&!onFoot&&window.AGL)a=manA(gas,brk,dt);else if(gas)a=(14*(1-Math.max(0,v)/48)+(v<0?12:0))*(1-.004*(SAVE.dmg||0));else if(brk)a=v>.3?-36:(v>-6?-5:0);else a=-Math.sign(v)*(2+Math.abs(v)*.03);
   const v0=v;v+=a*dt;if(!gas&&!brk&&v0*v<0)v=0;if(onFoot)v=0;
   st+=(str+(SAVE.energy<20?Math.sin(t*2.3)*.18*(1-SAVE.energy/20):0)-st)*Math.min(1,dt*5);hd-=st*((started&&!onFoot&&K.D&&Math.abs(v)>6)?1.9:1)*(.45/(1+Math.pow(Math.abs(v)/12,1.8)))*v/2.8*dt;
   PFX=-Math.sin(hd);PFZ=-Math.cos(hd);const dr=started&&!onFoot&&K.D?1:0;td+=angd(hd,td)*Math.min(1,dt*(dr?1.7:22));const sl=Math.abs(angd(hd,td));SLIP=sl;if(sl>.05)v*=1-.55*Math.min(1,sl)*dt;px+=-Math.sin(td)*v*dt;pz+=-Math.cos(td)*v*dt;skids(dt,dr,sl,gas);
@@ -696,9 +753,9 @@ function frame(now){requestAnimationFrame(frame);const raw=Math.min(.2,(now-last
   px=cl(px,-EXT+8,4500);pz=cl(pz,-EXT+8,EXT-8);
   TLp.color.setHex(brk?0xff2020:0x7a1414);if(pv.tl2)for(const q of pv.tl2)q.emissive.setHex(brk?0xff1010:0x240000);
   dist+=Math.abs(v)*dt;score+=Math.abs(v)*dt*.05;cd-=dt;wallCd-=dt;econ(dt);
-  for(const c of cars)stepCar(c,dt);pd=stepPeds(dt);jobStep(dt);if(onFoot&&AV)stepAv(dt,str);if(K.X&&!KXp)toggleCar();KXp=K.X?1:0;svcCheck(dt);ambient(dt);coinStep(dt);camStep(dt);}
+  for(const c of cars)stepCar(c,dt);pd=stepPeds(dt);jobStep(dt);if(onFoot&&AV)stepAv(dt,str);if(K.X&&!KXp)toggleCar();KXp=K.X?1:0;xtra(dt);svcCheck(dt);ambient(dt);coinStep(dt);camStep(dt);}
  pyr.position.set(px,0,pz);{const ssx=Math.round(px),ssz=Math.round(pz);sun.position.set(ssx-34,24,ssz+12);sun.target.position.set(ssx,0,ssz-8)}
- pv.g.visible=!cock||onFoot;ck.visible=cock&&!onFoot;if(AV)AV.g.visible=onFoot;pv.g.position.set(px,Math.sin(t*25)*.012*cl(Math.abs(v)/30,0,1),pz);pv.g.rotation.y=hd;
+ pv.g.visible=!cock||onFoot;ck.visible=cock&&!onFoot;if(AV)AV.g.visible=onFoot;pv.g.position.set(px,Math.sin(t*25)*.012*cl(Math.abs(v)/30,0,1)+HUM.y,pz);pv.g.rotation.y=hd;
  shake*=.9;const sx=(Math.random()-.5)*shake,sy=(Math.random()-.5)*shake;chd+=angd(onFoot&&AV?AV.h:hd+angd(td,hd)*.35,chd)*Math.min(1,dt*5);
  cam.fov=(cock?66:58)+Math.min(18,Math.abs(v)*.32);cam.updateProjectionMatrix();SV.style.opacity=HQ?Math.min(.55,Math.max(0,(Math.abs(v)-16)/38)):0;
  if(onFoot&&AV){const cx=-Math.sin(chd),cz=-Math.cos(chd);cam.position.set(AV.x-cx*4.2+sx,2.1+sy,AV.z-cz*4.2);camPush();cam.lookAt(AV.x+cx*6,1.4,AV.z+cz*6)}else if(cock){cam.position.set(px+PFX*1.6-Math.cos(hd)*.45+sx*.3,1.62+sy*.3,pz+PFZ*1.6+Math.sin(hd)*.45);cam.rotation.set(-.03,hd-st*.05,0)}
@@ -706,8 +763,8 @@ function frame(now){requestAnimationFrame(frame);const raw=Math.min(.2,(now-last
  HLM.visible=dayF<.5&&!onFoot&&started;if(HLM.visible){HLM.position.set(px+PFX*11,.12,pz+PFZ*11);HLM.rotation.y=hd;HLM.material.opacity=cl(1-dayF*1.6,0,1)}
  if(job&&!onFoot&&!cock){const m=job.ph?job.b:job.a,dx=m.x-px,dz=m.z-pz;ARR.visible=true;ARR.position.set(px,3.4+Math.sin(t*4)*.12,pz);ARR.rotation.y=Math.atan2(-dx,-dz)}else ARR.visible=false;
  tor.rotation.z=-st*1.2;bd.rotation.z=-st*.3+Math.sin(t*3)*.03+Math.sin(t*40)*.01*cl(Math.abs(v)/30,0,1);
- const av=Math.abs(v),kmh=Math.round(av*3.6),b=[0,11,22,33,44,100];let gi=0;while(av>=b[gi+1])gi++;const rpm=1000+cl((av-b[gi])/(b[gi+1]-b[gi]),0,1)*5600*(gi<4?1:.7);
- if((dlT+=dt)>.05){dlT=0;$('spd').textContent=AR(kmh)}if(cock&&!onFoot&&((clT+=dt)>.05)){clT=0;updCluster(kmh,rpm)}$('sc').textContent=Math.floor(score);$('ds').textContent=(dist/1000).toFixed(2);if((mmT+=dt)>.05){mmT=0;drawMM()}
+ const av=Math.abs(v),kmh=Math.round(av*3.6),b=[0,11,22,33,44,100];let gi=0;while(av>=b[gi+1])gi++;let rpm=1000+cl((av-b[gi])/(b[gi+1]-b[gi]),0,1)*5600*(gi<4?1:.7);if(MAN.on&&!onFoot)rpm=manRpm();
+ if((dlT+=dt)>.05){dlT=0;$('spd').textContent=AR(kmh);$('gear').textContent=MAN.on?(MAN.stall?'⛔':MAN.g<0?'R':MAN.g===0?'N':String(MAN.g)):(v<-.5?'R':'D')}if(cock&&!onFoot&&((clT+=dt)>.05)){clT=0;updCluster(kmh,rpm)}$('sc').textContent=Math.floor(score);$('ds').textContent=(dist/1000).toFixed(2);if((mmT+=dt)>.05){mmT=0;drawMM()}
  A.upd(rpm,K.G&&started?1:0,job?Math.hypot(px-(job.ph?job.b:job.a).x,pz-(job.ph?job.b:job.a).z):999,pd);
  if(COMP){if(GPS)GPS.uniforms.tm.value=t;COMP.render(dt)}else R.render(sc,cam)}
 requestAnimationFrame(frame);
