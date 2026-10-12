@@ -1,0 +1,18 @@
+// يُنسخ إلى android/app/signing.gradle أثناء البناء. لا يحتوي أي سر: القيم تأتي من متغيرات البيئة فقط.
+android {
+  signingConfigs {
+    release {
+      if (System.getenv("RELEASE_KEYSTORE_FILE")) {
+        storeFile file(System.getenv("RELEASE_KEYSTORE_FILE"))
+        storePassword System.getenv("RELEASE_STORE_PASSWORD")
+        keyAlias System.getenv("RELEASE_KEY_ALIAS")
+        keyPassword System.getenv("RELEASE_KEY_PASSWORD")
+      }
+    }
+  }
+  buildTypes {
+    release {
+      if (System.getenv("RELEASE_KEYSTORE_FILE")) { signingConfig signingConfigs.release }
+    }
+  }
+}
