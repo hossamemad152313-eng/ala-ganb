@@ -238,6 +238,13 @@ function stallU(x,z,f){const fx=[-1,1,0,0][f],fz=[0,0,-1,1][f],X=x-fx*1.2,Z=z-fz
 function stopU(x,z,f){const fx=[-1,1,0,0][f],fz=[0,0,-1,1][f],X=x-fx*1.5,Z=z-fz*1.5;if(!putU('ubus',X,Z,f))return;CC2.push({x0:X-2.4,x1:X+2.4,z0:Z-2.4,z1:Z+2.4})}
 function grafU(x,z,f){const fx=[-1,1,0,0][f],fz=[0,0,-1,1][f],X=x-fx*1.8,Z=z-fz*1.8;if(!putU('ugraf',X,Z,f))return;CC2.push({x0:X-2.6,x1:X+2.6,z0:Z-2.6,z1:Z+2.6})}
 function boardU(p,x,z){const u=UPR.usign;if(!u)return;cy(.12,5.2,mat('#555'),x,2.6,z,p);const o=u.obj.clone(true);o.position.set(x,5.2,z);o.rotation.y=Math.floor(Math.abs(x*3+z)%4)*PI/2;p.add(o)}
+function stationU(x,z,f){const vx=f<2,fx=[-1,1,0,0][f],fz=[0,0,-1,1][f],kx=x-fx*4,kz=z-fz*4;const b=BLD.ustor;if(b){const o=b.clone(true);o.scale.setScalar(.55);o.position.set(kx,.18,kz);o.rotation.y=ufront(f);CUR.add(o)}
+ CC2.push({x0:kx-(vx?5:6.5),x1:kx+(vx?5:6.5),z0:kz-(vx?6.5:5),z1:kz+(vx?6.5:5)});
+ for(const s of[-1,1]){const qx=x+fx*2.2+(vx?0:s*3),qz=z+fz*2.2+(vx?s*3:0);bx(.7,1.6,.55,mat('#f2b705'),qx,.98,qz,CUR);bx(.5,.3,.5,mat('#222'),qx,1.9,qz,CUR)}
+ const D=mat('#222'),ms=[D,D,D,D,D,D];ms[[1,0,5,4][f]]=stex('بنزينة ٢٤ ساعة','#b8321f');const m=new T.Mesh(GB,ms);m.scale.set(vx?.3:6,1.1,vx?6:.3);m.position.set(vx?x+fx*5.2:x,5.2,vx?z:z+fz*5.2);CUR.add(m);cy(.12,5,mat('#444'),vx?x+fx*5.2:x,2.5,vx?z:z+fz*5.2,CUR)}
+function metroU(x,z,f,name){const vx=f<2,fx=[-1,1,0,0][f],fz=[0,0,-1,1][f];putU('ubus',x,z,f);
+ const D=mat('#222'),ms=[D,D,D,D,D,D],lg=mLogo(name);if(vx){ms[4]=lg;ms[5]=lg}else{ms[0]=lg;ms[1]=lg}const m=new T.Mesh(GB,ms);m.scale.set(vx?2.2:.3,4.4,vx?.3:2.2);m.position.set(x+fx*4.5,6,z+fz*4.5);CUR.add(m);cy(.12,3.8,mat('#444'),x+fx*4.5,1.9,z+fz*4.5,CUR);
+ CC2.push({x0:x-(vx?3:4.5),x1:x+(vx?3:4.5),z0:z-(vx?4.5:3),z1:z+(vx?4.5:3)})}
 function mergeBlock(g){if(!BU)return;const map=new Map(),add=(geo,mt,cs)=>{let e=map.get(mt.uuid);if(!e)map.set(mt.uuid,e={mt,gs:[],cs});e.gs.push(geo)};
  for(const o of g.children.slice()){if(!o.isMesh||o.userData.own||!o.geometry.attributes.uv)continue;o.updateMatrix();const geo=o.geometry.index?o.geometry.toNonIndexed():o.geometry.clone();geo.applyMatrix4(o.matrix);
   if(Array.isArray(o.material)){for(const gr of geo.groups)add(sliceG(geo,gr.start,gr.count),o.material[gr.materialIndex],o.castShadow)}else add(geo,o.material,o.castShadow);g.remove(o)}
@@ -260,11 +267,13 @@ function kioskDeco(x,z,f){const {B,C,fx,fz,vx}=decoH(x,z,f),EM=c=>mat(c,{emissiv
  B(1.7,1.0,.06,'#121212',0,1.55,1.21);B(2.0,.1,.55,'#6b6b6b',0,1.05,1.45);
  for(let i=0;i<4;i++){const m=B(.55,.08,1.1,i%2?'#f4f1e6':'#b22222',-.83+i*.55,1.78,2.05);if(vx)m.rotation.z=-.28*fx;else m.rotation.x=.28*fz}
  for(let i=0;i<6;i++)B(.2,.22,.15,pick(col),-.7+i*.28,1.2,1.45);for(let i=0;i<7;i++)B(.1,.38,.03,pick(col),-.9+i*.3,1.55,1.28);B(.3,.1,.1,EM('#ffe9a0'),0,1.62,1.35)}
-function flagP(x,z){bx(.1,8,.1,mat('#666'),x,4,z,CUR);for(const[c,dy]of[['#ce1126',7.5],['#f4f4f4',7],['#111111',6.5]])bx(1.8,.5,.04,mat(c),x+.9,dy,z,CUR)}
+function flagP(x,z){return boardU(CUR,x,z)}
+function flagP_old(x,z){bx(.1,8,.1,mat('#666'),x,4,z,CUR);for(const[c,dy]of[['#ce1126',7.5],['#f4f4f4',7],['#111111',6.5]])bx(1.8,.5,.04,mat(c),x+.9,dy,z,CUR)}
 function camP(x,z){bx(.2,6,.2,mat('#666'),x,3,z,CUR);bx(.9,.6,.5,mat('#222'),x,6.3,z,CUR);bx(.5,.3,.05,mat('#d62828',{emissive:0x440000}),x,6.3,z+.28,CUR)}
 const MLG={};
 function mLogo(name){return MLG[name]||(MLG[name]=new T.MeshBasicMaterial({map:ct(128,256,(g,w,h)=>{g.fillStyle='#0d3b7a';g.fillRect(0,0,w,h);g.fillStyle='#d62828';g.beginPath();g.arc(w/2,h*.33,w*.36,0,7);g.fill();g.fillStyle='#fff';g.font='800 '+(w*.5)+'px Cairo,sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillText('M',w/2,h*.34);g.font='800 22px Cairo,Tahoma,sans-serif';g.direction='rtl';g.fillText(name,w/2,h*.78)})}))}
-function metroS(x,z,f,name){const vx=f<2,fx=[-1,1,0,0][f],fz=[0,0,-1,1][f];rbox(x,z,vx?6:9,vx?9:6,3.4,.7,mat('#6f7b86'));bx(vx?.1:6,2.4,vx?6:.1,GLS,x+fx*3.05,1.5,z+fz*3.05,CUR);bx(vx?2.4:9,.2,vx?9:2.4,mat('#c0392b'),x+fx*4,3.2,z+fz*4,CUR);
+function metroS(x,z,f,name){return metroU(x,z,f,name)}
+function metroS_old(x,z,f,name){const vx=f<2,fx=[-1,1,0,0][f],fz=[0,0,-1,1][f];rbox(x,z,vx?6:9,vx?9:6,3.4,.7,mat('#6f7b86'));bx(vx?.1:6,2.4,vx?6:.1,GLS,x+fx*3.05,1.5,z+fz*3.05,CUR);bx(vx?2.4:9,.2,vx?9:2.4,mat('#c0392b'),x+fx*4,3.2,z+fz*4,CUR);
  for(const s of[-1,1])bx(.2,3,.2,mat('#444'),x+fx*5+(vx?0:s*4),1.6,z+fz*5+(vx?s*4:0),CUR);
  const D=mat('#222'),ms=[D,D,D,D,D,D],lg=mLogo(name);if(vx){ms[4]=lg;ms[5]=lg}else{ms[0]=lg;ms[1]=lg}const m=new T.Mesh(GB,ms);m.scale.set(vx?2.2:.3,4.4,vx?.3:2.2);m.position.set(x+fx*4.5,6,z+fz*4.5);CUR.add(m);cy(.12,3.8,mat('#444'),x+fx*4.5,1.9,z+fz*4.5,CUR);
  CC2.push({x0:x-(vx?3:4.5),x1:x+(vx?3:4.5),z0:z-(vx?4.5:3),z1:z+(vx?4.5:3)})}
@@ -284,7 +293,8 @@ function shop2_old(cx,cz,f,name){const bg=pick(['#d94b2b','#1f5fd1','#1f9d55','#
 function cafe(x,z,f,nm){return cafeU(x,z,f,nm)}
 function cafe_old(x,z,f,nm){const fx=[-1,1,0,0][f],fz=[0,0,-1,1][f],vx=f<2;shop2(x,z,f,nm);
  for(let i=-1;i<=1;i++){const tx=x+fx*5+(vx?0:i*3),tz=z+fz*5+(vx?i*3:0);cy(.45,.06,mat('#8a6a3c'),tx,.93,tz,CUR);cy(.06,.75,mat('#444'),tx,.55,tz,CUR);for(const s of[-1,1])bx(.4,.45,.4,mat('#b5532a'),tx+(vx?s*.8:0),.43,tz+(vx?0:s*.8),CUR)}}
-function station(x,z,f){const vx=f<2,fx=[-1,1,0,0][f],fz=[0,0,-1,1][f],red=mat('#d62828'),wh=mat('#f4f1e6'),cw=vx?10:14,cd=vx?14:10;
+function station(x,z,f){return stationU(x,z,f)}
+function station_old(x,z,f){const vx=f<2,fx=[-1,1,0,0][f],fz=[0,0,-1,1][f],red=mat('#d62828'),wh=mat('#f4f1e6'),cw=vx?10:14,cd=vx?14:10;
  bx(cw,.5,cd,red,x,5.2,z,CUR);for(const a of[-1,1])for(const b of[-1,1])cy(.25,2.6,wh,x+a*cw*.42,2.7,z+b*cd*.42,CUR);
  const kx=x-fx*3.5,kz=z-fz*3.5;bx(vx?5:8,3,vx?8:5,mat('#e9e2cf'),kx,1.7,kz,CUR);CC2.push({x0:kx-(vx?2.5:4),x1:kx+(vx?2.5:4),z0:kz-(vx?4:2.5),z1:kz+(vx?4:2.5)});
  for(const s of[-1,1]){const qx=x+fx*2.2+(vx?0:s*3),qz=z+fz*2.2+(vx?s*3:0);bx(.7,1.6,.55,mat('#f2b705'),qx,.98,qz,CUR);bx(.5,.3,.5,mat('#222'),qx,1.9,qz,CUR)}
@@ -431,8 +441,8 @@ function loadP(key,data,H,max){if(!GLd||!BU){__bad('p'+key,'no loader');return}G
  const m=mt.clone();m.side=T.DoubleSide;const im=new T.InstancedMesh(geo,m,max);im.userData.max=max;im.count=0;im.frustumCulled=false;im.castShadow=false;sc.add(im);IP[key]=im;PT[key]=1;palmsDirty=true;__ok('p'+key)},e=>__bad('p'+key,e))}
 function dress(){const WR=['pfg','pm1','pm2','pfb','pms','dz1','dz2','dz3'],WS=['skid','sjoe','smix'],rg=WR.filter(k=>CH[k]),st=WS.filter(k=>CH[k]);
  PEDS.forEach((p,i)=>{let k=null,r=false;if(i<10&&rg.length){const w=WR[i%WR.length];k=CH[w]?w:rg[i%rg.length];r=true}else if(i<18&&st.length){const w=WS[i%WS.length];k=CH[w]?w:st[i%st.length]}if(!k||p.dk===k)return;p.dk=k;p.dr=1;p.bn=null;p.sw=0;sc.remove(p.g);const g=r?SU.clone(CH[k].obj):CH[k].obj.clone(true);g.position.set(p.x,.18,p.z);sc.add(g);p.g=g;p.lL=p.lR=p.aL=p.aR=null;
-  if(r){g.updateMatrixWorld(true);const n={},dz=/^dz/.test(k);g.traverse(o=>{if(!o.isBone)return;const m=o.name,set=(k2)=>{n[k2]=o;o.userData.q0=o.quaternion.clone()};if(dz){if(/^lThighBend/.test(m))set('ll');else if(/^rThighBend/.test(m))set('rl')}else if(/^LeftUpLeg/.test(m))set('ll');else if(/^RightUpLeg/.test(m))set('rl');else if(/^LeftArm_/.test(m))set('la');else if(/^RightArm_/.test(m))set('ra');else if(/^Hips/.test(m))n.hips=o});
-   if(dz&&n.ll&&n.rl){p.bn=n}else if(n.ll&&n.rl&&n.la&&n.ra){n.hips.getWorldPosition(_v);g.worldToLocal(_v);const hx=_v.x;n.la.getWorldPosition(_w);g.worldToLocal(_w);n.sl=_w.x>hx?-1.2:1.2;n.ra.getWorldPosition(_w);g.worldToLocal(_w);n.sr=_w.x>hx?-1.2:1.2;p.bn=n}else p.sw=1}else p.sw=1})}
+  if(r){g.updateMatrixWorld(true);const n={},dz=/^dz/.test(k);g.traverse(o=>{if(!o.isBone)return;const m=o.name,set=(k2)=>{n[k2]=o;o.userData.q0=o.quaternion.clone()};if(dz){if(/^lThighBend/.test(m))set('ll');else if(/^rThighBend/.test(m))set('rl');else if(/^lShldrBend/.test(m))set('la');else if(/^rShldrBend/.test(m))set('ra')}else if(/^LeftUpLeg/.test(m))set('ll');else if(/^RightUpLeg/.test(m))set('rl');else if(/^LeftArm_/.test(m))set('la');else if(/^RightArm_/.test(m))set('ra');else if(/^Hips/.test(m))n.hips=o});
+   if(dz&&n.ll&&n.rl){n.sl=n.sr=0;p.bn=n}else if(n.ll&&n.rl&&n.la&&n.ra){n.hips.getWorldPosition(_v);g.worldToLocal(_v);const hx=_v.x;n.la.getWorldPosition(_w);g.worldToLocal(_w);n.sl=_w.x>hx?-1.2:1.2;n.ra.getWorldPosition(_w);g.worldToLocal(_w);n.sr=_w.x>hx?-1.2:1.2;p.bn=n}else p.sw=1}else p.sw=1})}
 function lim(b,swg,down,gq){b.parent.getWorldQuaternion(_a);_b.copy(gq).invert().multiply(_a);_c.setFromAxisAngle(AX,swg);if(down){_d.setFromAxisAngle(AZ,down);_c.multiply(_d)}b.quaternion.copy(_b).invert().multiply(_c).multiply(_b).multiply(b.userData.q0)}
 function poseBones(p,s){p.g.updateMatrixWorld(true);p.g.getWorldQuaternion(_g);const n=p.bn;lim(n.ll,s,0,_g);lim(n.rl,-s,0,_g);if(n.la&&n.ra){lim(n.la,-s*.7,n.sl,_g);lim(n.ra,s*.7,n.sr,_g)}}
 AT.pfg=()=>loadC('pfg',MD.pfg,1.75,1);AT.pm1=()=>loadC('pm1',MD.pm1,1.8,1);AT.pm2=()=>loadC('pm2',MD.pm2,1.8,1);AT.pfb=()=>loadC('pfb',MD.pfb,1.72,1);AT.pms=()=>loadC('pms',MD.pms,1.8,1);AT.skid=()=>loadC('skid',MD.skid,1.2,0);AT.sjoe=()=>loadC('sjoe',MD.sjoe,1.75,0);AT.smix=()=>loadC('smix',MD.smix,1.78,0);AT.bven=()=>loadB('bven',MD.bven);AT.bkay=()=>loadB('bkay',MD.bkay);AT.brow=()=>loadB('brow',MD.brow);AT.btwn=()=>loadB('btwn',MD.btwn);AT.bpak=()=>loadB('bpak',MD.bpak);AT.bst6=()=>loadB('bst6',MD.bst6);AT.bs7a=()=>loadB('bs7a',MD.bs7a);AT.bs7b=()=>loadB('bs7b',MD.bs7b);AT.bs8a=()=>loadB('bs8a',MD.bs8a);AT.bs8b=()=>loadB('bs8b',MD.bs8b);AT.bc2a=()=>loadB('bc2a',MD.bc2a);AT.bc2b=()=>loadB('bc2b',MD.bc2b);AT.bhk1=()=>loadB('bhk1',MD.bhk1);AT.bhk2=()=>loadB('bhk2',MD.bhk2);AT.ptall=()=>loadP('tall',MD.ptall,6.5,260);AT.plady=()=>loadP('lady',MD.plady,3.5,220);
