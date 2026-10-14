@@ -17,17 +17,5 @@ AGL.recordJob=function(p,ok,onTime,pay){p.done|=0;p.fails|=0;p.streak|=0;p.bestS
  if(!ok){p.fails++;p.streak=0;p.history.unshift({ok:false,t:Date.now()});p.history.length=Math.min(p.history.length,10);return 0}
  p.done++;p.streak=onTime?p.streak+1:0;p.bestStreak=Math.max(p.bestStreak,p.streak);p.history.unshift({ok:true,pay:pay|0,t:Date.now()});p.history.length=Math.min(p.history.length,10);
  return(onTime&&p.streak>0&&p.streak%3===0)?20+Math.min(p.streak,12)*2:0};
-
-/* ===== إضافات v3: فتيس مانيوال، مطبات، تحديات المشاوير، أجرة الركاب ===== */
-AGL.MB=[0,11,22,33,44,52];
-AGL.manualAccel=function(g,v,gas,clutch,stall,dmg){const dm=1-.004*clamp(dmg||0,0,100),co=-Math.sign(v)*(2+Math.abs(v)*.03);g=clamp(g|0,-1,5);
- if(clutch||g===0||stall)return co;
- if(g===-1){if(!gas)return co*1.5;if(v>.3)return -14;return -9*dm*(1-Math.min(1,-v/10))}
- const top=AGL.MB[g];if(!gas)return co*1.7;if(v<-.3)return 18;
- const low=AGL.MB[g-1]*.35,lug=(g===1||v>=low)?1:Math.max(.12,v/low);if(v>top*1.04)return -6;
- return(16-g*1.6)*lug*Math.max(0,1-Math.max(0,v)/top)*dm};
-AGL.hasHump=function(i,j,a){let h=(Math.imul(i+97,73856093)^Math.imul(j+131,19349663)^Math.imul(a+5,83492791))>>>0;h^=h>>>13;h=Math.imul(h,1274126177)>>>0;return h%6===0};
-AGL.challengeOk=function(id,j){if(j.chv===0)return false;if(id==='smooth')return!(j.crash>0);if(id==='fast')return j.t<j.limit*.7;if(id==='sig')return!!j.sig;return true};
-AGL.paxPay=function(pay,kind,n){return Math.round(pay*(kind==='ride'?1+.2*(Math.max(1,n|0)-1):1))};
 root.AGL=AGL;if(typeof module!=='undefined'&&module.exports)module.exports=AGL;
 })(typeof window!=='undefined'?window:globalThis);
