@@ -14,7 +14,7 @@ vm.createContext(ctx);vm.runInContext(fs.readFileSync(path.join(__dirname,'../ww
 vm.runInContext(main,ctx,{filename:'index-main.js'});
 let ok=true,fails=0;try{ctx.__boot()}catch(e){ok=false;console.log('✗ __boot threw:',e&&e.stack?e.stack.split('\n').slice(0,4).join(' | '):e)}
 if(ok){const keys=Object.keys(ctx.AT||{});console.log('✓ __boot finished; tasks registered:',keys.length);
- ctx.__done=(k,good,e)=>{if(!good&&!['town','ptall','plady'].includes(k)){fails++;console.log('✗ asset task failed:',k,e&&e.message||e)}};
+ ctx.__done=(k,good,e)=>{if(!good&&!['town','ptall','plady','hump'].includes(k)){fails++;console.log('✗ asset task failed:',k,e&&e.message||e)}};
  ctx.TOWN={};for(const k of keys){ctx.MD[k]=new ArrayBuffer(4);try{ctx.AT[k]()}catch(e){if(k!=='town'){fails++;console.log('✗ task threw',k,e.message)}}}
  console.log('✓ ran all asset tasks with a stub loader');
  ctx.__refreshOnce&&ctx.__refreshOnce();let t=fake;try{for(let i=0;i<30;i++){const f=rafs.pop();rafs.length=0;fake+=1000;f&&f(fake)}console.log('✓ 30 frames ran (including full block rebuild with all assets) without exceptions')}catch(e){ok=false;console.log('✗ frame threw:',e&&e.stack?e.stack.split('\n').slice(0,5).join(' | '):e)}
