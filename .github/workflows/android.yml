@@ -15,16 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Unpack update.zip (upload ONE zip from the phone)
-        run: |
-          if [ -f update.zip ]; then
-            rm -rf /tmp/up && mkdir /tmp/up && unzip -q update.zip -d /tmp/up
-            SRC=$(dirname "$(find /tmp/up -maxdepth 3 -name package.json | head -1)")
-            rm -rf www docs tests assets android-config android
-            rsync -a --exclude '.github' --exclude '.git' "$SRC"/ ./
-            rm -f update.zip
-            ls
-          fi
       - uses: actions/setup-node@v4
         with:
           node-version: 20
