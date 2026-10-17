@@ -116,6 +116,52 @@ body.race #job,body.race #seats{display:none!important}
 #vsel button.on{border-color:var(--gold);background:rgba(242,183,5,.28)}
 @media (max-height:520px){#st svg{width:150px!important;margin-bottom:2px!important}#st .plate{font-size:clamp(22px,8vh,36px)!important;padding:2px 14px!important}#st p{margin:3px 0!important;font-size:14px!important}#st .go{margin-top:6px;padding:5px 30px;font-size:19px}#vh{margin-top:4px;font-size:13px}#vsel{margin-top:4px;gap:6px}#vsel button{padding:3px 8px;min-width:80px;font-size:13px}#who{margin-top:3px!important}}
 #vsel small{display:block;font-weight:600;font-size:11px;opacity:.85}
+
+/* ===== ستايل أسود + أصفر (زي لعبة السباق المرجعية) ===== */
+:root{--panel:rgba(10,12,16,.92);--gold:#ffc61a;--cobalt:#262b33;--line:#4d535e;--ink:#101216}
+.sb{background:#262b33;border:3px solid var(--line);border-radius:14px;box-shadow:0 3px 0 rgba(0,0,0,.5);color:#fff;font:800 14px Cairo,sans-serif;padding:5px 12px}
+.sb:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,.5)}
+.sb.pri,.go,#apkb{background:var(--gold);color:var(--ink);border:0;border-radius:14px;box-shadow:0 5px 0 #b8870a;text-shadow:none}
+#inst button{background:var(--gold);color:var(--ink)}
+.p,#job,#gg,#stn,#dlg,#gps{background:var(--panel);border:3px solid var(--gold);border-radius:14px}
+#seats{background:var(--panel);border:2px solid var(--line);border-radius:12px}
+#hud{background:var(--panel);border:0;border-left:7px solid var(--gold);border-radius:12px}
+#hud #gg{border:0;background:none}
+.tb{background:rgba(16,19,24,.85);border:3px solid var(--line);color:#fff}
+.pad{background:rgba(16,19,24,.62);border:3px solid rgba(120,128,142,.75);border-radius:20px;box-shadow:0 3px 0 rgba(0,0,0,.45)}
+.pad.on{background:var(--gold);color:var(--ink);border-color:#ffe27a}
+#set,.pnl,#rend{background:rgba(9,11,14,.96);border:4px solid var(--gold);border-radius:20px;box-shadow:0 8px 30px rgba(0,0,0,.55)}
+#mm{border:3px solid var(--gold);border-radius:14px;background:#15181d}
+#msel button{background:#262b33;border:3px solid var(--line);border-radius:14px;color:#fff}
+#msel button.on{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+#pax .pr{background:#1b1f26;border:2px solid var(--line);border-radius:12px}
+#st{background:rgba(8,9,12,.62)}
+.ln{background:var(--panel);color:#fff;border:2px solid var(--gold);box-shadow:none}.ln.bad{background:var(--gold);color:var(--ink)}
+/* الخريطة */
+#fmap{background:#16191e}
+#fmt b,#fml,#fmi{background:rgba(9,11,14,.94);border:3px solid var(--gold);border-radius:12px}
+#fmt b{font-size:15px}#fml{font-size:11px}#fmb .sb{font-size:12.5px;padding:5px 9px}
+/* وضع السباق */
+#race{background:#0a0b0e;border:4px solid var(--gold);border-radius:18px;padding:3px 18px 6px;min-width:210px}
+#race #rs{font-size:30px;color:var(--gold)}
+#race #rsp b{font-size:36px;color:var(--gold);line-height:1}
+#race #rsp i{background:#f3e9c6;color:var(--ink);border-radius:8px;padding:0 9px;margin-right:8px}
+#race #rbar{height:9px;background:#2a2e36}
+#race #rbu{background:linear-gradient(90deg,#22b8e8,var(--gold))}
+/* لوحة نهاية السباق */
+#rend{padding:14px 18px;min-width:min(86vw,560px);text-align:center;font-size:15px;line-height:1.3}
+#rend .re-m{display:flex;gap:12px;align-items:stretch;direction:rtl}
+#rend .re-l{flex:0 0 38%;display:flex;flex-direction:column;justify-content:center}
+#rend .re-h{color:var(--gold);font-size:34px;font-weight:900;line-height:1.1}
+#rend .re-s{font-size:14px;opacity:.9}
+#rend .re-n{font-size:48px;font-weight:900;line-height:1.05}
+#rend .re-b{font-size:13px;opacity:.9}
+#rend .re-t{flex:1;display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+#rend .re-t div{background:#1b1f26;border-radius:12px;padding:6px 4px;display:flex;flex-direction:column}
+#rend .re-t b{font-size:22px;color:#fff;font-weight:900}
+#rend .re-t span{font-size:12px;color:var(--gold)}
+#rend .re-bt{display:flex;gap:10px;margin-top:10px;justify-content:center}
+#rend .re-bt .sb{flex:1;max-width:200px;font-size:17px;padding:8px 14px}
 </style><script>
 /* تشخيص التحميل: يكتب أي خطأ على الشاشة، ولو مفيش تقدّم بعد ١٥ ثانية يظهر زر يمسح الكاش ويعيد التحميل */
 (function(){function $(i){return document.getElementById(i)}function say(m){var w=$('who');if(w){w.textContent=m;w.style.color='#ffb4a8'}}
@@ -142,7 +188,7 @@ setTimeout(function(){var ld=$('ld');if(!ld||/[٪%]/.test(ld.textContent))return
 <div id="dz"><span>↔ اسحب هنا للتوجيه</span></div><div id="fl"></div>
 <div id="ctl"><div class="zl"><div class="aux"><button class="pad sm" data-k="H">📣<small>كلاكس</small></button><button class="pad sm" data-k="X">🚪<small>نزول/ركوب</small></button></div><div class="g"><button class="pad" data-k="L">◀</button><button class="pad" data-k="R">▶</button></div></div>
 <div class="zr"><div class="aux"><button class="pad sm" data-k="D">🌀<small>تفحيط</small></button></div><div class="g"><button class="pad" data-k="B">▼<small>فرامل</small></button><button class="pad t" data-k="G">▲<small>بنزين</small></button></div></div></div>
-<div id="st"><div><svg viewBox="0 0 300 80" aria-label="HOSSAM EMAD" dir="ltr" style="direction:ltr;unicode-bidi:isolate;overflow:visible;width:250px;max-width:78%;display:block;margin:0 auto 12px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.65))"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffcf33"/><stop offset="1" stop-color="#e8590c"/></linearGradient></defs><polygon points="38,6 68,23 68,57 38,74 8,57 8,23" fill="url(#hg)" stroke="#fff" stroke-width="3"/><text x="38" y="49" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="26" fill="#1b1b1b">HE</text><text x="82" y="38" text-anchor="start" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="27" fill="#fff" letter-spacing="1.5">HOSSAM</text><text x="82" y="63" text-anchor="start" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="27" fill="#ffcf33" letter-spacing="1.5">EMAD</text><text x="188" y="63" text-anchor="start" font-family="Arial,sans-serif" font-weight="700" font-size="11" fill="#fff" fill-opacity=".85" letter-spacing="3">GAME DEV</text></svg><div class="plate">على جنب يا اسطى</div><p style="font-weight:600;font-size:18px">القاهرة المفتوحة — خد الركاب ووصّلهم لأماكنهم</p><div id="ld">جاري تحميل العالم…</div><div id="who" style="font-size:14px;margin-top:8px;font-weight:600">جاري تحميل بياناتك…</div><div id="msel"><button data-m="taxi" class="on">🚕 شغل الركاب</button><button data-m="race">🏁 سباق الكورنيش</button></div><div id="ver">نسخة ١٧ أكتوبر (إصلاح التحميل) • ركاب متعدد + خريطة + سباق</div><div id="vh">🚘 اختار عربيتك:</div><div id="vsel"></div><button class="go" id="go">يلا بينا</button><div id="apkw" style="display:none;margin-top:12px"><a id="apkb" href="ala-ganb.apk" download>📥 حمّل التطبيق (APK)</a></div></div></div>
+<div id="st"><div><svg viewBox="0 0 300 80" aria-label="HOSSAM EMAD" dir="ltr" style="direction:ltr;unicode-bidi:isolate;overflow:visible;width:250px;max-width:78%;display:block;margin:0 auto 12px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.65))"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffcf33"/><stop offset="1" stop-color="#e8590c"/></linearGradient></defs><polygon points="38,6 68,23 68,57 38,74 8,57 8,23" fill="url(#hg)" stroke="#fff" stroke-width="3"/><text x="38" y="49" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="26" fill="#1b1b1b">HE</text><text x="82" y="38" text-anchor="start" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="27" fill="#fff" letter-spacing="1.5">HOSSAM</text><text x="82" y="63" text-anchor="start" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="27" fill="#ffcf33" letter-spacing="1.5">EMAD</text><text x="188" y="63" text-anchor="start" font-family="Arial,sans-serif" font-weight="700" font-size="11" fill="#fff" fill-opacity=".85" letter-spacing="3">GAME DEV</text></svg><div class="plate">على جنب يا اسطى</div><p style="font-weight:600;font-size:18px">القاهرة المفتوحة — خد الركاب ووصّلهم لأماكنهم</p><div id="ld">جاري تحميل العالم…</div><div id="who" style="font-size:14px;margin-top:8px;font-weight:600">جاري تحميل بياناتك…</div><div id="msel"><button data-m="taxi" class="on">🚕 شغل الركاب</button><button data-m="race">🏁 سباق الكورنيش</button></div><div id="ver">نسخة ١٨ أكتوبر • ستايل جديد + إصلاح الشوارع والخريطة</div><div id="vh">🚘 اختار عربيتك:</div><div id="vsel"></div><button class="go" id="go">يلا بينا</button><div id="apkw" style="display:none;margin-top:12px"><a id="apkb" href="ala-ganb.apk" download>📥 حمّل التطبيق (APK)</a></div></div></div>
 </div>
 <script>window.onerror=(m,s,l)=>{const d=document.getElementById("who");if(d)d.textContent="خطأ: "+m+" @"+l}</script>
 <script src="libs/three.min.js"></script>
@@ -285,7 +331,7 @@ const grT=ct(256,256,g=>{g.fillStyle='#6f9338';g.fillRect(0,0,256,256);for(let i
 const wtT=ct(64,64,g=>{g.fillStyle='#3b8fa0';g.fillRect(0,0,64,64);g.fillStyle='rgba(255,255,255,.18)';for(let i=0;i<14;i++)g.fillRect(Math.random()*60,Math.random()*60,10,2)},1);wtT.repeat.set(25,1000);
 const zbT=ct(128,128,g=>{g.fillStyle='#4a4b50';g.fillRect(0,0,128,128);for(let i=0;i<500;i++){g.fillStyle=Math.random()<.5?'rgba(0,0,0,.13)':'rgba(255,255,255,.07)';g.fillRect(Math.random()*128,Math.random()*128,2,2)}g.fillStyle='rgba(240,240,236,.92)';for(let i=0;i<8;i++){g.fillRect(8+i*14,6,8,16);g.fillRect(8+i*14,106,8,16);g.fillRect(6,8+i*14,16,8);g.fillRect(106,8+i*14,16,8)}},1);
 function gnd(w,d,x,y,tex){const m=new T.Mesh(new T.PlaneGeometry(w,d),new T.MeshLambertMaterial({map:tex}));m.rotation.x=-PI/2;m.position.set(x,y,0);m.receiveShadow=true;sc.add(m)}
-gnd(12000,12000,0,0,sdT);gnd(800,8000,-(KM*PITCH+120)-400,.005,grT);gnd(200,8000,-EXT-100,.02,wtT);
+gnd(12000,12000,0,-.4,sdT); /* أرض الرمل تحت الشارع بـ٤٠ سم: كانت بتتعارض معاه في العمق (z-fighting) وتغطي الشارع */ gnd(800,8000,-(KM*PITCH+120)-400,.005,grT);gnd(200,8000,-EXT-100,.02,wtT);
 const patch=(x,z)=>{kTile('road-crossroad',x,.01,z,RW,RW,0);lamp(CUR,x+7.5,z+7.5,1)};
 const FA=[],FE=[],WALLM=[];
 {[['#a8523b',1],['#dcc59c',0],['#bdb8ac',0],['#cfa27a',0]].forEach(([c,b])=>{const N=4,S=64,cv=document.createElement('canvas'),ev=document.createElement('canvas');cv.width=cv.height=ev.width=ev.height=S*N;const g=cv.getContext('2d'),e=ev.getContext('2d');g.fillStyle=c;g.fillRect(0,0,S*N,S*N);e.fillStyle='#000';e.fillRect(0,0,S*N,S*N);
@@ -419,11 +465,19 @@ const FACE=[],KEN={},KFAC=[],KMQ={m:null,r:1,n:0,stoneM:null,domeM:null},KSG=[];
 const KBN=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','skyscraper-a','skyscraper-b','skyscraper-c','skyscraper-d','skyscraper-e'].map(n=>'k_c_building-'+n);
 const KRN=['road-straight','road-crossroad','road-crossing','tile-low','light-curved','electricity-pole'].map(n=>'k_r_'+n);
 const KDOME=new T.SphereGeometry(1,14,8,0,PI*2,0,PI/2),KCYL=new T.CylinderGeometry(1,1,1,12),KCONE=new T.ConeGeometry(1,1,12);
+/* ألوان الشارع (غيّرها من هنا): أسفلت / رصيف / خطوط */
+const PALCOL={asphalt:[110,113,118],walk:[200,148,116],line:[242,239,228]};
+function recolorPal(tx){try{const im=tx.image;if(!im)return tx;const w=im.width||512,h=im.height||512,c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');x.drawImage(im,0,0,w,h);const id=x.getImageData(0,0,w,h),d=id.data,nr=(r,g,b,R,G,B)=>Math.abs(r-R)<6&&Math.abs(g-G)<6&&Math.abs(b-B)<6;
+for(let i=0;i<d.length;i+=4){const r=d[i],g=d[i+1],b=d[i+2];let o=null;
+ if(nr(r,g,b,0x66,0x6b,0x7f))o=PALCOL.asphalt;else if(nr(r,g,b,0x9f,0xa8,0xc9))o=PALCOL.walk;else if(nr(r,g,b,0xbd,0xc6,0xed))o=PALCOL.line;
+ else if(b>r+8&&Math.max(r,g,b)-Math.min(r,g,b)<75){const L=.299*r+.587*g+.114*b;o=[L*1.02,L,L*.96]}
+ if(o){d[i]=o[0];d[i+1]=o[1];d[i+2]=o[2]}}
+x.putImageData(id,0,0);const ct=new T.CanvasTexture(c);ct.flipY=tx.flipY;ct.encoding=tx.encoding;ct.wrapS=tx.wrapS;ct.wrapT=tx.wrapT;return ct}catch(e){return tx}}
 function loadKen(key,data){if(!GLd||!BU){__bad(key,'no loader');return}
  GLd.parse(b64(data),'',gl=>{try{const s0=gl.scene;s0.updateMatrixWorld(true);const gs=[];let mt=null;
   s0.traverse(o=>{if(!o.isMesh)return;const ng=flatGeo(o.geometry);ng.applyMatrix4(o.matrixWorld);for(const a of Object.keys(ng.attributes))if(!['position','normal','uv'].includes(a))ng.deleteAttribute(a);gs.push(ng);mt=mt||o.material});
   if(!gs.length||!mt){__bad(key,'empty');return}
-  const g=gs.length>1?BU.mergeBufferGeometries(gs):gs[0];g.computeBoundingBox();const b=g.boundingBox,tx=mt.map;
+  const g=gs.length>1?BU.mergeBufferGeometries(gs):gs[0];g.computeBoundingBox();const b=g.boundingBox;let tx=mt.map;if(tx&&key.indexOf('k_r_')===0)tx=recolorPal(tx);
   if(tx){tx.magFilter=tx.minFilter=T.NearestFilter;tx.generateMipmaps=false;tx.anisotropy=1}
   KEN[key]={g,m:new T.MeshLambertMaterial({map:tx||null,side:key.indexOf('k_c_')===0?T.DoubleSide:T.FrontSide}),w:b.max.x-b.min.x,h:b.max.y-b.min.y,d:b.max.z-b.min.z};
   if(key.indexOf('k_r_')===0)kCorniche();
@@ -437,7 +491,7 @@ function kEdges(i,j){const x0=i*PITCH,z0=j*PITCH,n=8,L=(PITCH-RW)/n,run=(ax,az,a
  if(i===KM-1){patch(x0+PITCH,z0);run(x0+PITCH,z0,false)}
  if(j===KM-1){patch(x0,z0+PITCH);run(x0,z0+PITCH,true)}
  if(i===KM-1&&j===KM-1)patch(x0+PITCH,z0+PITCH)}
-function kPoles(g,i,j){const e=KEN['k_r_electricity-pole'];if(!e)return;const cx=(i+.5)*PITCH,cz=(j+.5)*PITCH,add=(x,z,r)=>{const m=new T.Mesh(e.g,e.m);m.scale.setScalar(16);m.position.set(x,.18,z);m.rotation.y=r;m.castShadow=true;g.add(m)};
+function kPoles(g,i,j){return;const e=KEN['k_r_electricity-pole'];if(!e)return;const cx=(i+.5)*PITCH,cz=(j+.5)*PITCH,add=(x,z,r)=>{const m=new T.Mesh(e.g,e.m);m.scale.setScalar(16);m.position.set(x,.18,z);m.rotation.y=r;m.castShadow=true;g.add(m)};
  for(const sx of[i*PITCH+8.2,(i+1)*PITCH-8.2])for(const dz of[-30,30])add(sx,cz+dz,PI/2);
  for(const sz of[j*PITCH+8.2,(j+1)*PITCH-8.2])for(const dx of[-30,30])add(cx+dx,sz,0)}
 function kStripZ(p,len){const e=KEN['k_r_road-straight'];if(!e)return;const n=Math.max(1,Math.round(len/12)),L=len/n;for(let t=0;t<n;t++){const m=new T.Mesh(e.g,e.m);m.scale.set(L,3,RW);m.rotation.y=PI/2;m.position.set(0,.03,-len/2+L*(t+.5));m.receiveShadow=true;p.add(m)}mergeBlock(p)}
@@ -755,7 +809,9 @@ const MN={btn:'التحكم: أزرار',drag:'التحكم: سحب بالإصب
 function applyS(){const a=$('app');a.classList.toggle('tilt',S.mode==='tilt'&&TL.ok);a.classList.toggle('drag',S.mode==='drag');$('tm').textContent=MN[S.mode];$('sn').value=S.sens;$('inv').checked=!!S.inv;if(S.mode==='tilt'&&TL.ok)$('tst').textContent='✅ الحساس شغال';else if(S.mode!=='tilt')$('tst').textContent='';saveS()}
 $('bs').onclick=()=>$('set').classList.toggle('h');$('sx').onclick=()=>$('set').classList.add('h');
 $('bs').insertAdjacentHTML('afterend','<button class="tb" id="gb" style="display:none">🛠</button>');$('svc').insertAdjacentHTML('afterend','<div id="gar" class="pnl h" style="max-height:82vh;overflow:auto"></div>');
-const GCOL=['#f4f1e6','#1f5fd1','#c0392b','#1e8e4e','#f1c40f','#222222','#e67e22','#8e44ad'],GV={taxi:['🚕 تاكسي',0],sedan:['🚘 كورولا',4000],tuk:['🛺 توكتوك',1500],micro:['🚐 ميكروباص',9000],bus:['🚌 أتوبيس',20000],benz:['🚘 مرسيدس W124',15000],jeep:['🚙 جيب رانجلر',25000],bmw:['🏎️ BMW M5',40000]};
+const GCOL=['#f4f1e6','#1f5fd1','#c0392b','#1e8e4e','#f1c40f','#222222','#e67e22','#8e44ad'],GV={taxi:['🚕 تاكسي',0],sedan:['🚘 كورولا',4000],tuk:['🛺 توكتوك',1500],micro:['🚐 ميكروباص',9000]};
+/* العربيات اللي ليها موديل حقيقي بس (من غير مكعبات) */
+if(SAVE.cur&&!GV[SAVE.cur])SAVE.cur='taxi';if(SAVE.own)SAVE.own=SAVE.own.filter(k=>GV[k]);
 function applyCar(){const t0=SAVE.cur||'taxi',t=t0,c=SAVE.col||(t==='micro'?'#f4f1e6':undefined);try{PLB=1;const np=mk(t,TLp,c);PLB=0;np.g.position.copy(pv.g.position);sc.remove(pv.g);pv=np;sc.add(pv.g)}catch(e){PLB=0;console.warn(e)}}
 function gBuild(){const o=SAVE.own||['taxi'];let h='<b>🛠 ورشة المعلم — نورت يا ريس!</b><small>'+AR(Math.round(SAVE.wallet))+' ج محفظة · '+AR(Math.round(SAVE.cash))+' ج كاش</small><div>🎨 الدهان (٥٠ ج)</div><div>'+GCOL.map(c=>'<button class="sb" data-c="'+c+'" style="background:'+c+';width:34px;height:34px;padding:0"></button>').join('')+'</div><div>⚙ الجنوط (٨٠ ج)</div><div>'+['x','#c9ced6','#111111','#d4af37','#c0392b','#1f5fd1'].map(c=>c==='x'?'<button class="sb" data-r="x">عادي</button>':'<button class="sb" data-r="'+c+'" style="background:'+c+';width:34px;height:34px;padding:0"></button>').join('')+'</div><div>🪟 الزجاج (٦٠ ج)</div><div><button class="sb" data-g="x">عادي</button><button class="sb" data-g="#111111">فيميه</button><button class="sb" data-g="#4a8cff">أزرق</button></div><div>🚘 العربيات</div>';for(const k in GV){const own=o.includes(k);h+='<button class="sb" data-v="'+k+'">'+GV[k][0]+' · '+AR(CAP[k])+' راكب'+((SAVE.cur||'taxi')===k?' ✅':own?' (اركب)':' — '+AR(GV[k][1])+' ج')+'</button>'}h+='<button class="sb" data-x="1">تمام</button>';$('gar').innerHTML=h}
 $('gb').onclick=()=>{if(Math.abs(v)>2.5){say('وقّف العربية الأول يا اسطى',1);return}gBuild();$('gar').classList.toggle('h')};
@@ -779,7 +835,7 @@ function drawFM(){if(!MV.open)return;fmSize();const g=FMG,z=MV.z,W=MV.w,H=MV.h;g
  for(let i=i0;i<i1;i++)for(let j=j0;j<j1;j++)g.fillRect(fsx(i*PITCH)+rw/2,fsz(j*PITCH)+rw/2,PITCH*z-rw,PITCH*z-rw);
  if(z>.2){g.fillStyle='#f4efe0';g.font='800 11px Cairo,sans-serif';g.textAlign='center';g.textBaseline='middle';for(let k=i0;k<=i1;k++){const sx=fsx(k*PITCH);if(sx<10||sx>W-10)continue;g.save();g.translate(sx,H*(.25+((k+40)%4)*.17));g.rotate(-Math.PI/2);g.fillText(STNM[Math.floor(hsh(k+40,0,7)*STNM.length)],0,0);g.restore()}
   for(let k=j0;k<=j1;k++){const sy=fsz(k*PITCH);if(sy<10||sy>H-10)continue;g.fillText(STNM[Math.floor(hsh(k+40,1,7)*STNM.length)],W*(.2+((k+40)%4)*.2),sy)}}
- MV.hit=[];const pin=(x,zz,col,txt,r,sq,name,kind)=>{const sx=fsx(x),sy=fsz(zz);if(sx<-30||sy<-30||sx>W+30||sy>H+30)return;g.fillStyle=col;g.strokeStyle='#fff';g.lineWidth=2;g.beginPath();if(sq){g.rect(sx-r,sy-r,r*2,r*2)}else g.arc(sx,sy,r,0,7);g.fill();g.stroke();if(txt){g.fillStyle='#fff';g.font='800 '+Math.round(r*1.05)+'px Cairo,sans-serif';g.textAlign='center';g.textBaseline='middle';if(col==='#f2b705'||col==='#e0e04a'||col==='#8fd14f')g.fillStyle='#222';g.fillText(txt,sx,sy+1)}MV.hit.push({sx,sy,x,z:zz,name,kind})};
+ MV.hit=[];const pin=(x,zz,col,txt,r,sq,name,kind)=>{const sx=fsx(x),sy=fsz(zz);if(sx<-30||sy<-30||sx>W+30||sy>H+30)return;g.fillStyle=col;g.strokeStyle='#fff';g.lineWidth=2;g.beginPath();if(sq){g.rect(sx-r,sy-r,r*2,r*2)}else g.arc(sx,sy,r,0,7);g.fill();g.stroke();if(txt){g.fillStyle='#fff';g.font='800 '+Math.round(r*1.05)+'px Cairo,sans-serif';g.textAlign='center';g.textBaseline='middle';if(col==='#f2b705'||col==='#e0e04a'||col==='#8fd14f')g.fillStyle='#222';g.fillText(txt,sx,sy+1)}MV.hit.push({sx,sy,x,z:zz,name,kind,r})};
  const lab=(x,zz,t,col,dy)=>{const sx=fsx(x),sy=fsz(zz)+dy;if(sx<-60||sy<-20||sx>W+60||sy>H+20)return;g.font='800 11px Cairo,sans-serif';g.textAlign='center';g.textBaseline='middle';const w=g.measureText(t).width+10;g.fillStyle='rgba(12,20,26,.82)';g.fillRect(sx-w/2,sy-8,w,16);g.fillStyle=col||'#fff';g.fillText(t,sx,sy)};
  const gr=z>.1?10:6;for(const q of SVCP)if(q.type==='gas')pin(q.x,q.z,'#ff7a00',z>.1?'⛽':'',gr,0,'بنزينة','gas');
  for(const q of GARS){pin(q.x,q.z,'#2f7bff','🔧',14,1,'جراج — اشتري أو غيّر عربيتك','garage');lab(q.x,q.z,'جراج','#9cc2ff',24)}
@@ -789,7 +845,7 @@ function drawFM(){if(!MV.open)return;fmSize();const g=FMG,z=MV.z,W=MV.w,H=MV.h;g
  if(WP){pin(WP.x,WP.z,'#ffffff','📍',12,0,WP.name,'wp')}
  {const sx=fsx(px),sy=fsz(pz),a=Math.atan2(PFZ,PFX);g.fillStyle='#1f7bff';g.strokeStyle='#fff';g.lineWidth=2.5;g.beginPath();g.moveTo(sx+Math.cos(a)*15,sy+Math.sin(a)*15);g.lineTo(sx+Math.cos(a+2.5)*11,sy+Math.sin(a+2.5)*11);g.lineTo(sx+Math.cos(a+Math.PI)*4,sy+Math.sin(a+Math.PI)*4);g.lineTo(sx+Math.cos(a-2.5)*11,sy+Math.sin(a-2.5)*11);g.closePath();g.fill();g.stroke()}}
 function fmInfo(t){$('fmi').textContent=t||''}
-function fmSet(x,zz,name){WP={x,z:zz,name};jtT=0;fmFit(x,zz);fmInfo('📍 '+name+' — '+AR(Math.round(Math.hypot(px-x,pz-zz)))+' م • الاتجاه ظاهر في اللعبة (سهم + الخريطة الصغيرة)');drawFM()}
+function fmSet(x,zz,name,keep){WP={x,z:zz,name};jtT=0;if(!keep)fmFit(x,zz);fmInfo('📍 '+name+' — '+AR(Math.round(Math.hypot(px-x,pz-zz)))+' م • الاتجاه ظاهر في اللعبة (سهم + الخريطة الصغيرة)');drawFM()}
 function openMap(){if(!started||MV.open)return;MV.open=1;MV.wp=paused;paused=true;FMEl.classList.remove('h');fmSize();MV.cx=px;MV.cz=pz;MV.z=fmZ(MV.h/1000);fmInfo('');drawFM();MV.iv=setInterval(drawFM,500)}
 function closeMap(){if(!MV.open)return;MV.open=0;paused=MV.wp;FMEl.classList.add('h');clearInterval(MV.iv)}
 $('bmap').onclick=openMap;$('fmx').onclick=closeMap;addEventListener('keydown',e=>{if(e.key==='m'||e.key==='M')MV.open?closeMap():openMap()});
@@ -803,22 +859,27 @@ $('fmr').onclick=()=>{const[q]=nearestGarage();if(q)fmSet(q.x,q.z,'أقرب جر
 $('fmp').onclick=()=>{let b=null,bd=1e9;for(const f of FARES)if(!f.ph&&fits(seatsUsed(),f.n,capNow())){const d=Math.hypot(px-f.a.x,pz-f.a.z);if(d<bd){bd=d;b=f}}if(b)fmSet(b.a.x,b.a.z,'راكب ×'+AR(b.n)+' — '+b.a.name);else fmInfo('مفيش راكب مستني يناسب المقاعد الفاضية')};
 FMC.addEventListener('pointerdown',e=>{e.preventDefault();try{FMC.setPointerCapture(e.pointerId)}catch(_){}MV.ptr.set(e.pointerId,[e.offsetX,e.offsetY]);MV.moved=0;MV.t0=performance.now();if(MV.ptr.size===2){const[a,b]=[...MV.ptr.values()];MV.pd=Math.hypot(a[0]-b[0],a[1]-b[1])||1}});
 FMC.addEventListener('pointermove',e=>{const p=MV.ptr.get(e.pointerId);if(!p)return;const nx=e.offsetX,ny=e.offsetY;if(MV.ptr.size===1){MV.cx-=(nx-p[0])/MV.z;MV.cz-=(ny-p[1])/MV.z;MV.moved+=Math.abs(nx-p[0])+Math.abs(ny-p[1]);p[0]=nx;p[1]=ny}else{p[0]=nx;p[1]=ny;const[a,b]=[...MV.ptr.values()],nd=Math.hypot(a[0]-b[0],a[1]-b[1])||1;MV.z=fmZ(MV.z*nd/MV.pd);MV.pd=nd;MV.moved+=20}drawFM()});
-const fmUp=e=>{const had=MV.ptr.size===1&&MV.ptr.has(e.pointerId);MV.ptr.delete(e.pointerId);if(had&&MV.moved<8&&performance.now()-MV.t0<600){const x=e.offsetX,y=e.offsetY;let b=null,bd=28;for(const h of MV.hit){const d=Math.hypot(h.sx-x,h.sy-y);if(d<bd){bd=d;b=h}}if(b)fmSet(b.x,b.z,b.name);else fmSet(fwx(x),fwz(y),'نقطة على الخريطة')}};
+const fmUp=e=>{const had=MV.ptr.size===1&&MV.ptr.has(e.pointerId);MV.ptr.delete(e.pointerId);if(had&&MV.moved<8&&performance.now()-MV.t0<600){const x=e.offsetX,y=e.offsetY;let b=null,bd=1e9;for(const h of MV.hit){const d=Math.hypot(h.sx-x,h.sy-y);if(d<=h.r+6&&d<bd){bd=d;b=h}}if(b)fmSet(b.x,b.z,b.name,true);else fmSet(fwx(x),fwz(y),'نقطة على الخريطة',true)}};
 FMC.addEventListener('pointerup',fmUp);FMC.addEventListener('pointercancel',e=>MV.ptr.delete(e.pointerId));
 FMC.addEventListener('wheel',e=>{e.preventDefault();MV.z=fmZ(MV.z*(e.deltaY<0?1.2:1/1.2));drawFM()},{passive:false});
 
 /* ===== وضع سباق الكورنيش: سرعة + قفلات + سكور، والخبطة بتنهي الجولة ===== */
-let MODE='taxi';const RC={score:0,km:0,combo:0,comboT:0,best:0,hudT:0,end:0};
+let MODE='taxi';const RC={score:0,km:0,combo:0,comboT:0,best:0,hudT:0,end:0,vmax:0,near:0,bc:0};
 $('msel').onclick=e=>{const b=e.target.closest('button');if(!b||started)return;for(const x of $('msel').children)x.classList.toggle('on',x===b)};
 $('go').addEventListener('click',()=>{const on=$('msel').querySelector('.on');MODE=on?on.dataset.m:'taxi';if(MODE==='race'){cancelJob();document.body.classList.add('race');$('race').classList.remove('h');$('rhome').classList.remove('h');RC.best=SAVE.bestRace||0}});
 $('rhome').onclick=()=>location.reload();
 function raceHud(kmh){$('rs').textContent=AR(Math.round(RC.score));$('rb').textContent=AR(Math.round(Math.max(RC.best,RC.score)));$('rk').textContent=AR(RC.km.toFixed(2));$('rv').textContent=AR(Math.round(kmh));$('rg').textContent=AR(1+Math.min(5,Math.floor(kmh/35)));$('rbu').style.width=Math.min(100,kmh/1.8)+'%'}
-function raceEnd(){if(RC.end>0)return;const sc0=Math.round(RC.score),nb=sc0>(SAVE.bestRace||0);if(nb)SAVE.bestRace=sc0;RC.best=SAVE.bestRace||0;$('rend').innerHTML='💥 خبطت!<br>سكورك <b>'+AR(sc0)+'</b>'+(nb&&sc0>0?'<br>🏆 رقم قياسي جديد!':'<br>أحسن رقم: '+AR(RC.best))+'<br><small>'+AR(RC.km.toFixed(2))+' كم</small>';$('rend').classList.remove('h');RC.end=2.6;RC.score=0;RC.km=0;RC.combo=0;SAVE.dmg=0;v=0;persist()}
+function raceEnd(){if(RC.end>0)return;const sc0=Math.round(RC.score),nb=sc0>(SAVE.bestRace||0);if(nb)SAVE.bestRace=sc0;RC.best=SAVE.bestRace||0;
+ $('rend').innerHTML='<div class="re-m"><div class="re-l"><div class="re-h">وقعت!</div><div class="re-s">'+(nb&&sc0>0?'رقم قياسي جديد! 🏆':'النقط')+'</div><div class="re-n">'+AR(sc0)+'</div><div class="re-b">أحسن رقم '+AR(RC.best)+'</div></div>'+
+ '<div class="re-t"><div><b>'+AR(RC.km.toFixed(2))+' كم</b><span>المسافة</span></div><div><b>'+AR(Math.round(RC.vmax))+' كم/س</b><span>أعلى سرعة</span></div><div><b>'+AR(RC.near)+' مرة</b><span>قريبة!</span></div><div><b dir="ltr">×'+AR(RC.bc)+'</b><span>أحسن كومبو</span></div></div></div>'+
+ '<div class="re-bt"><button class="sb pri" id="rag">تاني</button><button class="sb" id="rmn">القائمة</button></div>';
+ $('rend').classList.remove('h');RC.end=9;RC.score=0;RC.km=0;RC.combo=0;RC.vmax=0;RC.near=0;RC.bc=0;SAVE.dmg=0;v=0;persist()}
+$('rend').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.id==='rag')RC.end=.01;else if(b.id==='rmn')location.reload()});
 function raceStep(dt){if(MODE!=='race'||!started)return;
  if(RC.end>0){RC.end-=dt;if(RC.end<=0)$('rend').classList.add('h');return}
  SAVE.fuel=Math.max(SAVE.fuel,60);const kmh=Math.abs(v)*3.6;
- if(kmh>40&&!onFoot){RC.score+=kmh*dt*(1+Math.min(RC.combo,5)*.25)*.1;RC.km+=Math.abs(v)*dt/1000}
- if(kmh>70)for(const c of cars){if(c.nm&&t-c.nm<4)continue;const dx=c.x-px,dz=c.z-pz;if(Math.abs(dx)>7||Math.abs(dz)>7)continue;const d=Math.hypot(dx,dz),rr=1.1+c.w*.45;if(d>rr+.4&&d<rr+2.6){c.nm=t;RC.combo++;RC.comboT=4;const b=25*Math.min(RC.combo,6);RC.score+=b;say('⚡ قفلة! +'+AR(b)+(RC.combo>1?' ×'+AR(RC.combo):''))}}
+ if(kmh>RC.vmax)RC.vmax=kmh;if(kmh>40&&!onFoot){RC.score+=kmh*dt*(1+Math.min(RC.combo,5)*.25)*.1;RC.km+=Math.abs(v)*dt/1000}
+ if(kmh>70)for(const c of cars){if(c.nm&&t-c.nm<4)continue;const dx=c.x-px,dz=c.z-pz;if(Math.abs(dx)>7||Math.abs(dz)>7)continue;const d=Math.hypot(dx,dz),rr=1.1+c.w*.45;if(d>rr+.4&&d<rr+2.6){c.nm=t;RC.combo++;RC.near++;if(RC.combo>RC.bc)RC.bc=RC.combo;RC.comboT=4;const b=25*Math.min(RC.combo,6);RC.score+=b;say('⚡ قفلة! +'+AR(b)+(RC.combo>1?' ×'+AR(RC.combo):''))}}
  RC.comboT-=dt;if(RC.comboT<=0)RC.combo=0;
  RC.hudT-=dt;if(RC.hudT<=0){RC.hudT=.1;raceHud(kmh)}}
 
@@ -866,11 +927,11 @@ function camStep(dt){camCd-=dt;if(camCd>0||onFoot)return;const ri=Math.round(px/
 /* day / night + guidance */
 let SKD=sc.background,SKU=ct(8,256,(g,w,h)=>{const q=g.createLinearGradient(0,0,0,h);q.addColorStop(0,'#3a3a7a');q.addColorStop(.3,'#8a5a8c');q.addColorStop(.46,'#ff9a5a');q.addColorStop(1,'#f4c08a');g.fillStyle=q;g.fillRect(0,0,w,h)}),
  SKN=ct(256,256,(g,w,h)=>{const q=g.createLinearGradient(0,0,0,h);q.addColorStop(0,'#04081a');q.addColorStop(.3,'#0c1838');q.addColorStop(.46,'#1c2c52');q.addColorStop(1,'#1c2c52');g.fillStyle=q;g.fillRect(0,0,w,h);g.fillStyle='#fff';for(let i=0;i<140;i++){g.globalAlpha=.3+Math.random()*.7;g.fillRect(Math.random()*w,Math.random()*h*.45,1.4,1.4)}});
-for(const t of[SKD,SKU,SKN]){t.mapping=T.EquirectangularReflectionMapping;t.needsUpdate=true}const FCd=new T.Color(0xe0c3a0),FCu=new T.Color(0xd08a6a),FCn=new T.Color(0x0e1830);const CB={on:false,y:0,vy:0,pa:0,pv:0};let GT=17.5,dayF=.55,lastSky=-1,clkT=0,dayMode=0;
+for(const t of[SKD,SKU,SKN]){t.mapping=T.EquirectangularReflectionMapping;t.needsUpdate=true}const FCd=new T.Color(0xe0c3a0),FCu=new T.Color(0xd08a6a),FCn=new T.Color(0x0e1830);const CB={on:false,y:0,vy:0,pa:0,pv:0};let GT=14,dayF=.55,lastSky=-1,clkT=0,dayMode=0;
 function dayStep(dt){if(dayMode===1)GT=12;else if(dayMode===2)GT=0;else GT=(GT+dt*24/720)%24;dayF=cl((Math.sin((GT-6)*PI/12)+.25)/.85,0,1);
  const si=dayF>.62?0:dayF>.12?1:2;if(si!==lastSky){lastSky=si;sc.background=[SKD,SKU,SKN][si];sg.visible=si<2}
  const fc=sc.fog.color;if(dayF>.62)fc.copy(FCd);else if(dayF>.12)fc.lerpColors(FCu,FCd,(dayF-.12)/.5);else fc.lerpColors(FCn,FCu,dayF/.12);
- hemi.intensity=.3+.25*dayF;sun.intensity=.35+1.55*dayF;{const ei=Math.max(0,Math.min(1.1,(.5-dayF)*2.4));for(const m of FACE)m.emissiveIntensity=ei}sun.color.setHex(dayF>.5?0xffcf94:0x9fb3ff);R.toneMappingExposure=.85+.2*dayF;
+ hemi.intensity=.42+.25*dayF;sun.intensity=.35+1.55*dayF;{const ei=Math.max(0,Math.min(1.1,(.5-dayF)*2.4));for(const m of FACE)m.emissiveIntensity=ei}sun.color.setHex(dayF>.14?0xffcf94:0x9fb3ff);R.toneMappingExposure=.85+.2*dayF;
  {const cc=cl(.18+dayF*.95,0,1);for(const s of CLD)s.material.color.setRGB(cc,cc*.96,cc*(dayF>.5?1:.9))}
  const ei=cl(1.3-dayF*1.8,0,1.3);for(const m of WALLM)m.emissiveIntensity=ei;
  if((clkT+=dt)>1){clkT=0;const hh=Math.floor(GT),mm=Math.floor((GT-hh)*60);$('gd').textContent='🔧 '+AR(Math.round(SAVE.dmg||0))+'٪';$('ck').textContent=(dayF>.12?'☀️ ':'🌙 ')+AR(hh%12||12)+':'+(mm<10?'٠':'')+AR(mm)+(hh<12?' ص':' م')}}
@@ -938,7 +999,7 @@ function boardOther(c){const i=cars.indexOf(c);if(i<0)return;cars.splice(i,1);pv
 function svcCheck(dt){svcT2-=dt;if(svcT2>0)return;svcT2=.3;garCheck();let q=null;if(onFoot&&AV)for(const s of SVCP)if(Math.hypot(AV.x-s.x,AV.z-s.z)<5){q=s;break}
  if(q!==svcCur){svcCur=q;if(!q)$('svc').classList.add('h')}if(q)buildSvc(q)}
 /* traffic */
-const cars=[],TY=['taxi','taxi','taxi','sedan','sedan','tuk','micro','bus'],L_BAD=['حاسب يا اسطى!','بالراحة يا ريس، دي مش حلبة سباق!','لا إله إلا الله!','يا لهوي!'];
+const cars=[],TY=['taxi','taxi','taxi','sedan','sedan','tuk','micro'],CARKEY={micro:'micro',taxi:'taxi',sedan:'corolla',tuk:'tuk'},carReady=ty=>!!MG[CARKEY[ty]],readyPick=a=>{const b=a.filter(carReady);return b.length?pick(b):null},L_BAD=['حاسب يا اسطى!','بالراحة يا ريس، دي مش حلبة سباق!','لا إله إلا الله!','يا لهوي!'];
 let px=3.2,pz=30,hd=0,PFX=0,PFZ=-1,dist=0,v=0,st=0,score=0,shake=0,cd=0,t=0,chd=0,spawned=0,pd=999;
 const angd=(a,b)=>Math.atan2(Math.sin(a-b),Math.cos(a-b));
 function hit(imp){if(cd>0)return;cd=.8;if(MODE==='race'&&imp>5)raceEnd();shake=.5;score=Math.max(0,score-20);say(pick(L_BAD),1);if(window.AGL&&imp>0)SAVE.dmg=AGL.addDamage(SAVE.dmg||0,imp);{let on=null;for(const f of FARES)if(f.ph){f.crash++;on=on||f}if(on)speak(pick(L_BAD),on.pitch,1)}}
@@ -946,8 +1007,8 @@ function place(c){for(let n=0;n<25;n++){const m=pick([0,PI,PI/2,-PI/2]),az=Math.
   if(Math.hypot(x-px,z-pz)<60||cars.some(o=>o!==c&&Math.hypot(o.x-x,o.z-z)<14))continue;c.x=x;c.z=z;c.hd=c.vh=m;c.v=0;c.last=Math.floor((az?z:x)/PITCH);return true}return false}
 function placePark(c){for(let n=0;n<25;n++){const m=pick([0,PI,PI/2,-PI/2]),az=Math.abs(Math.sin(m))<.5,k=cl(Math.round((az?px:pz)/PITCH)+((Math.random()*5|0)-2),-KM,KM),al=cl((az?pz:px)+rnd(-300,300),-EXT+60,EXT-60),md=((al%PITCH)+PITCH)%PITCH;if(md<16||md>84)continue;let x,z;if(az){x=k*PITCH+Math.cos(m)*4.9;z=al}else{z=k*PITCH-Math.sin(m)*4.9;x=al}
   if(Math.hypot(x-px,z-pz)<30||cars.some(o=>o!==c&&Math.hypot(o.x-x,o.z-z)<10))continue;c.x=x;c.z=z;c.hd=c.vh=m;c.v=0;return true}return false}
-function spawnParked(){const ty=pick(['taxi','taxi','sedan','tuk','micro']),o=mk(ty),c={id:cars.length,o,t:ty,w:o.w,l:o.l,x:0,z:0,hd:0,vh:0,v:0,vb:0,fx:0,fz:0,last:0,park:true};if(placePark(c)){o.g.traverse(m=>{m.castShadow=false});o.g.position.set(c.x,0,c.z);o.g.rotation.y=c.hd;sc.add(o.g);cars.push(c)}}
-function spawnCar(){const ty=pick(TY),o=mk(ty),V={micro:[11,15],taxi:[9,13],sedan:[10,14],tuk:[6,8],truck:[7,10],bus:[8,11],cart:[2.5,3]}[ty],c={id:cars.length,o,t:ty,w:o.w,l:o.l,x:0,z:0,hd:0,vh:0,v:0,vb:rnd(V[0],V[1]),fx:0,fz:0,last:0};if(place(c)){o.g.traverse(m=>{m.castShadow=false});o.g.position.set(c.x,0,c.z);o.g.rotation.y=c.hd;sc.add(o.g);cars.push(c)}}
+function spawnParked(){const ty=readyPick(['taxi','taxi','sedan','tuk','micro']);if(!ty)return;const o=mk(ty),c={id:cars.length,o,t:ty,w:o.w,l:o.l,x:0,z:0,hd:0,vh:0,v:0,vb:0,fx:0,fz:0,last:0,park:true};if(placePark(c)){o.g.traverse(m=>{m.castShadow=false});o.g.position.set(c.x,0,c.z);o.g.rotation.y=c.hd;sc.add(o.g);cars.push(c)}}
+function spawnCar(){const ty=readyPick(TY);if(!ty)return;const o=mk(ty),V={micro:[11,15],taxi:[9,13],sedan:[10,14],tuk:[6,8],truck:[7,10],bus:[8,11],cart:[2.5,3]}[ty],c={id:cars.length,o,t:ty,w:o.w,l:o.l,x:0,z:0,hd:0,vh:0,v:0,vb:rnd(V[0],V[1]),fx:0,fz:0,last:0};if(place(c)){o.g.traverse(m=>{m.castShadow=false});o.g.position.set(c.x,0,c.z);o.g.rotation.y=c.hd;sc.add(o.g);cars.push(c)}}
 function carVsPlayer(c,fx,fz,pk,ck){if(Math.abs(c.x-px)>8||Math.abs(c.z-pz)>8)return;const h=c.l/2-1,rr=1.1+c.w*.45,imp=Math.abs(v)+Math.abs(c.v),px0=px,pz0=pz;
  for(let a=-1;a<=1;a+=2){const ax=px0+PFX*1.2*a,az2=pz0+PFZ*1.2*a;for(let b=-1;b<=1;b+=2){const dx=ax-(c.x+fx*h*b),dz=az2-(c.z+fz*h*b),d=Math.sqrt(dx*dx+dz*dz);if(d<rr&&d>.001){const p=rr-d,ux=dx/d,uz=dz/d;px+=ux*p*pk;pz+=uz*p*pk;if(ck){c.x-=ux*p*ck;c.z-=uz*p*ck;c.v*=.8;v*=.85}else v*=.8;hit(imp)}}}}
 function stepCar(c,dt){const ddx=c.x-px,ddz=c.z-pz,dd=Math.sqrt(ddx*ddx+ddz*ddz);
@@ -1034,7 +1095,8 @@ if(/[?&]dev=1/.test(location.search))devToggle(true);
 let last=performance.now(),mmT=0,cullT=0,wallCd=0;cam.rotation.order='YXZ';
 function frame(now){requestAnimationFrame(frame);const raw=Math.min(.2,(now-last)/1000),dt=Math.min(.05,raw);last=now;FRM++;devTick(raw);Q.ema+=(raw*1000-Q.ema)*.05;Q.t+=raw;if(Q.t>1.5){Q.t=0;if(t>4)adapt()}
  if(!paused){t+=dt;dayStep(dt);COR.visible=px<-1650;stnStep(dt);streamBlocks(4);tlStep(dt);lodStep(dt);{const cn=px>2700;if(cn!==CIRC.on){CIRC.on=cn;palmsDirty=true;if(cn&&!CIRC.seen){CIRC.seen=1;say('🏁 حلبة القاهرة للتفحيط — اعمل اللي نفسك فيه!')}}}if(palmsDirty)rebuildPalms();if(needRefresh&&performance.now()>refreshAt){needRefresh=false;refreshBlocks()}
-  if(!spawned&&(MG.micro||t>25)){spawned=1;for(let i=0;i<20;i++)spawnCar();for(let i=0;i<6;i++)spawnParked()}
+  if(!spawned&&((MG.micro&&MG.taxi&&MG.corolla&&MG.tuk)||t>90)){spawned=1;for(let i=0;i<20;i++)spawnCar();for(let i=0;i<6;i++)spawnParked()}
+   if(spawned&&t-(window.__refT||0)>1.5){window.__refT=t;let tr=0,pk=0;for(const c of cars){if(c.own)continue;c.park?pk++:tr++}if(tr<20)spawnCar();else if(pk<6)spawnParked()}
   const str=steerIn(dt),dead=SAVE.fuel<=0||!!SAVE.burnt,gas=started&&!onFoot&&K.G&&!K.B&&!dead,brk=started&&!onFoot&&K.B;
   let a;if(gas)a=(14*(1-Math.max(0,v)/48)+(v<0?12:0))*(1-.004*(SAVE.dmg||0));else if(brk)a=v>.3?-36:(v>-6?-5:0);else a=-Math.sign(v)*(2+Math.abs(v)*.03);
   const v0=v;v+=a*dt;if(!gas&&!brk&&v0*v<0)v=0;if(onFoot)v=0;
