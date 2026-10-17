@@ -116,7 +116,17 @@ body.race #job,body.race #seats{display:none!important}
 #vsel button.on{border-color:var(--gold);background:rgba(242,183,5,.28)}
 @media (max-height:520px){#st svg{width:150px!important;margin-bottom:2px!important}#st .plate{font-size:clamp(22px,8vh,36px)!important;padding:2px 14px!important}#st p{margin:3px 0!important;font-size:14px!important}#st .go{margin-top:6px;padding:5px 30px;font-size:19px}#vh{margin-top:4px;font-size:13px}#vsel{margin-top:4px;gap:6px}#vsel button{padding:3px 8px;min-width:80px;font-size:13px}#who{margin-top:3px!important}}
 #vsel small{display:block;font-weight:600;font-size:11px;opacity:.85}
-</style></head><body><div id="app">
+</style><script>
+/* تشخيص التحميل: يكتب أي خطأ على الشاشة، ولو مفيش تقدّم بعد ١٥ ثانية يظهر زر يمسح الكاش ويعيد التحميل */
+(function(){function $(i){return document.getElementById(i)}function say(m){var w=$('who');if(w){w.textContent=m;w.style.color='#ffb4a8'}}
+addEventListener('error',function(e){say('خطأ: '+(e.message||'؟')+' ('+String(e.filename||'').split('/').pop()+':'+e.lineno+')')});
+addEventListener('unhandledrejection',function(e){say('خطأ: '+(e.reason&&e.reason.message||e.reason))});
+function fix(){var b=document.createElement('button');b.textContent='🔄 مسح الكاش وإعادة التحميل';b.className='go';b.style.cssText='font-size:14px;padding:6px 16px;margin-top:8px;visibility:visible';
+b.onclick=function(){b.disabled=true;var jobs=[];try{if(navigator.serviceWorker)jobs.push(navigator.serviceWorker.getRegistrations().then(function(r){return Promise.all(r.map(function(x){return x.unregister()}))}))}catch(e){}try{if(window.caches)jobs.push(caches.keys().then(function(k){return Promise.all(k.map(function(x){return caches.delete(x)}))}))}catch(e){}
+Promise.all(jobs).catch(function(){}).then(function(){location.reload()})};var ld=$('ld');if(ld&&ld.parentNode)ld.parentNode.insertBefore(b,ld.nextSibling)}
+setTimeout(function(){var ld=$('ld');if(!ld||/[٪%]/.test(ld.textContent))return;var a=window.PERF&&PERF.assets,er='';if(a)for(var k in a){if(a[k]&&a[k].err){er=k+': '+a[k].err;break}}say('مفيش تقدّم في التحميل'+(er?' — '+er:' — JS مابدأش'));fix()},15000)})();
+</script>
+</head><body><div id="app">
 <div id="inst"><span id="it">📲 حمّل اللعبة كتطبيق</span><button id="ib">تثبيت</button><button id="ix">✕</button></div>
 <canvas id="g"></canvas><div id="cpk"><img id="cpi" alt="" draggable="false"><canvas id="cpg" width="1584" height="672"></canvas></div>
 <div id="hud"><div class="hr"><span>🏆 <b id="sc">0</b></span><span>📍 <b id="ds">0.00</b> كم</span></div><div class="hr" id="mnp" style="cursor:pointer"><span>👛 <b id="mn">٠</b></span></div><div class="hr"><span>🚗 <b id="spd">٠</b> كم/س</span></div><div class="hr" id="gg"><span id="gf">⛽ ١٠٠٪</span><span id="go2">🛢 ١٠٠٪</span><span id="ge">☕ ١٠٠٪</span><span id="gd">🔧 ٠٪</span><span id="ck">🕔</span></div></div>
@@ -1064,7 +1074,7 @@ let bar=$('ldbar');if(!bar&&ld){bar=document.createElement('div');bar.id='ldbar'
 function prog(){const p=Math.round(doneN/ALL.length*100);if(ld)ld.textContent='جاري تحميل العالم… '+p+'٪ ('+(bytes/1048576).toFixed(1)+' ميجا)';if(bar)bar.firstChild.style.width=p+'%';const bg=$('bgl');if(bg)bg.textContent='جاري تحميل باقي العالم… '+p+'٪'}
 window.__done=(k,ok,e)=>{const a=PERF.assets[k]||(PERF.assets[k]={});a.parseMs=Math.round(performance.now()-(a.t1||PERF.t0));a.ok=ok;if(ok){PERF.failed=PERF.failed.filter(x=>x!==k)}else{a.err=String(e&&e.message||e||'parse');if(!PERF.failed.includes(k))PERF.failed.push(k)}const w=waiters[k];if(w){delete waiters[k];w(ok)}};
 async function readAB(r){if(!r.body||!r.body.getReader){const b=await r.arrayBuffer();bytes+=b.byteLength;prog();return b}const rd=r.body.getReader(),ch=[];let n=0;for(;;){const o=await rd.read();if(o.done)break;ch.push(o.value);n+=o.value.length;bytes+=o.value.length;prog()}const u=new Uint8Array(n);let p=0;for(const c of ch){u.set(c,p);p+=c.length}return u.buffer}
-async function fetchAB(k){for(let i=0;i<3;i++){try{const t=performance.now(),r=await fetch('models/'+k+'.glb');if(!r.ok)throw new Error('HTTP '+r.status);const b=await readAB(r),a=PERF.assets[k]=PERF.assets[k]||{};a.fetchMs=Math.round(performance.now()-t);a.bytes=b.byteLength;return b}catch(e){(PERF.assets[k]=PERF.assets[k]||{}).err=String(e.message||e);await new Promise(r=>setTimeout(r,500*(i+1)))}}return null}
+async function fetchAB(k){for(let i=0;i<3;i++){try{const t=performance.now(),ac=typeof AbortController==='function'?new AbortController():null,to=ac?setTimeout(()=>ac.abort(),40000):0,r=await fetch('models/'+k+'.glb',ac?{signal:ac.signal}:undefined);clearTimeout(to);if(!r.ok)throw new Error('HTTP '+r.status);const b=await readAB(r),a=PERF.assets[k]=PERF.assets[k]||{};a.fetchMs=Math.round(performance.now()-t);a.bytes=b.byteLength;return b}catch(e){(PERF.assets[k]=PERF.assets[k]||{}).err=String(e.message||e);await new Promise(r=>setTimeout(r,500*(i+1)))}}return null}
 async function loadKey(k){if(k==='town'){try{const r=await fetch('models/town.json');if(!r.ok)throw new Error('HTTP '+r.status);window.TOWN=await r.json()}catch(e){window.__done(k,false,e);return false}}
  const b=await fetchAB(k);if(!b){window.__done(k,false,'تعذر التحميل');return false}MD[k]=b;PERF.assets[k].t1=performance.now();const task=window.AT&&AT[k];if(!task){window.__done(k,false,'no task');return false}
  return new Promise(res=>{const to=setTimeout(()=>{if(waiters[k])window.__done(k,false,'انتهت المهلة')},45000);waiters[k]=ok=>{clearTimeout(to);res(ok)};try{task()}catch(e){window.__done(k,false,e)}})}
