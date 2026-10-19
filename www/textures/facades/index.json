@@ -1,50 +1,5 @@
 [
  {
-  "f": "fac_tall.jpg",
-  "n": 5
- },
- {
-  "f": "fac_f1.jpg",
-  "n": 3
- },
- {
-  "f": "fac_f2.jpg",
-  "n": 3
- },
- {
-  "f": "fac_f3.jpg",
-  "n": 3
- },
- {
-  "f": "fac_f4.jpg",
-  "n": 3
- },
- {
-  "f": "fac_f5.jpg",
-  "n": 3
- },
- {
-  "f": "fac_f6.jpg",
-  "n": 3
- },
- {
-  "f": "fac_f7.jpg",
-  "n": 2
- },
- {
-  "f": "fac_f8.jpg",
-  "n": 2
- },
- {
-  "f": "fac_f9.jpg",
-  "n": 3
- },
- {
-  "f": "fac_mosque.jpg",
-  "n": 0,
-  "k": "m"
- },
- {
   "f": "fac_n1.jpg",
   "n": 3
  },
@@ -83,5 +38,25 @@
  {
   "f": "fac_n10.jpg",
   "n": 2
+ },
+ {
+  "f": "fac_b1.jpg",
+  "n": 3,
+  "b": 1
+ },
+ {
+  "f": "fac_b2.jpg",
+  "n": 3,
+  "b": 1
+ },
+ {
+  "f": "fac_b3.jpg",
+  "n": 3,
+  "b": 1
+ },
+ {
+  "f": "fac_mosque.jpg",
+  "n": 0,
+  "k": "m"
  }
 ]
