@@ -9,7 +9,7 @@ let fake=1e6;const ctx={console,Image:function(){},Math,Date,JSON,Array,Object,S
  document:{getElementById:()=>el(),createElement:()=>el(),querySelectorAll:()=>[],body:el(),documentElement:el(),addEventListener(){}},
  performance:{now:()=>fake},localStorage:{getItem:k=>store[k]||null,setItem:(k,v)=>{store[k]=String(v)}},navigator:{userAgent:'node'},location:{search:''},matchMedia:()=>({matches:false}),
  requestAnimationFrame:f=>{rafs.push(f)},addEventListener(){},removeEventListener(){},devicePixelRatio:2,innerWidth:800,innerHeight:400,screen:{},ResizeObserver:undefined,speechSynthesis:undefined,THREE:new Proxy(P(),{get:(t,k)=>k==='GLTFLoader'?class{parse(b,p,ok){ok({scene:P()})}}:t[k]}),atob:s=>Buffer.from(s,'base64').toString('binary')};
-ctx.window=ctx;ctx.MD={};ctx.TOWN=null;ctx.AT=undefined;
+ctx.MutationObserver=function(){return {observe(){},disconnect(){}}};ctx.fetch=undefined;ctx.window=ctx;ctx.MD={};ctx.TOWN=null;ctx.AT=undefined;
 vm.createContext(ctx);vm.runInContext(fs.readFileSync(path.join(__dirname,'../www/logic.js'),'utf8'),ctx);
 vm.runInContext(main,ctx,{filename:'index-main.js'});
 let ok=true,fails=0;try{ctx.__boot()}catch(e){ok=false;console.log('✗ __boot threw:',e&&e.stack?e.stack.split('\n').slice(0,4).join(' | '):e)}
