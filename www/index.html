@@ -332,6 +332,7 @@ body.race #rhome{top:calc(8px + var(--st) + calc(var(--vh)*36))!important;right:
 .pad svg{height:68%;width:auto;pointer-events:none;filter:drop-shadow(0 2px 3px rgba(0,0,0,.6))}
 .pad i{font-style:normal;font-weight:800;line-height:1;text-shadow:0 1px 2px #000}
 .pad.on[data-k]{filter:brightness(1.4);transform:scale(.96)}
+#mver{position:absolute;left:2%;bottom:2%;color:rgba(255,255,255,.75);font:700 clamp(9px,1.9vh,12px) Cairo,sans-serif;text-shadow:0 1px 3px #000;pointer-events:none}
 </style><script>
 /* تشخيص التحميل: يكتب أي خطأ على الشاشة، ولو مفيش تقدّم بعد ١٥ ثانية يظهر زر يمسح الكاش ويعيد التحميل */
 (function(){function $(i){return document.getElementById(i)}function say(m){var w=$('who');if(w){w.textContent=m;w.style.color='#ffb4a8'}}
@@ -1065,7 +1066,7 @@ function mnuAct(a){if(a==='start'){if(!uiReady()){$('mldt').textContent='است�
  else if(a==='exit'){try{const C=window.Capacitor;if(C&&C.Plugins&&C.Plugins.App){C.Plugins.App.exitApp();return}}catch(e){}try{window.close()}catch(e){}$('mldt').textContent='اقفل التطبيق من زرار الرجوع في الموبايل'}}
 (function(){
  const Hs=(x0,y0,x1,y1,a)=>'<a class="mh" data-a="'+a+'" style="left:'+(x0/12.48)+'%;top:'+(y0/8.32)+'%;width:'+((x1-x0)/12.48)+'%;height:'+((y1-y0)/8.32)+'%"></a>';
- document.body.insertAdjacentHTML('beforeend','<div id="mnu"><div id="mbg"></div><div id="mfr"><img id="mim" src="ui/menu.jpg" alt="">'+Hs(82,378,375,452,'start')+Hs(85,456,358,526,'set')+Hs(85,530,358,598,'ctl')+Hs(85,602,366,672,'about')+Hs(82,676,352,746,'exit')+'<div id="mld"><i></i><span id="mldt">جاري التحميل…</span></div></div></div>'+
+ document.body.insertAdjacentHTML('beforeend','<div id="mnu"><div id="mbg"></div><div id="mfr"><img id="mim" src="ui/menu.jpg" alt="">'+Hs(82,378,375,452,'start')+Hs(85,456,358,526,'set')+Hs(85,530,358,598,'ctl')+Hs(85,602,366,672,'about')+Hs(82,676,352,746,'exit')+'<div id="mld"><i></i><span id="mldt">جاري التحميل…</span></div><div id="mver">النسخة: ٢٣ أكتوبر • ب٣</div></div></div>'+
  '<div id="gx" class="gh"><div class="gxh"><button class="gxb" id="gxback">⬅ رجوع</button><b>🔧 الجراج — اختار العربية اللي هتسوقها</b></div><div id="gxl"></div><div class="gxf"><button class="gxb gxm" data-m="taxi">🚕 شغل الركاب</button><button class="gxb gxm" data-m="race">🏁 سباق الكورنيش</button><button id="gxs">يلا بينا ▶</button></div></div><div id="mpn" class="gh"></div>');
  uiFit();addEventListener('resize',uiFit);
  document.querySelectorAll('#mnu .mh').forEach(a=>a.addEventListener('click',()=>mnuAct(a.dataset.a)));
@@ -1748,6 +1749,6 @@ addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e;if(!standalon
 document.getElementById('ib').onclick=async()=>{if(!dp)return;dp.prompt();try{await dp.userChoice}catch(e){}dp=null;inst.style.display='none'};
 document.getElementById('ix').onclick=()=>{inst.style.display='none'};addEventListener('appinstalled',()=>{inst.style.display='none'});
 if(/iphone|ipad|ipod/i.test(navigator.userAgent)&&!standalone){document.getElementById('it').textContent='📲 اضغط مشاركة ثم «إضافة إلى الشاشة الرئيسية»';document.getElementById('ib').style.display='none';inst.style.display='flex'}
-if('serviceWorker' in navigator&&!window.Capacitor)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+if('serviceWorker' in navigator&&!window.Capacitor)addEventListener('load',()=>{const had=!!navigator.serviceWorker.controller;navigator.serviceWorker.register('sw.js').catch(()=>{});navigator.serviceWorker.addEventListener('controllerchange',()=>{if(had&&!window.__rl){window.__rl=1;location.reload()}})});
 </script>
 </body></html>
