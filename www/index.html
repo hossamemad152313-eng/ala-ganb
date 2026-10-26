@@ -299,14 +299,14 @@ body.race #rhome{top:calc(8px + var(--st) + calc(var(--vh)*36))!important;right:
 /* ===== v11: شاشة الدخول والجراج والأزرار ===== */
 #st{opacity:0!important;pointer-events:none!important}
 #mnu{position:fixed;inset:0;z-index:40;background:#160d07;direction:rtl}
-#mbg{position:absolute;inset:-24px;background:url(ui/menu.jpg) center/cover;filter:blur(16px) brightness(.8)}
+#mbg{display:none}
 #mfr{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
 #mim{position:absolute;inset:0;width:100%;height:100%;display:block;user-select:none;-webkit-user-drag:none;pointer-events:none}
 .mh{position:absolute;display:block;cursor:pointer;border-radius:10px;-webkit-tap-highlight-color:transparent}
 .mh:active{background:rgba(255,255,255,.22)}
 #mld{position:absolute;right:3%;bottom:4%;display:flex;gap:8px;align-items:center;background:rgba(0,0,0,.65);border:2px solid #ffc61a;color:#fff;border-radius:99px;padding:3px 14px;font:800 clamp(11px,2.2vh,15px) Cairo,sans-serif;max-width:60%}
 #mld.ok{border-color:#3ddc6a}
-#gx{position:fixed;inset:0;z-index:41;direction:rtl;display:flex;flex-direction:column;background:linear-gradient(180deg,rgba(18,12,8,.9),rgba(8,10,14,.96)),url(ui/menu.jpg) center/cover;color:#fff;font-family:Cairo,sans-serif}
+#gx{position:fixed;inset:0;z-index:41;direction:rtl;display:flex;flex-direction:column;background:linear-gradient(180deg,#1c120a,#0a0d12);color:#fff;font-family:Cairo,sans-serif}
 #gx.gh,#mpn.gh{display:none}
 .gxh{display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top,0px) + 8px) 14px 4px}
 .gxh b{flex:1;font-size:clamp(15px,3.8vh,22px)}
@@ -338,6 +338,29 @@ body.race #rhome{top:calc(8px + var(--st) + calc(var(--vh)*36))!important;right:
 #rot small{font-weight:700;opacity:.7;font-size:14px}
 @keyframes rotp{0%,25%{transform:rotate(0)}65%,100%{transform:rotate(-90deg)}}
 @media (orientation:portrait){#rot{display:flex}}
+
+/* ===== v12: قائمة جديدة + قصة + حصان ===== */
+body.mn #app>*:not(#g):not(#st){visibility:hidden!important}
+body.mn #mis,body.mn #whb,body.mn #hitfx{display:none!important}
+#mnu{background:linear-gradient(270deg,rgba(7,9,14,.93) 0%,rgba(7,9,14,.72) 30%,rgba(7,9,14,.18) 62%,rgba(7,9,14,0) 100%),linear-gradient(0deg,rgba(7,9,14,.55),transparent 35%)!important}
+#mbg,#mfr{display:none!important}
+#mpanel{position:absolute;right:4%;top:0;bottom:0;width:min(44%,430px);display:flex;flex-direction:column;justify-content:center;gap:1.5vh;text-align:center}
+.mt1{font:900 clamp(24px,7.5vh,54px)/1 Cairo,sans-serif;color:#fff;text-shadow:0 4px 0 #000,0 0 22px rgba(255,160,0,.45)}
+.mt2{font:900 clamp(34px,11vh,78px)/1.05 Cairo,sans-serif;background:linear-gradient(180deg,#ffe066,#ff8a00);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 4px 0 #000);transform:rotate(-2.5deg)}
+.mtag{display:inline-block;margin-top:1vh;padding:3px 14px;border-radius:99px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);color:#fff;font:700 clamp(10px,2.4vh,15px) Cairo,sans-serif}
+.mb{display:block;width:100%;margin:5px 0;padding:clamp(6px,1.6vh,11px) 16px;border-radius:14px;border:2px solid rgba(255,255,255,.28);background:rgba(255,255,255,.1);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;font:800 clamp(13px,3.1vh,19px) Cairo,sans-serif;text-align:center}
+.mb:active{transform:scale(.97);background:rgba(255,255,255,.2)}
+.mb.pri{background:linear-gradient(180deg,#ffd23a,#f0a500);border:0;color:#241a00;font-size:clamp(17px,4.4vh,26px);box-shadow:0 6px 22px rgba(255,170,0,.45)}
+.mrow{display:flex;gap:8px}.mrow .mb{margin:0 0 5px}
+#mld{position:static!important;margin:2px auto 0;max-width:none!important}
+#mver{position:absolute;left:2%;bottom:2%;color:rgba(255,255,255,.8);font:700 clamp(9px,1.9vh,12px) Cairo,sans-serif;text-shadow:0 1px 3px #000}
+#mis{position:fixed;left:50%;transform:translateX(-50%);top:calc(8px + var(--st) + var(--vh)*27.5);background:rgba(10,10,14,.84);border:2px solid #ffc61a;color:#fff;border-radius:99px;padding:3px 16px;font:800 clamp(10px,2.6vh,15px) Cairo,sans-serif;z-index:4;white-space:nowrap;display:none}
+#mis:not(:empty){display:block}
+#stoD{position:fixed;left:50%;bottom:calc(var(--vh)*4);transform:translateX(-50%);width:min(88vw,640px);z-index:9;display:flex;gap:12px;align-items:center;background:rgba(14,16,22,.95);border:3px solid #ffc61a;border-radius:18px;padding:10px 14px;color:#fff;direction:rtl}
+#stoD.h{display:none}
+.stoe{font-size:clamp(34px,10vh,60px);width:1.4em;text-align:center}
+.stob{flex:1}.stob b{color:#ffc61a;font-size:clamp(13px,3vh,17px)}.stob p{margin:2px 0 6px;font:700 clamp(12px,2.9vh,16px)/1.5 Cairo,sans-serif}
+#whb{left:calc(var(--sf) + var(--vh)*2.2);right:auto;bottom:calc(var(--vh)*21);width:calc(var(--vh)*14)!important;height:calc(var(--vh)*14)!important;font-size:calc(var(--vh)*3)!important;line-height:1.1;flex-direction:column;text-align:center}
 </style><script>
 /* تشخيص التحميل: يكتب أي خطأ على الشاشة، ولو مفيش تقدّم بعد ١٥ ثانية يظهر زر يمسح الكاش ويعيد التحميل */
 (function(){function $(i){return document.getElementById(i)}function say(m){var w=$('who');if(w){w.textContent=m;w.style.color='#ffb4a8'}}
@@ -816,7 +839,7 @@ function rmBuild(ci,cj){const key=rck(ci,cj),g=new T.Group(),mb=rMB(),M=rmMats()
  const sg=RM.SG.get(key)||[],road=(c)=>mb.get(c<=2?'r0':c<=4?'r1':'r2',M.road,false,c<=2?1:c<=4?2:3),dec=mb.get('dec',M.dec,true,6),sol=mb.get('sol',M.solid,true,0);
  for(let t=0;t<sg.length;t+=2){const e=RM.E[sg[t]],k=sg[t+1],w2=e.w/2,y=e.br?.05:.03;
   ribbon(road(e.c),e,k,-w2,w2,y,2.75,2.75);
-  if(e.c>=1&&e.c<=4&&!e.br&&e.L>6){const o=mb.get(e.c>=3?'sb':'ss',e.c>=3?M.brick:M.stone,false,0),us=e.c>=3?1.6:4,vs=us;ribbon(o,e,k,-w2-3.2,-w2,.025,us,vs);ribbon(o,e,k,w2,w2+3.2,.025,us,vs)}
+  if(!e.br&&e.L>6){const sw=e.c===0?1.8:e.c===5?4.2:3.2,o=mb.get(e.c>=3?'sb':'ss',e.c>=3?M.brick:M.stone,false,0),us=e.c>=3?1.6:4,vs=us;ribbon(o,e,k,-w2-sw,-w2,.025,us,vs);ribbon(o,e,k,w2,w2+sw,.025,us,vs)}
   if(e.c>=1){const ja=RM.ND[e.a].e.length>=3?e.w*.9:0,jb=RM.ND[e.b].e.length>=3?e.w*.9:0,sa=ja,sb=e.L-jb,Y=y+.01,W=[1,1,1],Yl=[1,.8,.1];
    if(e.c>=3){stripe(dec,e,k,-w2+.35,.16,Y,sa,sb,W,0);stripe(dec,e,k,w2-.35,.16,Y,sa,sb,W,0)}
    if(!e.ow){if(e.c>=4){stripe(dec,e,k,-.14,.12,Y,sa,sb,Yl,0);stripe(dec,e,k,.14,.12,Y,sa,sb,Yl,0)}else stripe(dec,e,k,0,.14,Y,sa,sb,W,1)}else if(e.c>=3&&e.w>9){stripe(dec,e,k,-e.w/6,.12,Y,sa,sb,W,1);stripe(dec,e,k,e.w/6,.12,Y,sa,sb,W,1)}}
@@ -983,7 +1006,7 @@ function rcStep(dt){if(!RCE.on)return;
  let place=1;for(const c of RCE.rs)if(c.rs>RCE.pp)place++;
  if(RCE.place&&place!==RCE.place&&RCE.t-RCE.bt>4){RCE.bt=RCE.t;if(place>RCE.place){const c=RCE.rs.filter(c=>c.rs>RCE.pp).sort((a,b)=>a.rs-b.rs)[0];if(c)bubble(c.x,2.6,c.z,pick(LN.race_pass),c.cl,.9)}else{const c=RCE.rs.filter(c=>c.rs<RCE.pp).sort((a,b)=>b.rs-a.rs)[0];if(c)bubble(c.x,2.6,c.z,pick(LN.race_lost),c.cl,.9)}}
  RCE.place=place;const m=Math.floor(RCE.t/60),s=Math.floor(RCE.t%60);$('rcb').textContent='🏁 المركز '+AR(place)+'/'+AR(RCE.rs.length+1)+'  •  '+AR(Math.max(0,Math.round(RCE.len-RCE.pp)))+' م  •  ⏱ '+AR(m)+':'+AR(s<10?'0'+s:s);
- if(RCE.pp>=RCE.len-12){const rk=place,prize=[0,300,150,70,0][rk]||0;SAVE.cash+=prize;rcEnd(rk===1);say(rk===1?pick(LN.win)+' +'+AR(prize)+' ج.م':'المركز '+AR(rk)+(prize?' +'+AR(prize)+' ج.م':'')+' — '+pick(LN.lose),rk>1);return}
+ if(RCE.pp>=RCE.len-12){const rk=place,prize=[0,300,150,70,0][rk]||0;SAVE.cash+=prize;STY.raceRes=rk;rcEnd(rk===1);say(rk===1?pick(LN.win)+' +'+AR(prize)+' ج.م':'المركز '+AR(rk)+(prize?' +'+AR(prize)+' ج.م':'')+' — '+pick(LN.lose),rk>1);return}
  if(RCE.off>280||onFoot){rcEnd(false);say('سيبت السباق ❌',1)}}
 /* قلب اللعبة: كل فريم */
 function cbStep(dt){if(!CBT.au){CBT.au=1;cbAudioInit()}CBT.cd-=dt;if(CBT.sw>0)CBT.sw-=dt;if(CBT.hurtT>0)CBT.hurtT-=dt;else if(CBT.hp<100&&!CBT.down)CBT.hp=Math.min(100,CBT.hp+dt*1.6);
@@ -1003,17 +1026,17 @@ document.body.insertAdjacentHTML('beforeend','<div id="hpb"><i></i></div><button
 $('cbA').addEventListener('pointerdown',e=>{e.preventDefault();cbAttack()});$('cbW').addEventListener('pointerdown',e=>{e.preventDefault();cbNext()});
 addEventListener('keydown',e=>{if(e.key==='f'||e.key==='F')cbAttack();if(e.key==='q'||e.key==='Q')cbNext()});
 setTimeout(()=>{const z=$('fmz');if(z&&!$('fmrace')){const b=document.createElement('button');b.className=z.className;b.id='fmrace';b.textContent='🏁 سباق';z.parentNode.insertBefore(b,z);b.onclick=()=>{closeMap();rcStart(WP?WP.x:null,WP?WP.z:null)}}cbUi()},0);
-if(/dbg/.test(location.search))window.__g={get CBT(){return CBT},get PEDS(){return PEDS},get cars(){return cars},get RCE(){return RCE},get AV(){return AV},get px(){return px},get pz(){return pz},get onFoot(){return onFoot},get RM(){return RM},get NM(){return NM},get PFX(){return PFX},get PFZ(){return PFZ},get hd(){return hd},sc,cam,nvMk,nmChar,cbAttack,cbNext,rcStart,cbHurt,toggleCar,rmNear};
+if(/dbg/.test(location.search))window.__g={get CBT(){return CBT},get PEDS(){return PEDS},get cars(){return cars},get RCE(){return RCE},get AV(){return AV},get px(){return px},get pz(){return pz},get onFoot(){return onFoot},get RM(){return RM},get STY(){return STY},get WH(){return WH},get NM(){return NM},get PFX(){return PFX},get PFZ(){return PFZ},get hd(){return hd},sc,cam,nvMk,nmChar,cbAttack,cbNext,rcStart,cbHurt,toggleCar,rmNear};
 
 /* ===== v10: موديلاتك الجديدة — عربيات + موتسكلات + فيسبا + شخصيات (بحركة مشي) ===== */
 const NM={v:[],c:[],vr:0,cr:0,figs:[]};
-const NVD=[{k:'kei',f:'v_kei',y:0,len:3.4,sp:[8,11],nm:'عربية نقل',cap:2},{k:'pick',f:'v_pick',y:PI,len:3.7,sp:[8,11],nm:'ربع نقل',cap:2},
- {k:'dlv',f:'v_dlv',y:0,len:1.75,sp:[9,13],nm:'سكوتر توصيل',cap:1,bike:1},{k:'van',f:'v_van',y:0,len:3.4,sp:[9,13],nm:'ميكروباص',cap:6},{k:'blind',f:'v_blind',y:PI,len:3.5,sp:[9,12],nm:'عربية بضاعة',cap:3},
+const NVD=[{k:'kei',f:'v_kei',y:0,len:3.4,sp:[8,11],nm:'عربية نقل',cap:2},{k:'pick',f:'v_pick',y:PI,len:3.7,sp:[8,11],nm:'ربع نقل',cap:2,drv:{x:-.34,y:-.08,z:-.5}},
+ {k:'dlv',f:'v_dlv',y:0,len:1.75,sp:[9,13],nm:'سكوتر توصيل',cap:1,bike:1},{k:'van',f:'v_van',y:0,len:3.4,sp:[9,13],nm:'ميكروباص',cap:6,drv:{x:-.38,y:-.1,z:-.55}},{k:'blind',f:'v_blind',y:PI,len:3.5,sp:[9,12],nm:'عربية بضاعة',cap:3},
  {k:'spr',f:'v_spr',y:0,len:3.6,sp:[10,15],nm:'عربية ملاكي',cap:4},{k:'sky',f:'v_sky',y:0,len:2.1,sp:[11,16],nm:'موتوسيكل',cap:1,bike:1},
  {k:'vsp',f:'v_vsp',y:0,len:1.8,sp:[9,13],nm:'فيسبا',cap:1,bike:1},{k:'vsp2',f:'v_vsp2',y:PI/2,len:1.8,sp:[9,13],nm:'فيسبا توصيل',cap:1,bike:1}];
 const NCD=[{f:'c_woman',h:1.66,g:'f',dress:1},{f:'c_fem',h:1.66,g:'f',dress:1},{f:'c_malay',h:1.62,g:'f',dress:1},{f:'c_white',h:1.66,g:'f',dress:1},{f:'c_hijab2',h:1.64,g:'f',dress:1},{f:'c_old',h:1.7,g:'m'},{f:'c_man',h:1.76,g:'m'}];
 const LAMC=new Map();
-function toLam(m){if(!m)return m;let r=LAMC.get(m.uuid);if(r)return r;r=new T.MeshLambertMaterial({color:m.color?m.color.clone():new T.Color(0xffffff),map:m.map||null,vertexColors:!!m.vertexColors,transparent:!!m.transparent,opacity:m.opacity==null?1:m.opacity,alphaTest:m.alphaTest||0,side:m.side||T.FrontSide,emissive:m.emissive?m.emissive.clone():new T.Color(0),emissiveMap:m.emissiveMap||null});LAMC.set(m.uuid,r);return r}
+function toLam(m){if(!m)return m;let r=LAMC.get(m.uuid);if(r)return r;r=new T.MeshLambertMaterial({color:m.color?m.color.clone():new T.Color(0xffffff),map:m.map||null,vertexColors:!!m.vertexColors,transparent:!!m.transparent,opacity:m.opacity==null?1:m.opacity,alphaTest:m.alphaTest||0,side:m.side||T.FrontSide,emissive:m.emissive?m.emissive.clone():new T.Color(0),emissiveMap:m.emissiveMap||null});if(/glass/i.test(m.name||'')){r.transparent=true;r.opacity=Math.min(r.opacity,.32);r.depthWrite=false}LAMC.set(m.uuid,r);return r}
 function nmFlat(root){root.updateMatrixWorld(true);const fl=new T.Group(),ms=[];root.traverse(o=>{if(o.isMesh&&!o.isSkinnedMesh)ms.push(o)});for(const o of ms){const g=o.geometry.clone();g.applyMatrix4(o.matrixWorld);const q=new T.Mesh(g,Array.isArray(o.material)?o.material.map(toLam):toLam(o.material));q.castShadow=q.receiveShadow=false;fl.add(q)}return fl}
 async function nmInit(){const ld=k=>fetch('models2/'+k+'.glb').then(r=>r.ok?r.arrayBuffer():null).then(ab=>ab?new Promise(res=>GLd.parse(ab,'',g=>res(g),()=>res(null))):null).catch(()=>null);
  if(!GLd)return;
@@ -1025,8 +1048,8 @@ async function nmInit(){const ld=k=>fetch('models2/'+k+'.glb').then(r=>r.ok?r.ar
  try{if(typeof SAVE!=='undefined'&&NM.v.some(d=>d.k===SAVE.cur)&&typeof applyCar==='function')applyCar();const gx=document.getElementById('gx');if(gx&&!gx.classList.contains('gh')&&typeof gxBuild==='function'){gxBuild();gxThumbs()}}catch(e){}}
 (function(){const w=setInterval(()=>{if(typeof GLd!=='undefined'&&GLd){clearInterval(w);nmInit()}},250)})();
 function nvPick(keys){const a=keys?NM.v.filter(d=>keys.includes(d.k)):NM.v;return a.length?pick(a):null}
-function nvMk(d){const g=d.tpl.clone(true);if(d.bike&&NM.cr){const gen=Math.random()<.75?'m':'f',cw=nmChar(nmPickIdx(),gen)||nmChar(nmPickIdx());if(cw){cw.set(0,0,0,1,-.8);cw.g.position.set(0,d.ry||-.06,(d.rz||.14)*d.l);cw.g.scale.setScalar(.97);g.add(cw.g)}}return{g,w:d.w,l:d.l,t:d.k,full:null,box:null,bl:null,tl2:null,key:null}}
-let TYB=[];function typeBag(){if(!TYB.length){const a=['taxi','sedan','tuk','micro'];for(const d of NM.v)a.push(d.k);for(const d of NM.v)a.push(d.k);for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}TYB=a}return TYB.pop()}
+function nvMk(d){const g=d.tpl.clone(true);if(d.bike&&NM.cr){const gen=Math.random()<.75?'m':'f',cw=nmChar(nmPickIdx(),gen)||nmChar(nmPickIdx());if(cw){cw.set(0,0,0,1,-.8);cw.g.position.set(0,d.ry||-.06,(d.rz||.14)*d.l);cw.g.scale.setScalar(.97);g.add(cw.g)}}if(d.drv&&NM.cr){const cw=nmChar(nmPickIdx(),'m');if(cw){cw.set(0,0,0,1,-.7);cw.g.position.set(d.drv.x,d.drv.y,d.drv.z);cw.g.scale.setScalar(.92);g.add(cw.g)}}return{g,w:d.w,l:d.l,t:d.k,full:null,box:null,bl:null,tl2:null,key:null}}
+let TYB=[],TYN=-1;function typeBag(){if(!TYB.length||TYN!==NM.v.length){TYN=NM.v.length;const a=['taxi','sedan','tuk','micro'];for(const d of NM.v)a.push(d.k);for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}TYB=a}return TYB.pop()}
 /* شخصيات: شيدر مشي (رجلين + إيدين) من غير عضم */
 const CHRGL=`vec3 transformed=vec3(position);
 {float H=uH,yy=transformed.y-uY0,sx=transformed.x>=0.0?1.0:-1.0,ax=abs(transformed.x),zz=transformed.z;float sd=smoothstep(-0.035*H,0.035*H,transformed.x)*2.0-1.0,shY=0.80*H;
@@ -1080,23 +1103,24 @@ function gxThumbs(){const ks=gxCars().map(c=>c.k).filter(k=>!GXT[k]&&!GXT['x'+k]
 function gxOpen(){$('gx').classList.remove('gh');gxBuild();gxThumbs();gxMode(GXM)}
 function gxMode(m){GXM=m;document.querySelectorAll('.gxm').forEach(b=>b.classList.toggle('on',b.dataset.m===m));const mb=$('msel')&&$('msel').querySelector('[data-m="'+m+'"]');if(mb)mb.click()}
 function mpOpen(t,h,fn){const p=$('mpn');p.innerHTML='<div class="mpc"><div class="mpt"><b>'+t+'</b><button class="gxb" id="mpx">✕</button></div><div class="mpb">'+h+'</div></div>';p.classList.remove('gh');$('mpx').onclick=()=>p.classList.add('gh');if(fn)fn(p)}
-function mnuAct(a){if(a==='start'){if(!uiReady()){$('mldt').textContent='استنى لحد ما العالم يخلص تحميل…';return}gxOpen()}
+function mnuAct(a){if(a==='start'){if(!uiReady()){$('mldt').textContent='استنى لحد ما العالم يخلص تحميل…';$('mld').style.display='flex';return}$('go').click()}
+ else if(a==='garage'){if(!uiReady()){$('mldt').textContent='استنى لحد ما العالم يخلص تحميل…';$('mld').style.display='flex';return}gxOpen()}
+ else if(a==='story')stoMenu()
  else if(a==='set')mpOpen('⚙ الإعدادات','<div class="mpr"><span>🔊 الصوت</span><button class="gxb" id="ms1">'+(A.muted?'مقفول':'شغال')+'</button></div><div class="mpr"><span>مستوى الصوت</span><input type="range" id="ms2" min="0" max="100" value="'+Math.round((A.vol==null?1:A.vol)*100)+'"></div><div class="mpr"><span>🗣 كلام الشخصيات</span><button class="gxb" id="ms3">'+(S.voice===0?'مقفول':'شغال')+'</button></div><div class="mpr"><small>الرسومات بتتظبط تلقائي حسب قوة الموبايل (دقة متغيرة + جودة عالية لو الجهاز يستحمل).</small></div>',p=>{$('ms1').onclick=e=>{$('bm').click();e.target.textContent=A.muted?'مقفول':'شغال'};$('ms2').oninput=e=>{A.vol=+e.target.value/100;S.vol=A.vol;saveS();if(A.m&&!A.muted)A.m.gain.value=.9*A.vol};$('ms3').onclick=e=>{S.voice=S.voice===0?1:0;saveS();e.target.textContent=S.voice===0?'مقفول':'شغال'}})
  else if(a==='ctl')mpOpen('🎮 التحكم','<div class="mpr"><span>وضع التوجيه</span><span id="ms4"><button class="gxb" data-m="btn">أزرار</button> <button class="gxb" data-m="tilt">إمالة</button> <button class="gxb" data-m="drag">سحب</button></span></div><div class="mpr"><span>الحساسية</span><input type="range" id="ms5" min=".5" max="1.8" step=".1" value="'+(S.sens||1)+'"></div><div class="mpr"><span>بُعد الكاميرا</span><input type="range" id="ms6" min=".8" max="2.4" step=".1" value="'+(S.camz||1)+'"></div><div class="mpr"><small>🟢 بنزين • 🔴 فرامل • 🟠 هاند بريك (طول ما ضاغط) • 🔵 نيتروس (تسارع أعلى طول ما ضاغط)</small></div>',p=>{const mk2=()=>p.querySelectorAll('#ms4 button').forEach(b=>b.classList.toggle('on',b.dataset.m===S.mode));mk2();p.querySelectorAll('#ms4 button').forEach(b=>b.onclick=()=>{S.mode=b.dataset.m;saveS();try{applyS()}catch(e){}mk2()});$('ms5').oninput=e=>{S.sens=+e.target.value;saveS()};$('ms6').oninput=e=>{S.camz=+e.target.value;saveS()}})
  else if(a==='about')mpOpen('ℹ حول اللعبة','<div class="mpr" style="display:block;line-height:1.9">🚐 <b>على جنب يا أسطى</b> — لعبة سواقة وعالم مفتوح في مدينة السلام بالقاهرة.<br>الخريطة: © مساهمو OpenStreetMap.<br>تطوير: حسام (هندسة حسام).</div>')
  else if(a==='exit'){try{const C=window.Capacitor;if(C&&C.Plugins&&C.Plugins.App){C.Plugins.App.exitApp();return}}catch(e){}try{window.close()}catch(e){}$('mldt').textContent='اقفل التطبيق من زرار الرجوع في الموبايل'}}
 (function(){
- const Hs=(x0,y0,x1,y1,a)=>'<a class="mh" data-a="'+a+'" style="left:'+(x0/12.48)+'%;top:'+(y0/8.32)+'%;width:'+((x1-x0)/12.48)+'%;height:'+((y1-y0)/8.32)+'%"></a>';
- document.body.insertAdjacentHTML('beforeend','<div id="mnu"><div id="mbg"></div><div id="mfr"><img id="mim" src="ui/menu.jpg" alt="">'+Hs(82,378,375,452,'start')+Hs(85,456,358,526,'set')+Hs(85,530,358,598,'ctl')+Hs(85,602,366,672,'about')+Hs(82,676,352,746,'exit')+'<div id="mld"><i></i><span id="mldt">جاري التحميل…</span></div><div id="mver">النسخة: ٢٣ أكتوبر • ب٤</div></div></div>'+
+ document.body.insertAdjacentHTML('beforeend','<div id="mnu"><div id="mpanel"><div id="mlogo"><div class="mt1">على جنب</div><div class="mt2">يا أسطى</div><div class="mtag">عيش الشارع .. سوّاق .. اكتشف مصر</div></div><div id="mbtns"><button class="mb pri" data-a="start">▶ ابدأ اللعبة</button><button class="mb" data-a="story">📖 القصة والمهمات</button><button class="mb" data-a="garage">🔧 الجراج</button><div class="mrow"><button class="mb sm" data-a="set">⚙ الإعدادات</button><button class="mb sm" data-a="ctl">🎮 التحكم</button></div><div class="mrow"><button class="mb sm" data-a="about">ℹ حول</button><button class="mb sm" data-a="exit">⏻ خروج</button></div></div><div id="mld"><i></i><span id="mldt">جاري التحميل…</span></div></div><div id="mver">النسخة: ٢٣ أكتوبر • ب٥</div></div>'+
  '<div id="gx" class="gh"><div class="gxh"><button class="gxb" id="gxback">⬅ رجوع</button><b>🔧 الجراج — اختار العربية اللي هتسوقها</b></div><div id="gxl"></div><div class="gxf"><button class="gxb gxm" data-m="taxi">🚕 شغل الركاب</button><button class="gxb gxm" data-m="race">🏁 سباق الكورنيش</button><button id="gxs">يلا بينا ▶</button></div></div><div id="mpn" class="gh"></div><div id="rot"><div class="ph">📱</div><div>لف الموبايل بالعرض</div><small>اللعبة بتشتغل بالعرض بس</small></div>');
  const lockL=()=>{try{const e=document.documentElement;(e.requestFullscreen?e.requestFullscreen():Promise.resolve()).then(()=>screen.orientation&&screen.orientation.lock&&screen.orientation.lock('landscape')).catch(()=>{})}catch(x){}};addEventListener('pointerdown',lockL,{once:true});
  uiFit();addEventListener('resize',uiFit);
- document.querySelectorAll('#mnu .mh').forEach(a=>a.addEventListener('click',()=>mnuAct(a.dataset.a)));
+ document.querySelectorAll('#mnu [data-a]').forEach(a=>a.addEventListener('click',()=>mnuAct(a.dataset.a)));
  $('gxback').onclick=()=>$('gx').classList.add('gh');
  document.querySelectorAll('.gxm').forEach(b=>b.onclick=()=>gxMode(b.dataset.m));
  $('gxs').onclick=()=>{if(!uiReady())return;$('go').click()};
- setInterval(()=>{const l=$('ld');if(!l)return;const rd=uiReady();$('mld').classList.toggle('ok',rd);$('mld').style.display=rd?'none':'flex';if(rd){}else if(l.textContent&&!/استنى|اقفل/.test($('mldt').textContent))$('mldt').textContent=l.textContent.trim().slice(0,40)},500);
- const st=$('st');if(st){const sync=()=>{const hid=st.classList.contains('h');$('mnu').style.display=hid?'none':'block';if(hid){$('gx').classList.add('gh');$('mpn').classList.add('gh')}};new MutationObserver(sync).observe(st,{attributes:true,attributeFilter:['class']});sync()}
+ setInterval(()=>{const l=$('ld');if(!l)return;const rd=uiReady();$('mld').classList.toggle('ok',rd);$('mld').style.display=rd?'none':'flex';document.body.classList.toggle('mn',$('mnu').style.display!=='none');if(rd){}else if(l.textContent&&!/استنى|اقفل/.test($('mldt').textContent))$('mldt').textContent=l.textContent.trim().slice(0,40)},500);
+ const st=$('st');if(st){const sync=()=>{const hid=st.classList.contains('h');$('mnu').style.display=hid?'none':'block';document.body.classList.toggle('mn',!hid);if(hid){$('gx').classList.add('gh');$('mpn').classList.add('gh')}};new MutationObserver(sync).observe(st,{attributes:true,attributeFilter:['class']});sync()}
  // أزرار برسومات
  const IC={G:'<svg viewBox="0 0 70 110"><defs><linearGradient id="pg1" x1="0" x2="1"><stop offset="0" stop-color="#2c3036"/><stop offset=".45" stop-color="#9aa1ab"/><stop offset="1" stop-color="#2a2e34"/></linearGradient></defs><rect x="30" y="86" width="10" height="20" rx="3" fill="#3b4048"/><path d="M16 4h38a8 8 0 0 1 8 8l-4 70a8 8 0 0 1-8 7H20a8 8 0 0 1-8-7L8 12a8 8 0 0 1 8-8z" fill="url(#pg1)" stroke="#0e1014" stroke-width="2.5"/><g stroke="#15181c" stroke-width="3.2" stroke-linecap="round"><path d="M17 20h36M16 32h38M15 44h40M15 56h40M16 68h38"/></g><path d="M20 9h30" stroke="#d7dce3" stroke-width="2" stroke-linecap="round" opacity=".6"/></svg><i>بنزين</i>',
  B:'<svg viewBox="0 0 100 84"><defs><linearGradient id="pg2" x1="0" x2="1"><stop offset="0" stop-color="#2c3036"/><stop offset=".5" stop-color="#8d949e"/><stop offset="1" stop-color="#2a2e34"/></linearGradient></defs><rect x="44" y="64" width="12" height="18" rx="3" fill="#3b4048"/><rect x="6" y="6" width="88" height="60" rx="12" fill="url(#pg2)" stroke="#0e1014" stroke-width="2.5"/><g fill="#15181c"><circle cx="22" cy="30" r="3.4"/><circle cx="38" cy="30" r="3.4"/><circle cx="54" cy="30" r="3.4"/><circle cx="70" cy="30" r="3.4"/><circle cx="82" cy="30" r="3.4"/><circle cx="30" cy="46" r="3.4"/><circle cx="46" cy="46" r="3.4"/><circle cx="62" cy="46" r="3.4"/><circle cx="78" cy="46" r="3.4"/><circle cx="16" cy="46" r="3.4"/></g><rect x="6" y="6" width="88" height="12" rx="9" fill="#e53935" opacity=".9"/></svg><i>فرامل</i>',
@@ -1104,6 +1128,56 @@ function mnuAct(a){if(a==='start'){if(!uiReady()){$('mldt').textContent='است�
  T:'<svg viewBox="0 0 70 110"><defs><linearGradient id="nb" x1="0" x2="1"><stop offset="0" stop-color="#0d3b7a"/><stop offset=".4" stop-color="#2f9bff"/><stop offset="1" stop-color="#0a2a57"/></linearGradient></defs><rect x="27" y="10" width="16" height="16" rx="3" fill="#9aa3ad"/><rect x="20" y="4" width="30" height="9" rx="4" fill="#d4af37"/><circle cx="55" cy="15" r="6" fill="#222" stroke="#d4af37" stroke-width="2"/><path d="M55 15l3-3" stroke="#fff" stroke-width="1.5"/><rect x="12" y="24" width="46" height="82" rx="18" fill="url(#nb)" stroke="#06213f" stroke-width="2.5"/><rect x="12" y="52" width="46" height="26" fill="#0b1f3a" opacity=".85"/><text x="35" y="71" text-anchor="middle" font-size="15" font-weight="900" fill="#fff" font-family="Arial">N₂O</text><path d="M20 36c-3 14-3 34 0 56" stroke="#fff" stroke-width="3" opacity=".35" fill="none" stroke-linecap="round"/></svg><i>نيتروس</i>'};
  document.querySelectorAll('.pad[data-k]').forEach(b=>{const k=b.dataset.k;if(IC[k])b.innerHTML=IC[k]})
 })();
+
+/* ===== v12: قصة ومهمات + ويلي (حصان) + كاميرا باللمس ===== */
+const WH={a:0,h:0,tot:0,cash:0};const CAMO={y:0,p:0,idle:9,id:null,lx:0,ly:0};
+const STM=[
+ {t:'goto',veh:'taxi',who:'المعلم سيد',em:'👴',intro:'يا حسام يا ابني، العربية دي أمانة في رقبتك. أول مشوار: وصّل الزبون لمحطة المترو، وماتتأخرش!',obj:'وصّل الزبون لمحطة المترو',tg:'metro',reward:250,out:'جدع يا ابن الأصول! أول مشوار عدّى على خير.'},
+ {t:'deliver',veh:'van',who:'المعلم سيد',em:'👴',intro:'فيه طرد مستعجل في المحل اللي هناك، استلمه وحطه في أقرب صيدلية أو مدرسة. معاك دقيقتين ونص!',obj:'استلم الطرد ووصّله',a:'shop',b:'pharmacy|school|hospital',limit:150,reward:350,out:'الطرد وصل في ميعاده، تعيش يا باشا.'},
+ {t:'wheelie',veh:'vsp',who:'كابتن عمرو',em:'🧑‍🔧',intro:'خد الفيسبا دي يا بطل. الشباب في المنطقة بيقولوا إنك لسه جديد... ورّيهم إنك راجل وارفع حصان ٤ ثواني! (دوس زرار «حصان» وانت ماشي بسرعة)',obj:'ارفع حصان ٤ ثواني',need:4,reward:400,out:'يا سلام عليك! الشارع كله شاف.'},
+ {t:'deliver',veh:'dlv',who:'أم هاني',em:'👩',intro:'يا ابني الأكل ده لازم يوصل سخن! خده من الكافيه وحطه عند أي عميل، وماتتأخرش عن ١٢٠ ثانية.',obj:'وصّل الأكل سخن',a:'cafe',b:'any',limit:120,reward:450,out:'الأكل وصل سخن، ربنا يكرمك.'},
+ {t:'fight',who:'بياع الفاكهة',em:'🧔',intro:'الحقني يا اسطى! ٣ بلطجية بيضايقوني وعايزين يخدوا الإيراد! (اركب أو انزل، واضربهم: مطواة أو ساطور أو إيدك)',obj:'اهزم البلطجية الـ٣',n:3,reward:600,out:'تسلم إيدك! المنطقة بقت أمان.'},
+ {t:'race',veh:'spr',who:'كابتن سيد',em:'😎',intro:'سمعت إنك شاطر. سباق الليلة على الشوارع، المركز الأول أو التاني وأنا هحترمك.',obj:'خلّص السباق في المركز الأول أو التاني',rank:2,reward:800,out:'إنت راجل بجد!'},
+ {t:'goto',veh:'taxi',limit:110,who:'مريض',em:'🤒',intro:'الحقني يا اسطى... وديني المستشفى بسرعة! الله يخليك!',obj:'وصّل المريض المستشفى في ١١٠ ثانية',tg:'hospital',reward:700,out:'ربنا يخليك يا بني، انقذتني.'},
+ {t:'race',veh:'spr',who:'المعلم سيد',em:'👴',intro:'آخر امتحان يا حسام: سباق الكبار. لو جيت الأول... تبقى معلم بجد وتاخد التاكسي باسمك!',obj:'اكسب السباق (المركز الأول)',rank:1,reward:1500,out:'🎉 بقيت معلم يا حسام! القصة خلصت، والشارع كله ملكك.'}];
+const STY={i:0,st:'idle',t:0,ph:0,tx:0,tz:0,timer:0,n:[],boot:0,dlg:null,done:0};
+function stoLoad(){STY.i=(SAVE.sty|0)}
+function stoSave(){SAVE.sty=STY.i;try{persist()}catch(e){}}
+function stoPoint(kind,minD){const ks=(kind||'any').split('|');let best=null,bd=1e9;const cand=[];for(const q of RM.POIs)if(ks[0]==='any'||ks.includes(q.k==='shop'?'shop':q.k))cand.push(q);if(!cand.length)for(const q of POI)cand.push(q);for(const q of cand){const d=Math.hypot(q.x-px,q.z-pz);if(d<minD||d>2600)continue;if(d<bd){bd=d;best=q}}if(!best){const a=Math.random()*6.283,q=rmNear(cl(px+Math.cos(a)*900,-RM.MX+80,RM.MX-80),cl(pz+Math.sin(a)*900,-RM.MZ+80,RM.MZ-80),400,2);if(q)best={x:q.x,z:q.z,name:q.e.nm||'نقطة'}}return best}
+function stoSay(m,txt,cb){const d=$('stoD');$('stoE').textContent=m.em;$('stoW').textContent=m.who;$('stoT').textContent=txt;d.classList.remove('h');STY.dlg=cb||null;vsay(txt.slice(0,60),m.em==='👩'||m.em==='🤒'?1.2:.9)}
+function stoClose(){$('stoD').classList.add('h');const c=STY.dlg;STY.dlg=null;if(c)c()}
+function stoForce(k){if(!k||SAVE.cur===k)return;STY.prev=STY.prev||SAVE.cur;SAVE.cur=k;try{applyCar()}catch(e){}}
+function stoStart(){if(STY.i>=STM.length){STY.st='fin';return}const m=STM[STY.i];STY.st='intro';STY.ph=0;STY.n=[];stoForce(m.veh);stoSay(m,m.intro,()=>stoRun())}
+function stoRun(){const m=STM[STY.i];STY.st='run';STY.t=0;STY.timer=m.limit||0;STY.ph=0;WH.tot=0;
+ if(m.t==='goto'){const q=stoPoint(m.tg,500);if(q){STY.tx=q.x;STY.tz=q.z;WP={x:q.x,z:q.z,name:q.name||'الوجهة'};rmRouteSet(q.x,q.z)}}
+ else if(m.t==='deliver'){const q=stoPoint(m.a,300);if(q){STY.tx=q.x;STY.tz=q.z;WP={x:q.x,z:q.z,name:'📦 استلم الطرد: '+(q.name||'')};rmRouteSet(q.x,q.z)}STY.timer=0}
+ else if(m.t==='fight'){const n=m.n||3,a=Math.random()*6.283,q=rmNear(px+Math.cos(a)*45,pz+Math.sin(a)*45,60,1);const cx=q?q.x:px+30,cz=q?q.z:pz;let k=0;for(const p of PEDS){if(k>=n)break;if(p.dead||!p.cw)continue;p.x=cx+(k-1)*2;p.z=cz+k;p.e=-1;p.hp=70;p.mood='fight';p.mt=0;p.kn=k===0;p.stun=0;STY.n.push(p);k++}STY.tx=cx;STY.tz=cz;WP={x:cx,z:cz,name:'⚔ البلطجية'};rmRouteSet(cx,cz)}
+ else if(m.t==='race'){rcStart(null,null);STY.raceWait=1}}
+function stoDone(){const m=STM[STY.i];STY.st='out';WP=null;RM.route=null;SAVE.cash+=m.reward;say('✅ مهمة خلصت! +'+AR(m.reward)+' ج.م',0);stoSay(m,m.out,()=>{STY.i++;stoSave();if(STY.prev&&SAVE.cur!==STY.prev&&STY.i<STM.length){}STY.st='idle';STY.boot=3})}
+function stoFail(msg){say('❌ '+msg,1);WP=null;RM.route=null;STY.st='idle';STY.boot=4}
+function stoStep(dt){if(!started||paused||!RM.ready){return}
+ if(!STY.ld){STY.ld=1;stoLoad();STY.boot=5}
+ if(STY.st!=='run'&&$('mis').textContent)$('mis').textContent='';
+ if(STY.st==='idle'&&!RCE.on){STY.boot-=dt;if(STY.boot<=0&&STY.i<STM.length&&!CBT.down){stoStart()}}
+ if(STY.st!=='run')return;const m=STM[STY.i];STY.t+=dt;const dd=Math.hypot(STY.tx-(onFoot&&AV?AV.x:px),STY.tz-(onFoot&&AV?AV.z:pz)),slow=onFoot||Math.abs(v)<5;
+ const mi=$('mis'),sec=Math.ceil(STY.timer-STY.t);
+ if(m.t==='goto'){mi.textContent='📖 '+m.obj+' • '+AR(Math.round(RM.route?RM.route.rem:dd))+' م'+(m.limit?' • ⏱ '+AR(Math.max(0,sec)):'');if(dd<18&&slow)stoDone();else if(m.limit&&STY.t>m.limit)stoFail('اتأخرت! جرّب تاني')}
+ else if(m.t==='deliver'){if(STY.ph===0){mi.textContent='📖 '+m.obj+' (١/٢) • '+AR(Math.round(dd))+' م';if(dd<16&&slow){const q=stoPoint(m.b,400);if(q){STY.tx=q.x;STY.tz=q.z;WP={x:q.x,z:q.z,name:'📦 سلّم الطرد'};rmRouteSet(q.x,q.z);STY.ph=1;STY.t=0;STY.timer=m.limit;say('📦 استلمت الطرد! اجري عليه')}}}
+  else{mi.textContent='📖 '+m.obj+' (٢/٢) • '+AR(Math.round(RM.route?RM.route.rem:dd))+' م • ⏱ '+AR(Math.max(0,sec));if(dd<16&&slow)stoDone();else if(STY.t>m.limit)stoFail('الطرد اتأخر! جرّب تاني')}}
+ else if(m.t==='wheelie'){mi.textContent='📖 '+m.obj+' • '+AR(Math.min(m.need,WH.tot).toFixed(1))+'/'+AR(m.need)+' ث';if(WH.tot>=m.need)stoDone()}
+ else if(m.t==='fight'){const left=STY.n.filter(p=>!p.dead).length;mi.textContent='📖 '+m.obj+' • فاضل '+AR(left);if(!left)stoDone()}
+ else if(m.t==='race'){mi.textContent='📖 '+m.obj;if(STY.raceRes!=null){const r=STY.raceRes;STY.raceRes=null;STY.raceWait=0;if(r<=m.rank)stoDone();else stoFail('خسرت السباق، حاول تاني')}else if(!RCE.on&&STY.t>3&&STY.raceWait){STY.raceWait=0;stoFail('السباق اتلغى')}}}
+function stoMenu(){const done=STY.i>=STM.length;let h='<div class="mpr" style="display:block;line-height:1.8">📖 <b>قصة حسام:</b> سواق جديد في مدينة السلام، والمعلم سيد بيديك الأمانة... من أول مشوار لحد سباق الكبار.</div>';STM.forEach((m,i)=>{h+='<div class="mpr"><span>'+(i<STY.i?'✅':i===STY.i?'▶':'🔒')+' الفصل '+AR(i+1)+': '+m.obj+'</span></div>'});h+='<div class="mpr"><button class="gxb on" id="sto1">'+(done?'القصة خلصت 🎉 — العب حر':'كمّل القصة')+'</button><button class="gxb" id="sto2">ابدأ من الأول</button></div>';mpOpen('📖 القصة والمهمات',h,p=>{$('sto1').onclick=()=>{$('mpn').classList.add('gh');mnuAct('start')};$('sto2').onclick=()=>{STY.i=0;stoSave();$('sto2').textContent='اتصفّرت ✅'}})}
+document.body.insertAdjacentHTML('beforeend','<div id="mis"></div><div id="stoD" class="h"><div class="stoe" id="stoE">👴</div><div class="stob"><b id="stoW"></b><p id="stoT"></p><button class="gxb on" id="stoK">تمام ▶</button></div></div><button id="whb" class="cbb sm">🏍<br>حصان</button>');
+$('stoK').onclick=stoClose;
+$('whb').addEventListener('pointerdown',e=>{e.preventDefault();WH.h=1});['pointerup','pointercancel','pointerleave'].forEach(ev=>$('whb').addEventListener(ev,()=>{WH.h=0}));
+addEventListener('keydown',e=>{if(e.key==='g'||e.key==='G')WH.h=1});addEventListener('keyup',e=>{if(e.key==='g'||e.key==='G')WH.h=0});
+/* كاميرا باللمس: اسحب في أي مكان فاضي */
+addEventListener('pointerdown',e=>{if(S.mode==='drag'||!started||paused||CAMO.id!=null)return;const t=e.target;if(t&&t.closest&&t.closest('button,.pad,.cbb,#fmap,#gx,#mnu,#mpn,.pnl,#stoD,#dlg,.dlgx,#set,#rot'))return;CAMO.id=e.pointerId;CAMO.lx=e.clientX;CAMO.ly=e.clientY},{passive:true});
+addEventListener('pointermove',e=>{if(e.pointerId!==CAMO.id)return;CAMO.y-=(e.clientX-CAMO.lx)*.006;CAMO.p=cl(CAMO.p+(e.clientY-CAMO.ly)*.004,-.35,1.3);CAMO.lx=e.clientX;CAMO.ly=e.clientY;CAMO.idle=0},{passive:true});
+const camUp=e=>{if(e.pointerId===CAMO.id)CAMO.id=null};addEventListener('pointerup',camUp);addEventListener('pointercancel',camUp);
+function whStep(dt){const bike=NM.v.some(d=>d.k===pv.t&&d.bike),on=started&&!onFoot&&bike&&!paused;$('whb').style.display=on?'flex':'none';const tg=(on&&WH.h&&Math.abs(v)>5)?.62:0;WH.a+=(tg-WH.a)*Math.min(1,dt*3.2);if(WH.a>.3){WH.tot+=dt;WH.cash+=dt*4;if(WH.cash>=1){SAVE.cash+=Math.floor(WH.cash);WH.cash%=1}}
+ if(CAMO.id==null){CAMO.idle+=dt;if(CAMO.idle>1.6){const k=Math.exp(-dt*2.2);CAMO.y*=k;CAMO.p*=k}}}
 
 function addBlock(i,j){const d=bdata(i,j);for(const s of d.shops)shopFix(s);const g=new T.Group(),cx=d.cx,cz=d.cz;CUR=g;CC2=[];sc.add(g);patch(i*PITCH,j*PITCH);kEdges(i,j,d);kPad(g,cx,cz);
  d.sub.forEach((s,q)=>{const ox=SUBO[q][0],oz=SUBO[q][1];
@@ -1499,7 +1573,7 @@ const spP=new T.Points(spG,new T.PointsMaterial({color:0xffc060,size:.28,transpa
 function spark(x,y,z,n,spd){for(let k=0;k<n;k++){const i=(SPK.i++)%SPK.n,a=Math.random()*6.28,q=spd*(.4+Math.random());SPK.p[i*3]=x;SPK.p[i*3+1]=y;SPK.p[i*3+2]=z;SPK.v[i*3]=Math.cos(a)*q;SPK.v[i*3+1]=2+Math.random()*4;SPK.v[i*3+2]=Math.sin(a)*q;SPK.l[i]=.5+Math.random()*.4}}
 function sparkStep(dt){let any=0;for(let i=0;i<SPK.n;i++){if(SPK.l[i]<=0){if(SPK.p[i*3+1]>-40){SPK.p[i*3+1]=-50;any=1}continue}any=1;SPK.l[i]-=dt;SPK.v[i*3+1]-=14*dt;SPK.p[i*3]+=SPK.v[i*3]*dt;SPK.p[i*3+1]=Math.max(.05,SPK.p[i*3+1]+SPK.v[i*3+1]*dt);SPK.p[i*3+2]+=SPK.v[i*3+2]*dt}if(any)spG.attributes.position.needsUpdate=true}
 function crashFx(x,z,imp){const k=Math.min(1,imp/16);shake=Math.max(shake,.15+k*.7);if(A.crash)A.crash(imp);spark(x,.6,z,Math.min(30,6+Math.round(imp*2)),2+imp*.35);const h=$('hitfx');if(h&&imp>3){h.style.transition='none';h.style.opacity=Math.min(.85,.25+k*.6);void h.offsetWidth;setTimeout(()=>{h.style.transition='opacity .7s ease-out';h.style.opacity=0},40)}}
-let gpsT=0;function gpsStep(dt){cbStep(dt);nmStep(dt);pinStep();sparkStep(dt);gpsT-=dt;if(gpsT>0)return;gpsT=.08;const G=$('gps');if(!TGT||MODE!=='taxi'||!started||onFoot){G.classList.add('h');return}G.classList.remove('h');
+let gpsT=0;function gpsStep(dt){cbStep(dt);nmStep(dt);whStep(dt);stoStep(dt);pinStep();sparkStep(dt);gpsT-=dt;if(gpsT>0)return;gpsT=.08;const G=$('gps');if(!TGT||MODE!=='taxi'||!started||onFoot){G.classList.add('h');return}G.classList.remove('h');
  const _ra=rmAhead(),dx=(_ra?_ra.x:TGT.x)-px,dz=(_ra?_ra.z:TGT.z)-pz,cw=cam.getWorldDirection(_wd),cl2=Math.hypot(cw.x,cw.z)||1,fw=(dx*cw.x+dz*cw.z)/cl2,rt=(-dx*cw.z+dz*cw.x)/cl2,a=Math.atan2(rt,fw),d=Math.round(RM.route?RM.route.rem:Math.hypot(TGT.x-px,TGT.z-pz)),f=TGT.f;
  $('gpa').style.transform='rotate('+a+'rad)';$('gpa').style.background=f?f.col:'#fff';
  $('gpt').textContent=(f?((f.ph?'نزّل ':'استلم ')+AR(f.n)+' • '+(f.ph?f.b.name:f.a.name)):('📍 '+TGT.name))+' — '+AR(d)+' م'}
@@ -1732,11 +1806,12 @@ function frame(now){requestAnimationFrame(frame);const raw=Math.min(.2,(now-last
  {const d2=Math.min(dt,.033);let on=false;for(const q of COL)if(px>q.x0&&px<q.x1&&pz>q.z0&&pz<q.z1){on=true;break}
   if(on!==CB.on){CB.on=on;const sp=Math.abs(v);if(started&&!onFoot&&sp>1.2){CB.vy+=on?Math.min(2.4,.7+sp*.08):-Math.min(1,sp*.025);CB.pv+=(on?1.1:-.7)*Math.min(1,sp/12);shake=Math.max(shake,Math.min(.4,.1+sp*.012));if(on&&sp>5)v*=.9}}
   humpStep();const tg=on&&!onFoot?.18:0;CB.vy+=((tg-CB.y)*150-CB.vy*17)*d2;CB.y+=CB.vy*d2;if(CB.y<0){CB.y=0;if(CB.vy<0)CB.vy*=-.25}CB.pv+=(-CB.pa*110-CB.pv*11)*d2;CB.pa+=CB.pv*d2}
- pv.g.visible=!cock||onFoot;CPK.on=!!(cock&&!onFoot&&CPK.m&&CPK.ok[cpType(pv.t)]);cpSet(CPK.on,cpType(pv.t));ck.visible=cock&&!onFoot&&!CPK.on;if(AV)AV.g.visible=onFoot;pv.g.position.set(px,Math.sin(t*25)*.012*cl(Math.abs(v)/30,0,1)+CB.y,pz);pv.g.rotation.order='YXZ';pv.g.rotation.y=hd;pv.g.rotation.x=CB.pa;if(cock&&!onFoot&&!pvIn&&!CPK.on)mkInside();if(pvIn){pvIn.visible=cock&&!onFoot&&!CPK.on;if(pvIn.visible){pvIn.position.copy(pv.g.position);pvIn.rotation.order='YXZ';pvIn.rotation.y=hd;pvIn.rotation.x=CB.pa}}
+ pv.g.visible=!cock||onFoot;CPK.on=!!(cock&&!onFoot&&CPK.m&&CPK.ok[cpType(pv.t)]);cpSet(CPK.on,cpType(pv.t));ck.visible=cock&&!onFoot&&!CPK.on;if(AV)AV.g.visible=onFoot;pv.g.position.set(px,Math.sin(t*25)*.012*cl(Math.abs(v)/30,0,1)+CB.y+Math.sin(WH.a)*pv.l*.32,pz);pv.g.rotation.order='YXZ';pv.g.rotation.y=hd;pv.g.rotation.x=CB.pa+WH.a;if(cock&&!onFoot&&!pvIn&&!CPK.on)mkInside();if(pvIn){pvIn.visible=cock&&!onFoot&&!CPK.on;if(pvIn.visible){pvIn.position.copy(pv.g.position);pvIn.rotation.order='YXZ';pvIn.rotation.y=hd;pvIn.rotation.x=CB.pa}}
  shake*=.9;const sx=(Math.random()-.5)*shake,sy=(Math.random()-.5)*shake;chd+=angd(onFoot&&AV?AV.h:hd+angd(td,hd)*.35,chd)*Math.min(1,dt*5);
  cam.fov=(cock?66:58)+Math.min(18,Math.abs(v)*.32);cam.updateProjectionMatrix();SV.style.opacity=HQ?Math.min(.55,Math.max(0,(Math.abs(v)-16)/38)):0;
- if(onFoot&&AV){const cx=-Math.sin(chd),cz=-Math.cos(chd);cam.position.set(AV.x-cx*4.2*Math.max(.8,Math.min(2.6,S.camz||1))+sx,2.1+sy,AV.z-cz*4.2*Math.max(.8,Math.min(2.6,S.camz||1)));camPush();cam.lookAt(AV.x+cx*6,1.4,AV.z+cz*6)}else if(cock){cam.position.set(px+PFX*(pv.t==='micro'?3.3:pv.t==='tuk'?.2:.45)-Math.cos(hd)*(pv.t==='micro'?.55:.4)+sx*.3,(pv.t==='micro'?1.78:pv.t==='tuk'?1.25:1.2)+sy*.3+CB.y*.9,pz+PFZ*(pv.t==='micro'?3.3:pv.t==='tuk'?.2:.45)+Math.sin(hd)*(pv.t==='micro'?.55:.4));cam.rotation.set(-.075-CB.pa*1.3,hd-st*.05,0)}
- else{const cx=-Math.sin(chd),cz=-Math.cos(chd),av=Math.abs(v),czm=Math.max(.8,Math.min(2.6,S.camz||1));cdist+=((5.4*Math.max(.7,pv.l/4.7)+av*.05)*czm-cdist)*Math.min(1,dt*3);cam.position.set(px-cx*cdist+sx,(1.85*Math.max(.9,pv.l/4.7*.95)+av*.012)*(1+(czm-1)*.75)+sy+CB.y*.6,pz-cz*cdist);camPush();cam.lookAt(px+cx*12,.35+(pv.l>6?.5:0),pz+cz*12)}
+ if(onFoot&&AV){const cy0=chd+CAMO.y,cx=-Math.sin(cy0),cz=-Math.cos(cy0);cam.position.set(AV.x-cx*4.2*Math.max(.8,Math.min(2.6,S.camz||1))+sx,2.1+sy+CAMO.p*3.5,AV.z-cz*4.2*Math.max(.8,Math.min(2.6,S.camz||1)));camPush();{const kk=6-5.2*Math.min(1,Math.abs(CAMO.y)*1.3);cam.lookAt(AV.x+cx*kk,1.4,AV.z+cz*kk)}}else if(cock){cam.position.set(px+PFX*(pv.t==='micro'?3.3:pv.t==='tuk'?.2:.45)-Math.cos(hd)*(pv.t==='micro'?.55:.4)+sx*.3,(pv.t==='micro'?1.78:pv.t==='tuk'?1.25:1.2)+sy*.3+CB.y*.9,pz+PFZ*(pv.t==='micro'?3.3:pv.t==='tuk'?.2:.45)+Math.sin(hd)*(pv.t==='micro'?.55:.4));cam.rotation.set(-.075-CB.pa*1.3,hd-st*.05,0)}
+ else{const cy0=chd+CAMO.y,cx=-Math.sin(cy0),cz=-Math.cos(cy0),av=Math.abs(v),czm=Math.max(.8,Math.min(2.6,S.camz||1));cdist+=((5.4*Math.max(.7,pv.l/4.7)+av*.05)*czm-cdist)*Math.min(1,dt*3);cam.position.set(px-cx*cdist+sx,(1.85*Math.max(.9,pv.l/4.7*.95)+av*.012)*(1+(czm-1)*.75)+sy+CB.y*.6+CAMO.p*4.5,pz-cz*cdist);camPush();{const kk=12-11*Math.min(1,Math.abs(CAMO.y)*1.3);cam.lookAt(px+cx*kk,.35+(pv.l>6?.5:0),pz+cz*kk)}}
+ if(!started&&RM.ready){const ot=performance.now()/5500;cam.position.set(px+Math.cos(ot)*8.4,2.3+Math.sin(ot*.8)*.5,pz+Math.sin(ot)*8.4);cam.lookAt(px,1.1,pz)}
  HLM.visible=dayF<.5&&!onFoot&&started;if(HLM.visible){HLM.position.set(px+PFX*11,.12,pz+PFZ*11);HLM.rotation.y=hd;HLM.material.opacity=cl(1-dayF*1.6,0,1)}
  if(TGT&&!onFoot&&!cock){const dx=TGT.x-px,dz=TGT.z-pz;ARR.visible=true;ARR.position.set(px,3.4+Math.sin(t*4)*.12,pz);ARR.rotation.y=Math.atan2(-dx,-dz)}else ARR.visible=false;
  tor.rotation.z=-st*1.2;bd.rotation.z=-st*.3+Math.sin(t*3)*.03+Math.sin(t*40)*.01*cl(Math.abs(v)/30,0,1);
