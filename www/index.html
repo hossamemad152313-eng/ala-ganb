@@ -1064,7 +1064,7 @@ function cbStep(dt){if(!CBT.au){CBT.au=1;cbAudioInit()}CBT.cd-=dt;if(CBT.sw>0)CB
  if(onFoot&&AV&&!CBT.down){const t=CBT.sw>0?1-CBT.sw/.28:1,st=CBT.sw>0;
   if(w.id==='fist'){if(st)sk=-.3-1.5*Math.sin(PI*t)}else if(w.id==='gun'){sk=-1.45-(st?.3*Math.sin(PI*t):0)}else sk=st?-2.8+2.4*t:-.85;
   AV.sk=sk;
-  if(w.id!=='fist'&&AV.cw){const o=mkWpn(w.id);if(!o.w.parent)sc.add(o.w);o.w.visible=true;o.g.visible=true;const hp=AV.cw.hand(sk),el=Math.atan2(-Math.cos(sk),-Math.sin(sk))+(w.id==='gun'?0:1.1);
+  if(w.id!=='fist'&&AV.cw){const o=mkWpn(w.id);if(!o.w.parent)sc.add(o.w);o.w.visible=FPK<.5;o.g.visible=FPK<.5;const hp=AV.cw.hand(sk),el=Math.atan2(-Math.cos(sk),-Math.sin(sk))+(w.id==='gun'?0:1.1);
    o.w.position.copy(hp);o.w.rotation.set(0,AV.h,0);o.g.rotation.order='YXZ';o.g.rotation.set(0,PI/2,el);o.g.position.set(w.id==='gun'?-.05:0,0,0)}}
  else if(AV)AV.sk=null}
 document.body.insertAdjacentHTML('beforeend','<div id="hpb"><i></i></div><button id="cbA" class="cbb">👊</button><button id="cbW" class="cbb sm">👊 ⇄</button><div id="rcb" class="h"></div><div id="rcc" class="h"></div>');
@@ -1170,7 +1170,7 @@ function mnuAct(a){if(a==='start'){if(!uiReady()){$('mldt').textContent='است�
  else if(a==='garage'){if(!uiReady()){$('mldt').textContent='استنى لحد ما العالم يخلص تحميل…';$('mld').style.display='flex';return}gxOpen()}
  else if(a==='story')stoMenu()
  else if(a==='set')mpOpen('⚙ الإعدادات','<div class="mph">🔊 الصوت</div><div class="mpr"><span>الصوت</span><button class="gxb" id="ms1">'+(A.muted?'مقفول':'شغال')+'</button></div><div class="mpr"><span>مستوى الصوت</span><input type="range" id="ms2" min="0" max="100" value="'+Math.round((A.vol==null?1:A.vol)*100)+'"></div><div class="mph">🗣 الشخصيات</div><div class="mpr"><span>كلام الشخصيات</span><button class="gxb" id="ms3">'+(S.voice===0?'مقفول':'شغال')+'</button></div><div class="mph">🎨 الرسومات</div><div class="mpr"><span>الجودة</span><span id="msq"><button class="gxb" data-q="0">عادية</button> <button class="gxb" data-q="1">عالية</button> <button class="gxb" data-q="2">4K</button></span></div><div class="mpr"><small>الدقة بتتظبط تلقائي لو الموبايل تقل. 4K = أعلى دقة ونسيج أحدّ (أثقل على الموبايل).</small></div>',p=>{$('ms1').onclick=e=>{$('bm').click();e.target.textContent=A.muted?'مقفول':'شغال'};$('ms2').oninput=e=>{A.vol=+e.target.value/100;S.vol=A.vol;saveS();if(A.m&&!A.muted)A.m.gain.value=.9*A.vol};$('ms3').onclick=e=>{S.voice=S.voice===0?1:0;saveS();e.target.textContent=S.voice===0?'مقفول':'شغال'};const mkq=()=>p.querySelectorAll('#msq button').forEach(b=>b.classList.toggle('on',+b.dataset.q===(S.q==null?1:S.q)));mkq();p.querySelectorAll('#msq button').forEach(b=>b.onclick=()=>{applyQP(+b.dataset.q);mkq()})})
- else if(a==='ctl')mpOpen('🎮 التحكم','<div class="mph">🎯 التوجيه</div><div class="mpr"><span>وضع التوجيه</span><span id="ms4"><button class="gxb" data-m="btn">أزرار</button> <button class="gxb" data-m="tilt">إمالة</button> <button class="gxb" data-m="drag">سحب</button></span></div><div class="mpr"><span>الحساسية</span><input type="range" id="ms5" min=".5" max="1.8" step=".1" value="'+(S.sens||1)+'"></div><div class="mpr"><span>بُعد الكاميرا</span><input type="range" id="ms6" min=".8" max="2.4" step=".1" value="'+(S.camz||1)+'"></div><div class="mph">🎮 حجم الأزرار</div><div class="mpr"><span>الدواسات</span><input type="range" id="ms8" min=".6" max="1.7" step=".05" value="'+(S.csp||1)+'"></div><div class="mpr"><span>باقي الأزرار</span><input type="range" id="ms9" min=".6" max="1.7" step=".05" value="'+(S.cso||1)+'"></div><div class="mpr"><button class="gxb" id="ms10">رجّع الأحجام الافتراضية</button></div><div class="mpr"><small>🟢 بنزين • 🔴 فرامل • 🟠 هاند بريك (طول ما ضاغط) • 🔵 نيتروس • 🌀 وضع الدريفت (اضغط تشغّل/تقفل)</small></div>',p=>{const mk2=()=>p.querySelectorAll('#ms4 button').forEach(b=>b.classList.toggle('on',b.dataset.m===S.mode));mk2();p.querySelectorAll('#ms4 button').forEach(b=>b.onclick=()=>{S.mode=b.dataset.m;saveS();try{applyS()}catch(e){}mk2()});$('ms5').oninput=e=>{S.sens=+e.target.value;saveS()};$('ms6').oninput=e=>{S.camz=+e.target.value;saveS()};$('ms8').oninput=e=>{S.csp=+e.target.value;applyCS();saveS()};$('ms9').oninput=e=>{S.cso=+e.target.value;applyCS();saveS()};$('ms10').onclick=()=>{S.csp=1;S.cso=1;$('ms8').value=1;$('ms9').value=1;applyCS();saveS()}})
+ else if(a==='ctl')mpOpen('🎮 التحكم','<div class="mph">🎯 التوجيه</div><div class="mpr"><span>وضع التوجيه</span><span id="ms4"><button class="gxb" data-m="btn">أزرار</button> <button class="gxb" data-m="tilt">إمالة</button> <button class="gxb" data-m="drag">سحب</button></span></div><div class="mpr"><span>الحساسية</span><input type="range" id="ms5" min=".5" max="1.8" step=".1" value="'+(S.sens||1)+'"></div><div class="mpr"><span>بُعد الكاميرا</span><input type="range" id="ms6" min=".8" max="2.4" step=".1" value="'+(S.camz||1)+'"></div><div class="mph">🔫 الأسلحة</div><div class="mpr"><span>منظور السلاح</span><span id="msfp"><button class="gxb" data-f="1">شخص أول</button> <button class="gxb" data-f="0">شخص تالت</button></span></div><div class="mph">🎮 حجم الأزرار</div><div class="mpr"><span>الدواسات</span><input type="range" id="ms8" min=".6" max="1.7" step=".05" value="'+(S.csp||1)+'"></div><div class="mpr"><span>باقي الأزرار</span><input type="range" id="ms9" min=".6" max="1.7" step=".05" value="'+(S.cso||1)+'"></div><div class="mpr"><button class="gxb" id="ms10">رجّع الأحجام الافتراضية</button></div><div class="mpr"><small>🟢 بنزين • 🔴 فرامل • 🟠 هاند بريك (طول ما ضاغط) • 🔵 نيتروس • 🌀 وضع الدريفت (اضغط تشغّل/تقفل)</small></div>',p=>{const mk2=()=>p.querySelectorAll('#ms4 button').forEach(b=>b.classList.toggle('on',b.dataset.m===S.mode));mk2();p.querySelectorAll('#ms4 button').forEach(b=>b.onclick=()=>{S.mode=b.dataset.m;saveS();try{applyS()}catch(e){}mk2()});$('ms5').oninput=e=>{S.sens=+e.target.value;saveS()};$('ms6').oninput=e=>{S.camz=+e.target.value;saveS()};const mkf=()=>p.querySelectorAll('#msfp button').forEach(b=>b.classList.toggle('on',+b.dataset.f===(S.fp===0?0:1)));mkf();p.querySelectorAll('#msfp button').forEach(b=>b.onclick=()=>{S.fp=+b.dataset.f;saveS();mkf()});$('ms8').oninput=e=>{S.csp=+e.target.value;applyCS();saveS()};$('ms9').oninput=e=>{S.cso=+e.target.value;applyCS();saveS()};$('ms10').onclick=()=>{S.csp=1;S.cso=1;$('ms8').value=1;$('ms9').value=1;applyCS();saveS()}})
  else if(a==='about')mpOpen('ℹ حول اللعبة','<div class="mpr" style="display:block;line-height:1.9">🚐 <b>على جنب يا أسطى</b> — لعبة سواقة وعالم مفتوح في مدينة السلام بالقاهرة.<br>الخريطة: © مساهمو OpenStreetMap.<br>تطوير: حسام (هندسة حسام).</div>')
  else if(a==='exit'){try{const C=window.Capacitor;if(C&&C.Plugins&&C.Plugins.App){C.Plugins.App.exitApp();return}}catch(e){}try{window.close()}catch(e){}$('mldt').textContent='اقفل التطبيق من زرار الرجوع في الموبايل'}}
 (function(){
@@ -1260,16 +1260,53 @@ function smokeStep(dt){let any=0;smM.uniforms.scl.value=R.domElement.height/(2*M
  if(!onFoot&&started&&!paused&&pv&&!(NM.v.some(d=>d.k===pv.t&&d.bike))){const sp=Math.abs(v),slide=(K.D&&sp>6)||(K.B&&sp>14)||(K.T&&sp<9&&K.G!==0)||(K.D&&K.G&&sp>3);if(slide){const rx=-PFZ,rz=PFX,bk=pv.l*.34,sd=pv.w*.4;GTA.smN+=dt*30;const n=Math.floor(GTA.smN);GTA.smN-=n;for(let k=0;k<n;k++){smoke(px-PFX*bk+rx*sd*(k%2?1:-1),.2,pz-PFZ*bk+rz*sd*(k%2?1:-1),1)}}}}
 /* تصويب */
 function gtaAimStart(){if(!onFoot||GTA.on)return;GTA.on=1;GTA.yaw=chd+CAMO.y;CAMO.y=0;GTA.pit=0}
-function gtaFootCam(dt){const k=GTA.aim,yaw=GTA.on?GTA.yaw:chd+CAMO.y,fx=-Math.sin(yaw),fz=-Math.cos(yaw),rx=Math.cos(yaw),rz=-Math.sin(yaw),zm=Math.max(.8,Math.min(2.6,S.camz||1)),back=lerpN(3.2*zm,1.55,k),side=lerpN(.55,.8,k),h=lerpN(1.8+CAMO.p*3,1.7,k);
+/* ===== منظور الشخص الأول: إيدين وسلاح بحركات واقعية ===== */
+let FPK=0;
+const VM=new T.Group();VM.visible=false;
+const VMM={sl:new T.MeshLambertMaterial({color:0x22406e,emissive:0x0a0f1c,depthTest:false,depthWrite:false}),sk:new T.MeshLambertMaterial({color:0xc8956b,emissive:0x20120a,depthTest:false,depthWrite:false})};
+const VMA=[0,1].map(()=>{const mk=(m,r0,r1,len)=>{const g=new T.CylinderGeometry(r1,r0,len,10);g.rotateX(PI/2);g.translate(0,0,len/2);const q=new T.Mesh(g,m);q.renderOrder=1000;q.frustumCulled=false;VM.add(q);return q};
+ const up=mk(VMM.sl,.05,.043,.34),fo=mk(VMM.sl,.043,.036,.32),el=new T.Mesh(new T.SphereGeometry(.045,10,8),VMM.sl),hd=new T.Mesh(new T.SphereGeometry(.05,12,10),VMM.sk);
+ el.renderOrder=1000;hd.renderOrder=1002;hd.scale.set(1,.85,1.25);el.frustumCulled=hd.frustumCulled=false;VM.add(el);VM.add(hd);return{up,fo,el,hd}});
+const VMS={wid:'',wp:null,draw:0,alt:0,psw:0,P:{rg:new T.Vector3(),lg:new T.Vector3(),el:0,yw:0}};
+const _vz=new T.Vector3(0,0,1),_va=new T.Vector3(),_vb=new T.Vector3(),_vu=new T.Vector3(),_vp=new T.Vector3(),_ve=new T.Vector3(),_vd=new T.Vector3(),VMDIR=new T.Vector3(),VSR=new T.Vector3(.24,-.30,-.02),VSL=new T.Vector3(-.24,-.30,-.02),VPR=new T.Vector3(.6,-1,.1),VPL=new T.Vector3(-.6,-1,.1);
+const VMF=new T.Mesh(new T.PlaneGeometry(.55,.55),new T.MeshBasicMaterial({map:(()=>{const c=document.createElement('canvas');c.width=c.height=64;const g=c.getContext('2d'),r=g.createRadialGradient(32,32,1,32,32,31);r.addColorStop(0,'rgba(255,250,220,1)');r.addColorStop(.3,'rgba(255,190,90,.85)');r.addColorStop(1,'rgba(255,120,30,0)');g.fillStyle=r;g.fillRect(0,0,64,64);return new T.CanvasTexture(c)})(),transparent:true,blending:T.AdditiveBlending,depthTest:false,depthWrite:false}));VMF.renderOrder=1003;VMF.visible=false;VMF.frustumCulled=false;VM.add(VMF);
+function vmArm(A,S,Tg,pole,L1,L2){_vu.subVectors(Tg,S);let d=_vu.length();const mx=(L1+L2)*.995;if(d>mx)d=mx;if(d<.05)d=.05;_vu.normalize();_va.copy(S).addScaledVector(_vu,d);
+ const a=(L1*L1-L2*L2+d*d)/(2*d),h=Math.sqrt(Math.max(0,L1*L1-a*a));_vb.copy(S).addScaledVector(_vu,a);_vp.copy(pole).addScaledVector(_vu,-pole.dot(_vu));if(_vp.lengthSq()<1e-6)_vp.set(0,-1,0);_vp.normalize();_ve.copy(_vb).addScaledVector(_vp,h);
+ A.up.position.copy(S);A.up.quaternion.setFromUnitVectors(_vz,_vd.subVectors(_ve,S).normalize());A.fo.position.copy(_ve);A.fo.quaternion.setFromUnitVectors(_vz,_vd.subVectors(_va,_ve).normalize());A.el.position.copy(_ve);A.hd.position.copy(_va);A.hd.quaternion.copy(A.fo.quaternion)}
+function vmWeapon(id){if(VMS.wp){VM.remove(VMS.wp);VMS.wp=null}VMS.wid=id;if(id==='fist')return;const src=mkWpn(id).g,grp=new T.Group(),m=src.clone(true);m.visible=true;m.rotation.order='YXZ';m.traverse(o=>{if(o.isMesh){o.material=o.material.clone();o.material.depthTest=false;o.material.depthWrite=false;o.renderOrder=1001;o.frustumCulled=false}});grp.add(m);grp.userData.m=m;VM.add(grp);VMS.wp=grp;VMS.draw=0}
+function vmStep(dt){
+ if(FPK<.04||!AV){VM.visible=false;return}
+ if(!VM.parent){if(!cam.parent)sc.add(cam);cam.add(VM)}
+ const w=WPN[CBT.w],id=w.id;if(VMS.wid!==id)vmWeapon(id);
+ VM.visible=true;VMS.draw=Math.min(1,VMS.draw+dt*3.2);
+ const E=x=>x*x*(3-2*x),tm=performance.now()/1000,P=VMS.P,k=GTA.aim*FPK,mv=AV.moving?1:0,bob=mv*(1-.75*k),bx=Math.sin(tm*6.4)*.012*bob,by=Math.abs(Math.cos(tm*6.4))*.016*bob+Math.sin(tm*1.5)*.003,sw=CBT.sw>0,u=sw?1-CBT.sw/.28:1;
+ if(sw&&VMS.psw<=0)VMS.alt^=1;VMS.psw=CBT.sw;let gx=-.06,gy=0,flash=false;
+ if(id==='gun'){const R=sw?Math.pow(1-u,2.2):0,pt=CBT.cd>0?cl((w.cd-CBT.cd)/w.cd,0,1):1,pump=(pt>.3&&pt<.75)?Math.sin(PI*(pt-.3)/.45):0;
+  P.rg.set(lerpN(.20,.085,k)+bx,lerpN(-.30,-.215,k)+by+.02*R,lerpN(-.46,-.40,k)+.09*R);P.el=lerpN(.04,0,k)+.14*R-.03*pump;P.yw=lerpN(-.10,0,k);gx=-.04;gy=-.06;
+  VMDIR.set(-Math.cos(P.el)*Math.sin(P.yw),Math.sin(P.el),-Math.cos(P.el)*Math.cos(P.yw));P.lg.copy(P.rg).addScaledVector(VMDIR,.42-.15*pump);P.lg.y-=.05;flash=sw&&u<.22}
+ else if(id==='knife'){let rx=.22,ry=-.27,rz=-.42,el=.55,yw=.1;
+  if(sw){if(VMS.alt){if(u<.25){const q=E(u/.25);rx=.22+.06*q;ry=-.27-.05*q;rz=-.42+.12*q;el=.55-.2*q}else if(u<.55){const q=E((u-.25)/.30);rx=.28-.24*q;ry=-.32+.12*q;rz=-.30-.65*q;el=.35-.25*q;yw=.1-.1*q}else{const q=E((u-.55)/.45);rx=.04+.18*q;ry=-.20-.07*q;rz=-.95+.53*q;el=.10+.45*q;yw=.1*q}}
+   else{const q=E(cl(u/.65,0,1)),r2=u>.65?E((u-.65)/.35):0;rx=u>.65?lerpN(-.22,.22,r2):lerpN(.40,-.22,q);yw=u>.65?lerpN(.9,.1,r2):lerpN(-.9,.9,q);ry=-.2-.06*q;rz=-.50-.2*Math.sin(PI*q);el=.3}}
+  P.rg.set(rx+bx,ry+by,rz);P.el=el;P.yw=yw;P.lg.set(-.26+bx*.5,-.36+by,-.42)}
+ else{gx=-.075;let rx=.24,ry=-.24,rz=-.40,el=.85,yw=0;
+  if(sw){if(u<.35){const q=E(u/.35);rx=.24-.04*q;ry=-.24+.26*q;rz=-.40+.10*q;el=.85+.85*q}else if(u<.65){const q=E((u-.35)/.30);rx=.20-.14*q;ry=.02-.38*q;rz=-.30-.55*q;el=1.7-2.2*q}else{const q=E((u-.65)/.35);rx=.06+.18*q;ry=-.36+.12*q;rz=-.85+.45*q;el=-.5+1.35*q}}
+  P.rg.set(rx+bx,ry+by,rz);P.el=el;P.yw=yw;P.lg.set(-.26+bx*.5,-.36+by,-.40)}
+ const dy=-(1-E(VMS.draw))*.45;P.rg.y+=dy;P.lg.y+=dy;
+ const wp=VMS.wp;if(wp){const ce=Math.cos(P.el),se=Math.sin(P.el),m=wp.userData.m;wp.position.copy(P.rg);wp.rotation.set(0,P.yw,0);m.rotation.set(0,PI/2,P.el);m.position.set(0,-(gx*se+gy*ce),gx*ce-gy*se)}
+ vmArm(VMA[0],VSR,P.rg,VPR,.34,.32);vmArm(VMA[1],VSL,P.lg,VPL,.34,.32);
+ if(flash){VMF.visible=true;VMF.position.copy(P.rg).addScaledVector(VMDIR,.84);VMF.rotation.z=Math.random()*6.28;VMF.scale.setScalar(.8+Math.random()*.6)}else VMF.visible=false}
+function gtaFootCam(dt){const k=GTA.aim,yaw=GTA.on?GTA.yaw:chd+CAMO.y,fx=-Math.sin(yaw),fz=-Math.cos(yaw),rx=Math.cos(yaw),rz=-Math.sin(yaw),zm=Math.max(.8,Math.min(2.6,S.camz||1)),back=lerpN(3.2*zm,1.55,k)*(1-FPK),side=lerpN(.55,.8,k)*(1-FPK),h=lerpN(lerpN(1.8+CAMO.p*3,1.7,k),1.62,FPK);
  const tx=AV.x-fx*back+rx*side,tz=AV.z-fz*back+rz*side;cam.position.set(tx,h,tz);camPush();
  const ay=GTA.on?1.55+GTA.pit*9:1.45-CAMO.p*1.5;cam.lookAt(AV.x+rx*side*.55+fx*14,ay,AV.z+rz*side*.55+fz*14)}
 function gtaStep(dt){
- const wantAim=onFoot&&started&&!paused&&!CBT.down&&GTA.h;if(wantAim)gtaAimStart();
- GTA.aim=lerpN(GTA.aim,wantAim?1:0,Math.min(1,dt*9));if(!wantAim&&GTA.aim<.03){GTA.on=0;GTA.aim=0}
+ FPK=lerpN(FPK,(S.fp!==0&&onFoot&&started&&!paused&&!CBT.down&&WPN[CBT.w].id!=='fist')?1:0,Math.min(1,dt*4));
+ const wantAim=onFoot&&started&&!paused&&!CBT.down&&(GTA.h||FPK>.5);if(wantAim)gtaAimStart();
+ GTA.aim=lerpN(GTA.aim,(wantAim&&GTA.h)?1:0,Math.min(1,dt*9));if(!wantAim&&GTA.aim<.03){GTA.on=0;GTA.aim=0}
+ if(AV&&AV.cw)AV.cw.g.visible=FPK<.75;vmStep(dt);
  if(GTA.on&&onFoot&&AV){AV.h=GTA.yaw;chd=GTA.yaw}
  if(GTA.kick>0){GTA.pit+=GTA.kick*.35;GTA.kick=Math.max(0,GTA.kick-dt*.6)}
  // crosshair
- const xh=$('xh');if(xh){const on=GTA.aim>.25&&onFoot;xh.style.display=on?'block':'none';if(on){GTA.spread+=((AV&&AV.moving?10:0)+(CBT.sw>0?9:0)+4-GTA.spread)*Math.min(1,dt*10);xh.style.setProperty('--sp',(5+GTA.spread)+'px')}}
+ const xh=$('xh');if(xh){const on=(GTA.aim>.25||FPK>.5)&&onFoot;xh.style.display=on?'block':'none';if(on){GTA.spread+=((AV&&AV.moving?10:0)+(CBT.sw>0?9:0)+4-GTA.spread)*Math.min(1,dt*10);xh.style.setProperty('--sp',(5+GTA.spread)+'px')}}
  const ab=$('aimb');if(ab)ab.style.display=(onFoot&&started&&!paused)?'flex':'none';
  // هزّة سرعة / نيتروس
  if(!onFoot&&started&&!paused){const sp=Math.abs(v);if(sp>26)shake=Math.max(shake,.02+.0013*(sp-26));if(K.T&&sp>8)shake=Math.max(shake,.06)}
