@@ -1056,15 +1056,14 @@ const NVD=[{k:'kei',f:'v_kei',y:0,len:3.4,sp:[8,11],nm:'عربية نقل',cap:2
  {k:'dlv',f:'v_dlv',y:0,len:1.75,sp:[9,13],nm:'سكوتر توصيل',cap:1,bike:1},{k:'van',f:'v_van',y:0,len:3.4,sp:[9,13],nm:'ميكروباص',cap:6,drv:{x:-.38,y:-.1,z:-.55}},{k:'blind',f:'v_blind',y:PI,len:3.5,sp:[9,12],nm:'عربية بضاعة',cap:3},
  {k:'spr',f:'v_spr',y:0,len:3.6,sp:[10,15],nm:'عربية ملاكي',cap:4},{k:'sky',f:'v_sky',y:0,len:2.1,sp:[11,16],nm:'موتوسيكل',cap:1,bike:1},
  {k:'vsp',f:'v_vsp',y:0,len:1.8,sp:[9,13],nm:'فيسبا',cap:1,bike:1},{k:'vsp2',f:'v_vsp2',y:PI/2,len:1.8,sp:[9,13],nm:'فيسبا توصيل',cap:1,bike:1}];
-const NCD=[{f:'c_woman',h:1.66,g:'f',dress:1},{f:'c_fem',h:1.66,g:'f',dress:1},{f:'c_malay',h:1.62,g:'f',dress:1},{f:'c_white',h:1.66,g:'f',dress:1},{f:'c_hijab2',h:1.64,g:'f',dress:1},{f:'c_old',h:1.7,g:'m'},{f:'c_man',h:1.76,g:'m'}];
+const NCD=[{f:'p_abaya',s:'abaya',h:1.62,g:'f',dress:1},{f:'p_lav',s:'lavender',h:1.62,g:'f',dress:1},{f:'p_hijabgray',s:'hijabgray',h:1.6,g:'f',dress:1},{f:'p_black',s:'blackshirt',h:1.76,g:'m'},{f:'p_orange',s:'orange',h:1.74,g:'m'},{f:'p_track',s:'tracksuit',h:1.78,g:'m'}];
 const LAMC=new Map();
 function toLam(m){if(!m)return m;let r=LAMC.get(m.uuid);if(r)return r;r=new T.MeshLambertMaterial({color:m.color?m.color.clone():new T.Color(0xffffff),map:m.map||null,vertexColors:!!m.vertexColors,transparent:!!m.transparent,opacity:m.opacity==null?1:m.opacity,alphaTest:m.alphaTest||0,side:m.side||T.FrontSide,emissive:m.emissive?m.emissive.clone():new T.Color(0),emissiveMap:m.emissiveMap||null});if(/glass/i.test(m.name||'')){r.transparent=true;r.opacity=Math.min(r.opacity,.32);r.depthWrite=false}LAMC.set(m.uuid,r);return r}
 function nmFlat(root){root.updateMatrixWorld(true);const fl=new T.Group(),ms=[];root.traverse(o=>{if(o.isMesh&&!o.isSkinnedMesh)ms.push(o)});for(const o of ms){const g=o.geometry.clone();g.applyMatrix4(o.matrixWorld);const q=new T.Mesh(g,Array.isArray(o.material)?o.material.map(toLam):toLam(o.material));q.castShadow=q.receiveShadow=false;fl.add(q)}return fl}
 async function nmInit(){const ld=k=>fetch('models2/'+k+'.glb').then(r=>r.ok?r.arrayBuffer():null).then(ab=>ab?new Promise(res=>GLd.parse(ab,'',g=>res(g),()=>res(null))):null).catch(()=>null);
  if(!GLd)return;
- for(const d of NCD){const g=await ld(d.f);if(!g)continue;try{const flat=nmFlat(g.scene),nb=new T.Box3().setFromObject(flat),cx=(nb.min.x+nb.max.x)/2,cz=(nb.min.z+nb.max.z)/2;flat.children.forEach(q=>q.geometry.translate(-cx,0,-cz));
-   const b2=new T.Box3().setFromObject(flat),H=b2.max.y-b2.min.y,W=b2.max.x-b2.min.x;d.H=H;d.y0=b2.min.y;d.tp=W/H>.7;d.flat=flat;
-   const out=new T.Group(),mid=new T.Group();mid.add(flat);mid.rotation.y=PI;out.add(mid);out.updateMatrixWorld(true);const b=new T.Box3().setFromObject(out),c=b.getCenter(new T.Vector3()),k=d.h/(b.max.y-b.min.y);d.k=k;d.ox=-c.x*k;d.oy=-b.min.y*k;d.oz=-c.z*k;out.remove(mid);NM.c.push(d);NM.cr=NM.c.length}catch(e){console.warn('nm char',d.f,e)}}
+ {const ldr=new T.TextureLoader(),lt=u=>new Promise(res=>ldr.load(u,t=>{t.anisotropy=4;if(R.outputEncoding===T.sRGBEncoding)t.encoding=T.sRGBEncoding;res(t)},undefined,()=>res(null)));
+  for(const d of NCD){const ts=await Promise.all(BBV.map(v=>lt('people/'+d.s+'_'+v+'.webp')));if(ts.some(x=>!x))continue;d.t={};BBV.forEach((v,k)=>d.t[v]=ts[k]);NM.c.push(d);NM.cr=NM.c.length}}
  for(const d of NVD){const g=await ld(d.f);if(!g)continue;try{const flat=nmFlat(g.scene),out=new T.Group(),mid=new T.Group();mid.add(flat);mid.rotation.y=d.y;out.add(mid);out.updateMatrixWorld(true);const b=new T.Box3().setFromObject(out),c=b.getCenter(new T.Vector3()),s=b.getSize(new T.Vector3()),k=d.len/Math.max(s.x,s.z);
    mid.scale.setScalar(k);mid.position.set(-c.x*k,-b.min.y*k,-c.z*k);d.w=Math.min(s.x,s.z)*k;d.l=Math.max(s.x,s.z)*k;d.tpl=out;NM.v.push(d);NM.vr=NM.v.length;if(typeof CAP!=='undefined'){CAP[d.k]=d.cap}if(typeof VEM!=='undefined')VEM[d.k]=d.bike?'🛵':'🚐';if(typeof ENG!=='undefined'){ENG[d.k]=d.bike?[80,1.8,'square',1200,.5,30]:(/kei|pick|blind/.test(d.k)?ENG.truck:ENG.micro);HORN[d.k]=d.bike?[700,820]:HORN.micro}if(typeof CNM!=='undefined')CNM[d.k]=d.nm}catch(e){console.warn('nm veh',d.f,e)}}
  try{if(typeof SAVE!=='undefined'&&NM.v.some(d=>d.k===SAVE.cur)&&typeof applyCar==='function')applyCar();const gx=document.getElementById('gx');if(gx&&!gx.classList.contains('gh')&&typeof gxBuild==='function'){gxBuild();gxThumbs()}}catch(e){}}
@@ -1084,10 +1083,19 @@ const CHRGL=`vec3 transformed=vec3(position);
   c=cos(aa);s=sin(aa);dy=yy-shY;ny=shY+dy*c-zz*s;nz=dy*s+zz*c;yy=ny;zz=nz;}
  transformed=vec3(sx*ax,yy+uY0,zz);}`;
 function chrPatch(m,d){m.userData.u={uPh:{value:0},uAmp:{value:0},uWave:{value:0},uH:{value:d.H},uY0:{value:d.y0},uTP:{value:d.tp?1:0},uSit:{value:0},uSk:{value:-10},uDr:{value:d.dress?1:0}};m.onBeforeCompile=sh=>{Object.assign(sh.uniforms,m.userData.u);sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\nuniform float uPh,uAmp,uWave,uH,uY0,uTP,uSit,uSk,uDr;').replace('#include <begin_vertex>',CHRGL)};m.customProgramCacheKey=()=>'chrw2'}
-function nmChar(i,gen){let a=NM.c;if(gen){const b=a.filter(d=>d.g===gen);if(b.length)a=b}if(!a.length)return null;const d=a[(i|0)%a.length],g=new T.Group(),inst=d.flat.clone(true),mats=[];
- inst.traverse(o=>{if(o.isMesh){const one=!Array.isArray(o.material),ms=one?[o.material]:o.material,nms=ms.map(m=>{const c=m.clone();chrPatch(c,d);if(c.emissive)c.emissive.setRGB(.05,.05,.06);mats.push(c);return c});o.material=one?nms[0]:nms}});
- const mid=new T.Group();mid.add(inst);mid.rotation.y=PI;mid.scale.setScalar(d.k);mid.position.set(d.ox,d.oy,d.oz);g.add(mid);
- const cw={g,mid,mats,d,set(ph,a2,wave,sit,sk){for(const m of mats){const u=m.userData.u;u.uPh.value=ph;u.uAmp.value=a2*(d.dress?.82:1);u.uWave.value=wave||0;u.uSit.value=sit?1:0;u.uSk.value=sk==null?-10:sk}},hand(a){const H=d.H,y0=d.y0,v=new T.Vector3(.17*H,y0+.8*H-.36*H*Math.cos(a),-.36*H*Math.sin(a));mid.updateWorldMatrix(true,false);return mid.localToWorld(v)}};return cw}
+const BBG=new T.PlaneGeometry(1,1);BBG.translate(0,.5,0);{const na=BBG.attributes.normal;for(let k=0;k<na.count;k++)na.setXYZ(k,0,1,0)}
+const _bv=new T.Vector3(),BBV=['front','back','L','R'];
+function bbSit(t){if(t.userData.sit)return t.userData.sit;const im=t.image,w=im.width,h=im.height,ch=Math.round(h*.6),c=document.createElement('canvas');c.width=w;c.height=ch;c.getContext('2d').drawImage(im,0,0,w,ch,0,0,w,ch);const st=new T.CanvasTexture(c);st.encoding=t.encoding;st.anisotropy=t.anisotropy;t.userData.sit=st;return st}
+/* شخصيات من صور حقيقية (4 زوايا) بتلف مع الكاميرا */
+function nmChar(i,gen){let a=NM.c;if(typeof i==='string')a=a.filter(d=>d.f===i);else if(gen){const b=a.filter(d=>d.g===gen);if(b.length)a=b}if(!a.length)return null;const d=typeof i==='string'?a[0]:a[(i|0)%a.length],g=new T.Group(),H=d.h;
+ const m=new T.MeshLambertMaterial({map:d.t.front,alphaTest:.5,side:T.DoubleSide,emissive:new T.Color(.05,.05,.06)});m.color.setRGB(.8,.8,.8);
+ const mesh=new T.Mesh(BBG,m);mesh.castShadow=mesh.receiveShadow=false;mesh.frustumCulled=false;g.add(mesh);
+ const mid=new T.Group();mid.rotation.y=PI;g.add(mid);
+ const cw={g,mid,mats:[m],d,sit:0,ph:0,amp:0,set(ph,a2,wave,sit,sk){this.ph=ph;this.amp=a2*(d.dress?.82:1);this.sit=sit?1:0},hand(a){const v=new T.Vector3(.17*H,.8*H-.36*H*Math.cos(a),-.36*H*Math.sin(a));mid.updateWorldMatrix(true,false);return mid.localToWorld(v)}};
+ mesh.onBeforeRender=function(r,s,cm){const p=this.parent;if(!p)return;p.updateWorldMatrix(true,false);_bv.setFromMatrixPosition(cm.matrixWorld);p.worldToLocal(_bv);const lx=_bv.x,lz=_bv.z,ph=Math.atan2(lx,-lz),ap=Math.abs(ph),v=ap<.785?'front':ap>2.356?'back':(ph>0?'R':'L'),tx=d.t[v],sit=cw.sit;
+  m.map=sit?bbSit(tx):tx;const asp=tx.image.width/tx.image.height,hh=sit?H*.6:H,bob=cw.amp>0?Math.abs(Math.sin(cw.ph))*.03*H*cw.amp:0;
+  this.scale.set(H*asp,hh,1);this.position.set(0,(sit?H*.4:0)+bob,0);this.rotation.set(0,Math.atan2(lx,lz),Math.sin(cw.ph)*.03*cw.amp);this.updateMatrix();this.matrixWorld.multiplyMatrices(p.matrixWorld,this.matrix)};
+ return cw}
 const CHW={c_old:3,c_man:3,c_malay:2,c_white:2,c_hijab2:2,c_fem:1,c_woman:1};
 function nmPickIdx(){let t=0;for(const d of NM.c)t+=CHW[d.f]||1;let r=Math.random()*t;for(let i=0;i<NM.c.length;i++){r-=CHW[NM.c[i].f]||1;if(r<=0)return i}return 0}
 function nmAssign(p){const cw=nmChar(nmPickIdx());if(!cw)return;const sc2=.95+Math.random()*.1;cw.g.scale.setScalar(sc2);p.cw=cw;p.g.add(cw.g);p.dr=1}
@@ -1742,7 +1750,7 @@ function cancelJob(){if(!FARES.length)return;for(const f of FARES.slice()){if(f.
 $('mnp').onclick=()=>{buildWal();$('wal').classList.toggle('h')};
 $('wal').onclick=e=>{const a=e.target.dataset.a;if(!a)return;if(a==='x')$('wal').classList.add('h');else{if(a==='tow')towCar();else if(a==='cj')cancelJob();else act('dep',{type:'x'});buildWal()}};
 $('svc').onclick=e=>{const a=e.target.dataset.a;if(a&&svcCur)act(a,svcCur)};
-function mkAv(){const cw=nmChar(7,'m');if(!cw)return null;cw.mats.forEach(m=>{m.emissive.setRGB(.17,.17,.21);m.color.multiplyScalar(1.5)});sc.add(cw.g);return{g:cw.g,cw,bn:null,ph:0,x:0,z:0,h:0}}
+function mkAv(){const cw=nmChar('p_track');if(!cw)return null;cw.mats.forEach(m=>{m.emissive.setRGB(.17,.17,.21);m.color.multiplyScalar(1.5)});sc.add(cw.g);return{g:cw.g,cw,bn:null,ph:0,x:0,z:0,h:0}}
 function stepAv(dt,str){const a=AV;if(SIT){if(K.G||K.B||Math.abs(str)>.3){SIT=0;say('قمت 🚶')}else{SAVE.energy=Math.min(100,SAVE.energy+dt*3);a.g.position.set(a.x,-.32,a.z);return}}a.h-=str*2.4*Math.min(1.3,S.sens)*dt;const sp=K.G?2.6:K.B?-1.4:0,fx=-Math.sin(a.h),fz=-Math.cos(a.h);a.x+=fx*sp*dt;a.z+=fz*sp*dt;
  const r=pushRect(a.x,a.z,.4,COL2);a.x+=r[0];a.z+=r[1];if(a.x>2850&&CCOL.length){const r2=pushRect(a.x,a.z,.4,CCOL);a.x+=r2[0];a.z+=r2[1]}
  for(const s of[-1.2,1.2]){const dx=a.x-(px+PFX*s),dz=a.z-(pz+PFZ*s),d=Math.hypot(dx,dz);if(d<1.55&&d>.01){a.x+=dx/d*(1.55-d);a.z+=dz/d*(1.55-d)}}
