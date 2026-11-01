@@ -479,7 +479,7 @@ const LX=[-3.33,0,3.33];
 const VD={micro:{w:2,l:4.7,v:[22,30]},taxi:{w:1.8,l:4.3,v:[20,28]},sedan:{w:1.8,l:4.3,v:[24,32]},tuk:{w:1.3,l:2.4,v:[12,16]},truck:{w:2.5,l:8.5,v:[14,20]},bus:{w:2.5,l:10.5,v:[12,18]},benz:{w:1.8,l:4.85,v:[10,14]},jeep:{w:1.95,l:4.1,v:[8,12]},bmw:{w:1.9,l:4.95,v:[10,15]},cart:{w:1.7,l:4,v:[3.5,5]}};
 const TLd=new T.MeshBasicMaterial({color:0x7a1414}),HL=mat('#fff6c8',{emissive:0x777755}),GL=mat('#1b232b');
 function wh(p,x,z,r){const o=cy(r,.25,mat('#16161a'),x,r,z,p);o.rotation.z=PI/2}
-const BM=(c,m,r)=>mat(c,{metalness:m,roughness:r}),GLS=BM('#0e141a',.9,.1),CHR=BM('#d8dde2',.95,.2),RUB=mat('#141416',{roughness:.9,metalness:0}),LAMP=mat('#fff3c4',{emissive:0xffe9a0,emissiveIntensity:.7}),GW=new T.CylinderGeometry(1,1,1,22),GX={};
+const BM=(c,m,r)=>mat(c,{metalness:m,roughness:r}),GLS=(()=>{const g=BM('#0e141a',.9,.1);g.transparent=true;g.opacity=.34;g.depthWrite=false;return g})(),CHR=BM('#d8dde2',.95,.2),RUB=mat('#141416',{roughness:.9,metalness:0}),LAMP=mat('#fff3c4',{emissive:0xffe9a0,emissiveIntensity:.7}),GW=new T.CylinderGeometry(1,1,1,22),GX={};
 function ext(p,pts,w,bv,m,oz){const k=JSON.stringify([pts,w,bv]);let g=GX[k];if(!g){const s=new T.Shape();pts.forEach((q,i)=>i?s.lineTo(q[0],q[1]):s.moveTo(q[0],q[1]));const d=w-2*bv;g=new T.ExtrudeGeometry(s,{depth:d,bevelEnabled:true,bevelThickness:bv,bevelSize:bv*.8,bevelSegments:3});g.translate(0,0,-d/2);g.rotateY(PI/2);GX[k]=g}const o=new T.Mesh(g,m);o.castShadow=o.receiveShadow=true;o.position.z=oz||0;p.add(o);return o}
 function wl(p,x,z,r){const n=Math.sign(x),a=me(GW,RUB,r,.26,r,x,r,z,p);a.rotation.z=PI/2;const b=me(GW,CHR,r*.62,.28,r*.62,x+n*.02,r,z,p);b.rotation.z=PI/2;const c=me(GW,BM('#555',.8,.4),r*.2,.3,r*.2,x+n*.03,r,z,p);c.rotation.z=PI/2}
 function mkP(t,tl,col){tl=tl||TLd;const g=new T.Group(),D=VD[t];
@@ -1116,18 +1116,27 @@ const CHRGL=`vec3 transformed=vec3(position);
   c=cos(aa);s=sin(aa);dy=yy-shY;ny=shY+dy*c-zz*s;nz=dy*s+zz*c;yy=ny;zz=nz;}
  transformed=vec3(sx*ax,yy+uY0,zz);}`;
 function chrPatch(m,d){m.userData.u={uPh:{value:0},uAmp:{value:0},uWave:{value:0},uH:{value:d.H},uY0:{value:d.y0},uTP:{value:d.tp?1:0},uSit:{value:0},uSk:{value:-10},uDr:{value:d.dress?1:0}};m.onBeforeCompile=sh=>{Object.assign(sh.uniforms,m.userData.u);sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\nuniform float uPh,uAmp,uWave,uH,uY0,uTP,uSit,uSk,uDr;').replace('#include <begin_vertex>',CHRGL)};m.customProgramCacheKey=()=>'chrw2'}
-const BBG=new T.PlaneGeometry(1,1);BBG.translate(0,.5,0);{const na=BBG.attributes.normal;for(let k=0;k<na.count;k++)na.setXYZ(k,0,1,0)}
+const BBG=new T.PlaneGeometry(1,1,6,24);BBG.translate(0,.5,0);{const na=BBG.attributes.normal;for(let k=0;k<na.count;k++)na.setXYZ(k,0,1,0)}
 const _bv=new T.Vector3(),BBV=['front','back','L','R'];
+/* حركة مشي: رجلين بتتبادل ودراع بيتأرجح (تشويه في الـvertex shader) */
+function bbWalk(m){m.userData.u={uPh:{value:0},uAm:{value:0},uSd:{value:0},uAs:{value:.3}};
+ m.onBeforeCompile=sh=>{Object.assign(sh.uniforms,m.userData.u);
+  sh.vertexShader='uniform float uPh;uniform float uAm;uniform float uSd;uniform float uAs;\n'+sh.vertexShader.replace('#include <begin_vertex>',`vec3 transformed=vec3(position);
+ float hy=uv.y,lo=1.-smoothstep(0.,.52,hy),arm=smoothstep(.30,.42,hy)*(1.-smoothstep(.56,.74,hy)),s=sin(uPh);
+ transformed.x+=uSd*uAm*(s*.17*lo-s*.04*arm)/uAs;
+ float sl=1.-smoothstep(.44,.56,uv.x),lift=(sl*max(s,0.)+(1.-sl)*max(-s,0.))*.05*(1.-smoothstep(0.,.28,hy));
+ transformed.y+=(1.-uSd)*uAm*lift;`)};
+ m.customProgramCacheKey=()=>'bbw1'}
 function bbSit(t){if(t.userData.sit)return t.userData.sit;const im=t.image,w=im.width,h=im.height,ch=Math.round(h*.6),c=document.createElement('canvas');c.width=w;c.height=ch;c.getContext('2d').drawImage(im,0,0,w,ch,0,0,w,ch);const st=new T.CanvasTexture(c);st.encoding=t.encoding;st.anisotropy=t.anisotropy;t.userData.sit=st;return st}
 /* شخصيات من صور حقيقية (4 زوايا) بتلف مع الكاميرا */
 function nmChar(i,gen){let a=NM.c;if(typeof i==='string')a=a.filter(d=>d.f===i);else if(gen){const b=a.filter(d=>d.g===gen&&!d.me&&!d.kid);if(b.length)a=b}if(!a.length)return null;const d=typeof i==='string'?a[0]:a[(i|0)%a.length],g=new T.Group(),H=d.h;
- const m=new T.MeshLambertMaterial({map:d.t.front,alphaTest:.5,side:T.DoubleSide,emissive:new T.Color(.05,.05,.06)});m.color.setRGB(.8,.8,.8);
+ const m=new T.MeshLambertMaterial({map:d.t.front,alphaTest:.5,side:T.DoubleSide,emissive:new T.Color(.05,.05,.06)});m.color.setRGB(.8,.8,.8);bbWalk(m);
  const mesh=new T.Mesh(BBG,m);mesh.castShadow=mesh.receiveShadow=false;mesh.frustumCulled=false;g.add(mesh);
  const mid=new T.Group();mid.rotation.y=PI;g.add(mid);
  const cw={g,mid,mats:[m],d,sit:0,ph:0,amp:0,set(ph,a2,wave,sit,sk){this.ph=ph;this.amp=a2*(d.dress?.82:1);this.sit=sit?1:0},hand(a){const v=new T.Vector3(.17*H,.8*H-.36*H*Math.cos(a),-.36*H*Math.sin(a));mid.updateWorldMatrix(true,false);return mid.localToWorld(v)}};
  mesh.onBeforeRender=function(r,s,cm){const p=this.parent;if(!p)return;p.updateWorldMatrix(true,false);_bv.setFromMatrixPosition(cm.matrixWorld);p.worldToLocal(_bv);const lx=_bv.x,lz=_bv.z,ph=Math.atan2(lx,-lz),ap=Math.abs(ph),v=ap<.785?'front':ap>2.356?'back':(ph>0?'R':'L'),tx=d.t[v],sit=cw.sit;
   m.map=sit?bbSit(tx):tx;const asp=tx.image.width/tx.image.height,hh=sit?H*.6:H,bob=cw.amp>0?Math.abs(Math.sin(cw.ph))*.03*H*cw.amp:0;
-  this.scale.set(H*asp,hh,1);this.position.set(0,(sit?H*.4:0)+bob,0);this.rotation.set(0,Math.atan2(lx,lz),Math.sin(cw.ph)*.03*cw.amp);this.updateMatrix();this.matrixWorld.multiplyMatrices(p.matrixWorld,this.matrix)};
+  {const U=m.userData.u;U.uPh.value=cw.ph;U.uAm.value=sit?0:Math.min(1,cw.amp*1.5);U.uSd.value=(v==='L'||v==='R')?1:0;U.uAs.value=asp}this.scale.set(H*asp,hh,1);this.position.set(0,(sit?H*.4:0)+bob,0);this.rotation.set(0,Math.atan2(lx,lz),Math.sin(cw.ph)*.03*cw.amp);this.updateMatrix();this.matrixWorld.multiplyMatrices(p.matrixWorld,this.matrix)};
  return cw}
 const CHW={c_old:3,c_man:3,c_malay:2,c_white:2,c_hijab2:2,c_fem:1,c_woman:1};
 function nmPickIdx(){const w=d=>d.me?0:(CHW[d.f]||1);let t=0;for(const d of NM.c)t+=w(d);let r=Math.random()*t;for(let i=0;i<NM.c.length;i++){r-=w(NM.c[i]);if(r<=0&&w(NM.c[i])>0)return i}return NM.c.findIndex(d=>!d.me)}
@@ -1409,6 +1418,11 @@ async function initCloud(){try{if(!(window.claude&&claude.use))throw 0;const to=
 
 function plate(k){const key=k+(Math.random()*8|0);if(PL[key])return PL[key];const bg={b:'#1c4fa8',o:'#f08a1a',y:'#e9c21a'}[k],fg=k==='b'?'#fff':'#111';
  return PL[key]=new T.MeshBasicMaterial({map:ct(256,80,(g,w,h)=>{g.fillStyle='#f4f4f0';g.fillRect(0,0,w,h);g.fillStyle=bg;g.fillRect(5,5,w-10,h-10);g.fillStyle=fg;g.textBaseline='middle';g.direction='rtl';g.font='800 20px Cairo,Tahoma,sans-serif';g.textAlign='center';g.fillText('مصر  •  '+pick(GOV),w/2,18);g.font='800 36px Cairo,Tahoma,sans-serif';g.textAlign='right';g.fillText(pick(LET)+' '+pick(LET)+' '+pick(LET),w-14,54);g.textAlign='left';g.fillText(String(1000+Math.random()*8999|0).replace(/\d/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]),14,54)})})}
+/* ناس جوه العربيات (سواق وركاب) من الوسط لفوق */
+const OCS={taxi:{y:.55,s:.82,rows:[-.10,.14]},sedan:{y:.55,s:.82,rows:[-.10,.14]},micro:{y:.8,s:.95,rows:[-.30,-.04,.20]}};
+function addOcc(r,t){const c=OCS[t];if(!c||!NM.cr||!NM.c.length||!r.g)return;const grp=new T.Group();r.g.add(grp);r.occ=grp;
+ for(let ri=0;ri<c.rows.length;ri++)for(let si=0;si<2;si++){const dr=ri===0&&si===0;if(!dr&&Math.random()>(ri===0?.5:(t==='micro'?.5:.3)))continue;
+  const cw=nmChar(nmPickIdx(),dr?'m':null);if(!cw)continue;cw.set(0,0,0,1,-.7);cw.g.scale.setScalar(c.s);cw.g.position.set((si?1:-1)*.24*r.w,c.y-.5*cw.d.h*c.s,c.rows[ri]*r.l);grp.add(cw.g)}}
 function mk(t,tl,col){const vp=a=>{const b=a.filter(x=>MG[x]);return b.length?pick(b):a[0]},KM={micro:'micro',taxi:'taxi',sedan:'corolla',tuk:'tuk'},key=MG[KM[t]]?KM[t]:t,m=MG[key],r=m?mkM(key,m,col):mkP(t,tl,col);
  if(t!=='cart'&&!SCN[key]&&key!=='taxi'){const k=t==='truck'?'y':t==='sedan'?'b':'o',y={micro:.62,truck:.75,bus:.75,jeep:.7,tuk:.5}[t]||.5;me(GP,plate(k),.52,.16,1,0,y,r.l/2+.02,r.g);me(GP,plate(k),.52,.16,1,0,y,-r.l/2-.02,r.g).rotation.y=PI}r.t=t;r.key=key;return r}
 /* shops & city */
@@ -1832,7 +1846,7 @@ function toggleCar(){if(!started)return;if(!onFoot){if(Math.abs(v)>2.5){say('و�
 const CNM={micro:'ميكروباص',taxi:'تاكسي',sedan:'سيدان',tuk:'توكتوك',truck:'عربية نقل',bus:'أتوبيس',cart:'كارو'};
 function boardOther(c){const i=cars.indexOf(c);if(i<0)return;cars.splice(i,1);pv.g.rotation.set(0,hd,0);pv.g.position.set(px,0,pz);if(pv.full)pv.full.visible=true;if(pv.box)pv.box.visible=false;
  cars.push({id:cars.length,o:pv,t:pv.t||'micro',w:pv.w,l:pv.l,x:px,z:pz,hd:hd,vh:hd,v:0,vb:0,fx:0,fz:0,last:0,park:true,own:true});
- const nv=c.o;pv=nv;px=c.x;pz=c.z;hd=c.hd;td=hd;v=0;nv.g.visible=true;if(nv.full)nv.full.visible=true;if(nv.box)nv.box.visible=false;nv.g.traverse(m=>{if(m.isMesh&&m!==nv.box)m.castShadow=true});
+ const nv=c.o;nv.occD=1;if(nv.occ){nv.g.remove(nv.occ);nv.occ=null}pv=nv;px=c.x;pz=c.z;hd=c.hd;td=hd;v=0;nv.g.visible=true;if(nv.full)nv.full.visible=true;if(nv.box)nv.box.visible=false;nv.g.traverse(m=>{if(m.isMesh&&m!==nv.box)m.castShadow=true});
  onFoot=false;$('svc').classList.add('h');svcCur=null;say('ركبت '+(CNM[c.t]||'العربية')+' 🚗 — نزّل وأركب غيرها براحتك')}
 function svcCheck(dt){svcT2-=dt;if(svcT2>0)return;svcT2=.3;garCheck();let q=null;if(onFoot&&AV)for(const s of SVCP)if(Math.hypot(AV.x-s.x,AV.z-s.z)<5){q=s;break}
  if(q!==svcCur){svcCur=q;if(!q)$('svc').classList.add('h')}if(q)buildSvc(q)}
@@ -1860,7 +1874,7 @@ function stepCar(c,dt){const ddx=c.x-px,ddz=c.z-pz,dd=Math.sqrt(ddx*ddx+ddz*ddz)
  if(!c.park&&dd>200){c.acc=(c.acc||0)+dt;if(((FRM+(c.id|0))%3)!==0)return;dt=c.acc;c.acc=0}
  const fx=-Math.sin(c.hd),fz=-Math.cos(c.hd),o=c.o;c.fx=fx;c.fz=fz;
  if(c.rc){rcDrive(c,dt);c.vh+=angd(c.hd,c.vh)*Math.min(1,dt*8);o.g.visible=true;o.g.position.set(c.x,0,c.z);o.g.rotation.y=c.vh;carVsPlayer(c,fx,fz,.5,.5);return}
- o.g.visible=dd<320;if(o.box){const far=dd>(c.far?70:90);c.far=far;o.full.visible=!far;o.box.visible=far}
+ o.g.visible=dd<320;if(!c.own&&!o.occD&&NM.cr&&o.t){o.occD=1;addOcc(o,o.t)}if(o.occ)o.occ.visible=dd<55;if(o.box){const far=dd>(c.far?70:90);c.far=far;o.full.visible=!far;o.box.visible=far}
  if(c.park){carVsPlayer(c,fx,fz,.9,0);return}
  const rx=Math.cos(c.hd),rz=-Math.sin(c.hd),az=Math.abs(fx)<.5;let lim=c.vb;
  for(let i=0;i<cars.length;i++){const q=cars[i];if(q===c||q.park)continue;const dx=q.x-c.x,dz=q.z-c.z;if(dx>40||dx<-40||dz>40||dz<-40)continue;const fw=dx*fx+dz*fz,lt=Math.abs(dx*rx+dz*rz),gap=c.l/2+q.l/2;if(fw>0&&lt<2.4&&fw<gap+10)lim=fw<gap+2.5?0:Math.min(lim,q.v*.9)}
