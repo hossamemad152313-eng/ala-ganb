@@ -937,16 +937,11 @@ const RMY=()=>performance.now()>RM.dl;
 function rmBuild(ci,cj){RM.dl=1e12;const it=rmBuildG(ci,cj);while(!it.next().done);}
 function rmDrop(k,c){sc.remove(c.g);c.g.traverse(o=>{if(o.userData.own&&o.geometry)o.geometry.dispose()});RM.CH.delete(k);RM.dirty=true}
 function rmStream(){if(!RM.ready)return;const ci=Math.floor(px/RM.CS),cj=Math.floor(pz/RM.CS),R_=RM.R;
- if(RM.lx!=null){const mx=px-RM.lx,mz=pz-RM.lz,m=Math.hypot(mx,mz);if(m>.3){RM.ux=mx/m;RM.uz=mz/m}}RM.lx=px;RM.lz=pz;
- for(const[k,c]of RM.CH){if(Math.abs(c.i-ci)>R_+1||Math.abs(c.j-cj)>R_+1)rmDrop(k,c)}
- const t0=performance.now();RM.dl=t0+(RM.CH.size<9?14:3.5);
- for(let g=0;g<6&&performance.now()<RM.dl;g++){
-  if(!RM.job){let bi=null,bs=1e9;const ux=RM.ux||0,uz=RM.uz||0;
-   for(let i=ci-R_;i<=ci+R_;i++)for(let j=cj-R_;j<=cj+R_;j++){if(RM.CH.has(rck(i,j)))continue;const dx=((i+.5)*RM.CS-px)/RM.CS,dz=((j+.5)*RM.CS-pz)/RM.CS,sc2=Math.hypot(dx,dz)-1.2*(dx*ux+dz*uz);if(sc2<bs){bs=sc2;bi=[i,j]}}
-   if(!bi)break;RM.job={i:bi[0],j:bi[1],it:rmBuildG(bi[0],bi[1])}}
-  if(RM.job.it.next().done)RM.job=null}
+ for(const[k,c]of[...RM.CH]){if(Math.abs(c.i-ci)>R_+1||Math.abs(c.j-cj)>R_+1)rmDrop(k,c)}
+ const need=[];for(let i=ci-R_;i<=ci+R_;i++)for(let j=cj-R_;j<=cj+R_;j++)if(!RM.CH.has(rck(i,j)))need.push([Math.abs(i-ci)+Math.abs(j-cj),i,j]);need.sort((a,b)=>a[0]-b[0]);
+ const t0=performance.now();for(let n=0;n<need.length;n++){if(n>0&&performance.now()-t0>7)break;rmBuild(need[n][1],need[n][2])}
  if(RM.dirty){RM.dirty=false;COL.length=0;COL2.length=0;COLC.length=0;for(const c of RM.CH.values())for(const q of c.col){COLC.push(q);COL2.push(q)}}}
-function rmRefresh(){RM.job=null;for(const[k,c]of[...RM.CH])rmDrop(k,c)}
+function rmRefresh(){for(const[k,c]of[...RM.CH])rmDrop(k,c)}
 /* أقرب مسافة لأي شارع غير الشارع ده (عشان الشجر والأعمدة ما تقعش في نص شارع تاني) */
 function rmGap(x,z,skip){let best=1e9;const rad=18,seen=new Set(),i0=Math.floor((x-rad)/100),i1=Math.floor((x+rad)/100),j0=Math.floor((z-rad)/100),j1=Math.floor((z+rad)/100);
  for(let i=i0;i<=i1;i++)for(let j=j0;j<=j1;j++){const l=RM.EG.get(rck(i,j));if(!l)continue;for(const ei of l){if(ei===skip||seen.has(ei))continue;seen.add(ei);const e=RM.E[ei],P=e.P;for(let k=0;k<e.n-1;k++){const ax=P[k*2],az=P[k*2+1],dx=P[k*2+2]-ax,dz=P[k*2+3]-az,l2=dx*dx+dz*dz||1;let u=((x-ax)*dx+(z-az)*dz)/l2;u=u<0?0:u>1?1:u;const gp=Math.hypot(x-ax-dx*u,z-az-dz*u)-e.w/2;if(gp<best)best=gp}}}return best}
