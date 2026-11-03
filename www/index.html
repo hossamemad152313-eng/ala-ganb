@@ -880,6 +880,7 @@ function bxm(o,cx,cy,cz,hx,hy,hz,rot,col){const c=Math.cos(rot),s=Math.sin(rot),
  const sd=(p,q,n)=>qd(o,[q[0],y0,q[1]],[p[0],y0,p[1]],[p[0],y1,p[1]],[q[0],y1,q[1]],n,0,0,1,0,1,1,0,1,col);sd(A,B,[s,0,-c]);sd(B,C,[c,0,s]);sd(C,D,[-s,0,c]);sd(D,A,[-c,0,-s])}
 const rRC=h=>{const c=new T.Color(h);return[c.r,c.g,c.b]};
 const CTR=rRC('#6b4b32'),CLF=[rRC('#4d7f2c'),rRC('#5f8f34'),rRC('#3f7a38')],CPL=rRC('#4a4d52'),CLH=rRC('#f2e6b0'),CWT=rRC('#d7d2c6'),CST=rRC('#9c978c'),CPM=rRC('#7a5a3a'),CPL2=rRC('#2f7a3a');
+const CAC=[rRC('#e8e6df'),rRC('#cfcabd')],CIR=rRC('#303135'),CRB=rRC('#5a2e24'),CLN=['#c0392b','#2e86c1','#f4d03f','#ecf0f1','#27ae60','#8e44ad'].map(rRC);
 function* rmBuildG(ci,cj){const key=rck(ci,cj),g=new T.Group(),mb=rMB(),M=rmMats(),col=[],cs=RM.CS;
  // شوارع + رصيف + خطوط + أعمدة وأشجار
  const sg=RM.SG.get(key)||[],road=(c)=>mb.get(c<=2?'r0':c<=4?'r1':'r2',M.road,false,c<=2?1:c<=4?2:3),dec=mb.get('dec',M.dec,true,6),sol=mb.get('sol',M.solid,true,0);
@@ -909,6 +910,15 @@ function* rmBuildG(ci,cj){const key=rck(ci,cj),g=new T.Group(),mb=rMB(),M=rmMats
   const ro=mb.get('roof',M.roof,false,0,true);qd(ro,[P0[0],H,P0[1]],[P1[0],H,P1[1]],[P2[0],H,P2[1]],[P3[0],H,P3[1]],UP,P0[0]/5,P0[1]/5,P1[0]/5,P1[1]/5,P2[0]/5,P2[1]/5,P3[0]/5,P3[1]/5);
   // دور السطح + خزان
   const u=rhh(i,5,6);if(u<.55){const c2=C((rhh(i,6,7)-.5)*w*.5,-hd_*.4);bxm(sol,c2[0],H+.9,c2[1],1.1,.8,1.1,fr,CWT)}if(u>.35&&u<.8){const c3=C(hw*.5,hd_*.2);bxm(sol,c3[0],H+1.3,c3[1],1.4,1.3,1.4,fr,CST)}
+  // طابع مصري: تكييفات + أطباق + بلكونات بغسيل + حديد تسليح على الأسطح
+  {const nA=Math.min(4,1+Math.floor(rhh(i,11,3)*fl*.6));
+   for(let a=0;a<nA;a++){const yy=(1+Math.floor(rhh(i,12,a)*(fl-1)))*3.8+1.6,sd=rhh(i,14,a)<.25,p=sd?C(hw+.18,(rhh(i,15,a)-.5)*(d-2)):C((rhh(i,13,a)-.5)*(w-2),hd_+.18);
+    if(sd)bxm(sol,p[0],yy,p[1],.3,.22,.18,fr,CAC[a&1]);else bxm(sol,p[0],yy,p[1],.18,.22,.3,fr,CAC[a&1])}
+   const nD=Math.floor(rhh(i,16,1)*3);for(let a=0;a<nD;a++){const p=C((rhh(i,18,a)-.5)*(w-2),hd_+.3);bxm(sol,p[0],(1+Math.floor(rhh(i,17,a)*(fl-1)))*3.8+2.4,p[1],.07,.36,.36,fr,CST)}
+   if(fl>=3){let nb=0;for(let fy=1;fy<fl&&nb<2;fy++){if(rhh(i,19,fy)>=.5)continue;nb++;const bo=(rhh(i,20,fy)-.5)*(w-4),y0=fy*3.8,s1=C(bo,hd_+.6),s2=C(bo,hd_+1.2);
+    bxm(sol,s1[0],y0+.1,s1[1],.6,.08,1.2,fr,CIR);bxm(sol,s2[0],y0+.55,s2[1],.03,.4,1.2,fr,CIR);
+    if(rhh(i,22,fy)<.5)for(let k=-1;k<=1;k+=2){const l=C(bo+k*.5,hd_+1.1);bxm(sol,l[0],y0+.85,l[1],.03,.35,.22,fr,CLN[Math.floor(rhh(i,23,fy+k)*6)])}}}
+   if(fl<=6&&rhh(i,21,1)<.35){for(const[a,b]of[[-1,-1],[1,-1],[1,1],[-1,1]]){const r=C(a*(hw-.4),b*(hd_-.4));bxm(sol,r[0],H+1.1,r[1],.06,1.1,.06,fr,CRB)}}}
   // يافطة قدام
   if(rhh(i,9,9)<.7&&KSG.length){const sgn=KSG[Math.floor(rhh(ci,cj,31+Math.floor(rhh(i,2,2)*3))*KSG.length)],sw=Math.min(6.4,w*.3),sh=sw*sgn.r,off=(rhh(i,4,4)-.5)*(w-sw-1),y0=2.9,so=mb.get('sg'+(sgn.m.uuid),sgn.m,false,0,false),a=C(off-sw/2,hd_+.25),b=C(off+sw/2,hd_+.25);
    qd(so,[a[0],y0,a[1]],[b[0],y0,b[1]],[b[0],y0+sh,b[1]],[a[0],y0+sh,a[1]],[fx,0,fz],1,0,0,0,0,1,1,1)}
