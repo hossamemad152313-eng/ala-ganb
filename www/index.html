@@ -880,8 +880,8 @@ function bxm(o,cx,cy,cz,hx,hy,hz,rot,col){const c=Math.cos(rot),s=Math.sin(rot),
  const sd=(p,q,n)=>qd(o,[q[0],y0,q[1]],[p[0],y0,p[1]],[p[0],y1,p[1]],[q[0],y1,q[1]],n,0,0,1,0,1,1,0,1,col);sd(A,B,[s,0,-c]);sd(B,C,[c,0,s]);sd(C,D,[-s,0,c]);sd(D,A,[-c,0,-s])}
 const rRC=h=>{const c=new T.Color(h);return[c.r,c.g,c.b]};
 const CTR=rRC('#6b4b32'),CLF=[rRC('#4d7f2c'),rRC('#5f8f34'),rRC('#3f7a38')],CPL=rRC('#4a4d52'),CLH=rRC('#f2e6b0'),CWT=rRC('#d7d2c6'),CST=rRC('#9c978c'),CPM=rRC('#7a5a3a'),CPL2=rRC('#2f7a3a');
-const CAC=[rRC('#e8e6df'),rRC('#cfcabd')],CIR=rRC('#303135'),CRB=rRC('#5a2e24'),CLN=['#c0392b','#2e86c1','#f4d03f','#ecf0f1','#27ae60','#8e44ad'].map(rRC);
-function* rmBuildG(ci,cj){const key=rck(ci,cj),g=new T.Group(),mb=rMB(),M=rmMats(),col=[],cs=RM.CS;
+const CRD=rRC('#e8b800'),CAC=[rRC('#e8e6df'),rRC('#cfcabd')],CIR=rRC('#303135'),CRB=rRC('#5a2e24'),CLN=['#c0392b','#2e86c1','#f4d03f','#ecf0f1','#27ae60','#8e44ad'].map(rRC);
+function* rmBuildG(ci,cj){const key=rck(ci,cj),g=new T.Group(),mb=rMB(),M=rmMats(),col=[],cs=RM.CS,rads=[];
  // شوارع + رصيف + خطوط + أعمدة وأشجار
  const sg=RM.SG.get(key)||[],road=(c)=>mb.get(c<=2?'r0':c<=4?'r1':'r2',M.road,false,c<=2?1:c<=4?2:3),dec=mb.get('dec',M.dec,true,6),sol=mb.get('sol',M.solid,true,0);
  for(let t=0;t<sg.length;t+=2){if((t&15)===0&&RMY())yield;const e=RM.E[sg[t]],k=sg[t+1],w2=e.w/2,y=e.br?.05:.03;
@@ -894,6 +894,10 @@ function* rmBuildG(ci,cj){const key=rck(ci,cj),g=new T.Group(),mb=rMB(),M=rmMats
   if(e.c>=1){const ja=RM.ND[e.a].e.length>=3?e.w*.9:0,jb=RM.ND[e.b].e.length>=3?e.w*.9:0,sa=ja,sb=e.L-jb,Y=y+.01,W=[1,1,1],Yl=[1,.8,.1];
    if(e.c>=3){stripe(dec,e,k,-w2+.35,.16,Y,sa,sb,W,0);stripe(dec,e,k,w2-.35,.16,Y,sa,sb,W,0)}
    if(!e.ow){if(e.c>=4){stripe(dec,e,k,-.14,.12,Y,sa,sb,Yl,0);stripe(dec,e,k,.14,.12,Y,sa,sb,Yl,0)}else stripe(dec,e,k,0,.14,Y,sa,sb,W,1)}else if(e.c>=3&&e.w>9){stripe(dec,e,k,-e.w/6,.12,Y,sa,sb,W,1);stripe(dec,e,k,e.w/6,.12,Y,sa,sb,W,1)}}
+  // رادار سرعة على الطرق الرئيسية: بوابة فوق الطريق + صندوق أصفر
+  if(!e.br&&e.c>=4&&e.L>120){const s0=e.cum[k],s1=e.cum[k+1],m=Math.ceil(s0/280);if(m*280<s1&&rhh(e.i,m,77)<.7){const o=rmAt(e,m*280,{k}),nx=-o.tz,nz=o.tx,rt=Math.atan2(nz,nx),hwid=w2+1.2;
+   for(const sd of[-1,1])bxm(sol,o.x+nx*hwid*sd,3.2,o.z+nz*hwid*sd,.13,3.2,.13,0,CPL);
+   bxm(sol,o.x,6.2,o.z,hwid,.18,.18,rt,CPL);bxm(sol,o.x,5.7,o.z,.35,.25,.3,rt,CRD);rads.push({x:o.x,z:o.z})}}
   // أعمدة إنارة وأشجار
   if(!e.br&&e.c>=1&&e.c<=4){const s0=e.cum[k],s1=e.cum[k+1];
    if(e.c>=2){const m=Math.ceil(s0/42);if(m*42<s1){const o=rmAt(e,m*42,{k}),sd=(m+e.i)%2?1:-1,nx=-o.tz*sd,nz=o.tx*sd,off=w2+3,lx=o.x+nx*off,lz=o.z+nz*off,r=Math.atan2(nz,nx);if(rmGap(lx,lz,e.i)>=1.2){bxm(sol,lx,3.3,lz,.09,3.3,.09,0,CPL);bxm(sol,lx-nx*.8,6.5,lz-nz*.8,.8,.07,.07,r,CPL);bxm(sol,lx-nx*1.5,6.4,lz-nz*1.5,.3,.07,.14,r,CLH)}}}
@@ -937,7 +941,7 @@ function* rmBuildG(ci,cj){const key=rck(ci,cj),g=new T.Group(),mb=rMB(),M=rmMats
  // اعمل ميشات
  for(const o of mb.m.values()){if(!o.p.length)continue;const geo=new T.BufferGeometry();geo.setAttribute('position',new T.Float32BufferAttribute(o.p,3));geo.setAttribute('normal',new T.Float32BufferAttribute(o.n,3));geo.setAttribute('uv',new T.Float32BufferAttribute(o.u,2));if(o.c)geo.setAttribute('color',new T.Float32BufferAttribute(o.c,3));geo.userData.own=true;
   const me2=new T.Mesh(geo,o.mt);me2.renderOrder=o.ro;me2.castShadow=o.cs;me2.receiveShadow=true;me2.userData.own=true;me2.matrixAutoUpdate=false;me2.frustumCulled=true;g.add(me2)}
- sc.add(g);RM.CH.set(key,{i:ci,j:cj,g,col});RM.dirty=true}
+ sc.add(g);RM.CH.set(key,{i:ci,j:cj,g,col,rad:rads});RM.dirty=true}
 const RMY=()=>performance.now()>RM.dl;
 function rmBuild(ci,cj){RM.dl=1e12;const it=rmBuildG(ci,cj);while(!it.next().done);}
 function rmDrop(k,c){sc.remove(c.g);c.g.traverse(o=>{if(o.userData.own&&o.geometry)o.geometry.dispose()});RM.CH.delete(k);RM.dirty=true}
@@ -1812,8 +1816,16 @@ const hsh=(a,b,c)=>{let s=((a*374761393)^(b*668265263)^(c*2147483647))>>>0;s=Mat
 function coinList(){CNL=[];if(!RM.ready)return;const seen=new Set(),rad=250,i0=Math.floor((px-rad)/100),i1=Math.floor((px+rad)/100),j0=Math.floor((pz-rad)/100),j1=Math.floor((pz+rad)/100);for(let i=i0;i<=i1;i++)for(let j=j0;j<=j1;j++){const l=RM.EG.get(rck(i,j));if(!l)continue;for(const ei of l){if(seen.has(ei))continue;seen.add(ei);const e=RM.E[ei];if(e.c<1||e.c>4||e.br||e.L<40)continue;for(let g=0;g*150<e.L;g++){if(rhh(ei,g,5)>.2)continue;for(let k=0;k<7;k++){const s=g*150+k*18+10;if(s>e.L-6)break;const key='e'+ei+'_'+s;if(CKEEP.has(key))continue;const o=rmAt(e,s,{}),lo=e.ow?0:e.w*.25*(rhh(ei,g,6)<.5?-1:1),x=o.x+(-o.tz)*lo,z=o.z+o.tx*lo;if(Math.abs(x-px)>rad||Math.abs(z-pz)>rad)continue;CNL.push({x,z,key})}}}}if(CNL.length>90)CNL.length=90}
 function coinStep(dt){coinT-=dt;if(coinT<=0){coinT=.5;coinList()}let n=0;for(const c of CNL){if(c.got)continue;const d=Math.hypot(c.x-px,c.z-pz);if(d<2.4&&!onFoot&&started){c.got=1;CKEEP.add(c.key);SAVE.cash+=5;score+=10;A.coin();refreshMoney();continue}if(d>260)continue;_po.position.set(c.x,1.1,c.z);_po.rotation.set(0,t*3,0);_po.scale.setScalar(1);_po.updateMatrix();COINS.setMatrixAt(n++,_po.matrix)}COINS.count=n;COINS.instanceMatrix.needsUpdate=true}
 function camAt(i,j){return false}
-function camStep(dt){camCd-=dt;if(camCd>0||onFoot)return;const ri=Math.round(px/PITCH),rj=Math.round(pz/PITCH);if(Math.hypot(px-ri*PITCH,pz-rj*PITCH)>12||Math.abs(v)<22||Math.abs(ri)>KM||Math.abs(rj)>KM||!camAt(ri,rj))return;
- camCd=6;const k=Math.min(50,SAVE.cash+SAVE.wallet);if(k>0)spend(k,'غرامة رادار');const f=$('fl');f.style.opacity=1;setTimeout(()=>{f.style.opacity=0},120);say('📸 رادار! غرامة '+AR(Math.round(k))+' ج',1);speak('رادار! حاسب يا اسطى',1,1)}
+function camStep(dt){camCd-=dt;if(camCd>0||onFoot)return;if(Math.abs(v)<22||!started||typeof RM==='undefined'||!RM.CH)return;let hit=0;for(const c of RM.CH.values()){if(!c.rad)continue;for(const r of c.rad){if(Math.hypot(r.x-px,r.z-pz)<8){hit=1;break}}if(hit)break}if(!hit)return;
+ camCd=6;const k=Math.min(Math.round(30+(Math.abs(v)-22)*5),SAVE.cash+SAVE.wallet);if(k>0)spend(k,'غرامة رادار');const f=$('fl');f.style.opacity=1;setTimeout(()=>{f.style.opacity=0},120);say('📸 رادار! غرامة '+AR(Math.round(k))+' ج',1);speak('رادار! حاسب يا اسطى',1,1)}
+/* مستويات: الخبرة بتزيد مع كل فلوس بتكسبها، ومكافأة عند كل مستوى جديد */
+(function(){const el=document.createElement('div');el.style.cssText='position:fixed;top:calc(env(safe-area-inset-top,0px) + 6px);left:50%;transform:translateX(-50%);z-index:30;pointer-events:none;background:rgba(15,20,28,.72);color:#fff;border-radius:10px;padding:3px 10px;font:700 12px system-ui,sans-serif;direction:rtl;white-space:nowrap';document.body.appendChild(el);
+ let last=null;const need=l=>l*l*120;
+ setInterval(()=>{try{if(typeof SAVE==='undefined'||!SAVE)return;const tot=(SAVE.cash||0)+(SAVE.wallet||0);if(last===null)last=tot;
+  if(tot>last)SAVE.xp=(SAVE.xp||0)+(tot-last);last=tot;
+  const lv=Math.min(50,Math.floor(Math.sqrt((SAVE.xp||0)/120))+1),pl=SAVE.lvl||1;
+  if(lv>pl){SAVE.lvl=lv;const b=50*lv;SAVE.cash+=b;last+=b;say('⭐ مستوى '+AR(lv)+'! مكافأة '+AR(b)+' ج',0);if(typeof refreshMoney==='function')refreshMoney()}
+  const L=SAVE.lvl||1,a=need(L-1),pc=L>=50?100:Math.round(100*((SAVE.xp||0)-a)/(need(L)-a));el.textContent='⭐ مستوى '+AR(L)+' · '+AR(pc)+'٪'}catch(e){}},1000)})();
 /* day / night + guidance */
 let SKD=sc.background,SKU=ct(8,256,(g,w,h)=>{const q=g.createLinearGradient(0,0,0,h);q.addColorStop(0,'#3a3a7a');q.addColorStop(.3,'#8a5a8c');q.addColorStop(.46,'#ff9a5a');q.addColorStop(1,'#f4c08a');g.fillStyle=q;g.fillRect(0,0,w,h)}),
  SKN=ct(256,256,(g,w,h)=>{const q=g.createLinearGradient(0,0,0,h);q.addColorStop(0,'#04081a');q.addColorStop(.3,'#0c1838');q.addColorStop(.46,'#1c2c52');q.addColorStop(1,'#1c2c52');g.fillStyle=q;g.fillRect(0,0,w,h);g.fillStyle='#fff';for(let i=0;i<140;i++){g.globalAlpha=.3+Math.random()*.7;g.fillRect(Math.random()*w,Math.random()*h*.45,1.4,1.4)}});
