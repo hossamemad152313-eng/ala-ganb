@@ -43,6 +43,20 @@ html,body{overscroll-behavior:none}
 .pad.sm{width:clamp(50px,11vmin,70px);height:clamp(50px,11vmin,70px);border-radius:50%;font-size:20px;padding:0}.pad.sm small{font-size:9px}
 #dz{position:fixed;left:0;top:22%;width:48%;bottom:0;display:none;touch-action:none;z-index:2}#dz span{position:absolute;bottom:22%;left:0;right:0;text-align:center;opacity:.35;font-weight:800;pointer-events:none}
 #app.drag #dz{display:block}#app.drag .pad[data-k=L],#app.drag .pad[data-k=R]{display:none}#ctl{z-index:3}
+#ldv{position:fixed;inset:0;z-index:60;background:linear-gradient(#10151c,#1b222c);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;color:#fff;font-family:Cairo,system-ui,sans-serif;transition:opacity .6s;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
+#ldv.out{opacity:0;pointer-events:none}
+#ldv .lt{text-align:center}#ldv .lt b{display:block;font-size:clamp(26px,8vmin,44px);color:#f5b301;text-shadow:0 3px 0 rgba(0,0,0,.4)}
+#ldv .lt span{display:block;font-size:clamp(30px,10vmin,56px);font-weight:900;direction:ltr}
+#ldv .rd{position:relative;direction:ltr;width:min(88vw,760px);height:clamp(54px,14vmin,84px);background:repeating-linear-gradient(90deg,#4a3f33 0 12px,#54483a 12px 24px);border-radius:10px;border:2px solid #2b251e;margin-top:28px}
+#ldv .rb{position:absolute;left:0;top:0;bottom:0;width:0;background:#2b2d32;border-radius:8px 0 0 8px;box-shadow:inset 0 4px 0 #e9e9e9,inset 0 -4px 0 #e9e9e9}
+#ldv .rb::after{content:"";position:absolute;left:0;right:0;top:50%;height:4px;margin-top:-2px;background:repeating-linear-gradient(90deg,#f5c518 0 22px,transparent 22px 44px)}
+#ldv .cr{position:absolute;bottom:42%;left:0;width:clamp(86px,20vmin,130px);transform:translateX(-100%);pointer-events:none}
+#ldv .cr svg{display:block;width:100%;animation:ldbob .35s ease-in-out infinite alternate}
+#ldv .wh{transform-box:fill-box;transform-origin:center;animation:ldsp .5s linear infinite}
+#ldv .fl{position:absolute;right:-4px;top:-34px;font-size:28px}
+#ldv small{opacity:.75;font-weight:700;font-size:clamp(13px,3.2vmin,18px)}
+@keyframes ldsp{to{transform:rotate(360deg)}}@keyframes ldbob{to{transform:translateY(-2px)}}
+
 #fjs{position:fixed;left:calc(26px + env(safe-area-inset-left,0px));bottom:calc(26px + env(safe-area-inset-bottom,0px));width:clamp(110px,26vmin,170px);height:clamp(110px,26vmin,170px);border-radius:50%;background:rgba(12,20,26,.38);border:2px solid rgba(255,255,255,.3);display:none;touch-action:none;z-index:4}
 #fjs i{position:absolute;left:50%;top:50%;width:46%;height:46%;margin:-23% 0 0 -23%;border-radius:50%;background:rgba(245,179,1,.85);border:2px solid #fff;pointer-events:none}
 .pad.fw{display:none;position:fixed;bottom:calc(26px + env(safe-area-inset-bottom,0px));width:clamp(66px,16vmin,96px);height:clamp(66px,16vmin,96px);border-radius:50%;font-size:30px;padding:0}
@@ -423,7 +437,9 @@ body #ctl .trb{left:auto!important;right:calc(var(--sr) + var(--vh)*2 + var(--u)
 .mpr{margin:6px 0!important}
 </style>
 <style id="grd-css">#grd{position:fixed;inset:0;pointer-events:none;z-index:1;--tc:255,140,60;--ta:0;background:radial-gradient(ellipse at center,rgba(0,0,0,0) 52%,rgba(0,0,0,.22) 100%),rgba(var(--tc),var(--ta))}</style>
-</head><body><div id="grd"></div><script>(function(){const set=()=>{const v=window.visualViewport,h=Math.min(window.innerHeight||9999,v&&v.height?v.height:9999,Math.min(screen.width||9999,screen.height||9999));if(h>100&&h<3000)document.documentElement.style.setProperty('--vh',(h/100)+'px')};set();addEventListener('resize',set);addEventListener('orientationchange',()=>setTimeout(set,300));if(window.visualViewport)visualViewport.addEventListener('resize',set);setInterval(set,2000)})();</script><div id="app">
+</head><body>
+<div id="ldv"><div class="lt"><b>على جنب يا اسطى</b><span id="ldp">٠٪</span></div><div class="rd"><i class="rb"></i><div class="cr"><svg viewBox="0 0 120 56"><path d="M6 40Q6 31 14 29L30 27L40 15Q42 12 47 12H80Q84 12 87 15L96 27L108 30Q114 32 114 39V43H6Z" fill="#f2b705" stroke="#15181c" stroke-width="2.5" stroke-linejoin="round"/><path d="M38 27L44 17H62V27ZM66 27V17H80L88 27Z" fill="#8fc7ee" stroke="#15181c" stroke-width="2" stroke-linejoin="round"/><rect x="56" y="7" width="15" height="5" rx="1.5" fill="#fff" stroke="#15181c" stroke-width="1.5"/><rect x="6" y="34" width="108" height="3.5" fill="#15181c"/><rect x="107" y="31" width="7" height="4" rx="1" fill="#fff6c8"/><rect x="6" y="31" width="4" height="4" fill="#d01010"/><g class="wh"><circle cx="30" cy="44" r="9.5" fill="#15181c"/><circle cx="30" cy="44" r="4.2" fill="#aab0b9"/><path d="M30 39.5V48.5M25.5 44H34.5" stroke="#555" stroke-width="1.6"/></g><g class="wh"><circle cx="92" cy="44" r="9.5" fill="#15181c"/><circle cx="92" cy="44" r="4.2" fill="#aab0b9"/><path d="M92 39.5V48.5M87.5 44H96.5" stroke="#555" stroke-width="1.6"/></g></svg></div><span class="fl">🏁</span></div><small id="ldm">جاري تجهيز اللعبة…</small></div>
+<div id="grd"></div><script>(function(){const set=()=>{const v=window.visualViewport,h=Math.min(window.innerHeight||9999,v&&v.height?v.height:9999,Math.min(screen.width||9999,screen.height||9999));if(h>100&&h<3000)document.documentElement.style.setProperty('--vh',(h/100)+'px')};set();addEventListener('resize',set);addEventListener('orientationchange',()=>setTimeout(set,300));if(window.visualViewport)visualViewport.addEventListener('resize',set);setInterval(set,2000)})();</script><div id="app">
 <div id="inst"><span id="it">📲 حمّل اللعبة كتطبيق</span><button id="ib">تثبيت</button><button id="ix">✕</button></div>
 <canvas id="g"></canvas><div id="cpk"><img id="cpi" alt="" draggable="false"><canvas id="cpg" width="1584" height="672"></canvas></div>
 <div id="hud"><div id="cashb"><b id="mn">0</b><small>ج.م كاش</small></div><div id="mnp" style="cursor:pointer"><small>المحفظة</small><span><b id="ern">0</b><small>ج.م</small></span></div></div>
@@ -823,7 +839,7 @@ function rmInit(m,b){RM.MX=m.ext[0];RM.MZ=m.ext[1];RM.ND=m.n.map(p=>({x:p[0],z:p
    const ax=Math.floor(Math.min(x0,x1)/100),bx=Math.floor(Math.max(x0,x1)/100),az=Math.floor(Math.min(z0,z1)/100),bz=Math.floor(Math.max(z0,z1)/100);for(let X=ax;X<=bx;X++)for(let Z=az;Z<=bz;Z++){const q=rck(X,Z);if(seen.has(q))continue;seen.add(q);let l=RM.EG.get(q);if(!l)RM.EG.set(q,l=[]);l.push(i)}}});
  RM.B=b;b.forEach((q,i)=>{const kk=rck(Math.floor(q[0]/RM.CS),Math.floor(q[1]/RM.CS));let a=RM.BG.get(kk);if(!a)RM.BG.set(kk,a=[]);a.push(i)});
  for(const q of m.p)RM.POIs.push({x:q[0],z:q[1],k:q[2],name:q[3],rel:q[4]});
- rmSetup();RM.ready=true;refreshBlocks()}
+ rmSetup();RM.ready=true;window.__rmReady=1;refreshBlocks()}
 /* أقرب نقطة على شارع */
 function rmNear(x,z,rad,minC){let best=null,bd=rad*rad;const seen=new Set(),i0=Math.floor((x-rad)/100),i1=Math.floor((x+rad)/100),j0=Math.floor((z-rad)/100),j1=Math.floor((z+rad)/100);
  for(let i=i0;i<=i1;i++)for(let j=j0;j<=j1;j++){const l=RM.EG.get(rck(i,j));if(!l)continue;for(const ei of l){if(seen.has(ei))continue;seen.add(ei);const e=RM.E[ei];if(e.c<(minC||0))continue;const P=e.P;
@@ -944,7 +960,7 @@ function* rmBuildG(ci,cj){const key=rck(ci,cj),g=new T.Group(),mb=rMB(),M=rmMats
 const RMY=()=>performance.now()>RM.dl;
 function rmBuild(ci,cj){RM.dl=1e12;const it=rmBuildG(ci,cj);while(!it.next().done);}
 function rmDrop(k,c){sc.remove(c.g);c.g.traverse(o=>{if(o.userData.own&&o.geometry)o.geometry.dispose()});RM.CH.delete(k);RM.dirty=true}
-function rmStream(){if(!RM.ready)return;const ci=Math.floor(px/RM.CS),cj=Math.floor(pz/RM.CS),R_=RM.R;
+function rmStream(){if(!RM.ready)return;window.__rmCh=RM.CH.size;const ci=Math.floor(px/RM.CS),cj=Math.floor(pz/RM.CS),R_=RM.R;
  for(const[k,c]of[...RM.CH]){if(Math.abs(c.i-ci)>R_+1||Math.abs(c.j-cj)>R_+1)rmDrop(k,c)}
  const need=[];for(let i=ci-R_;i<=ci+R_;i++)for(let j=cj-R_;j<=cj+R_;j++)if(!RM.CH.has(rck(i,j)))need.push([Math.abs(i-ci)+Math.abs(j-cj),i,j]);need.sort((a,b)=>a[0]-b[0]);
  const t0=performance.now();for(let n=0;n<need.length;n++){if(n>0&&performance.now()-t0>7)break;rmBuild(need[n][1],need[n][2])}
@@ -2060,7 +2076,7 @@ requestAnimationFrame(frame);
 const TIERS=[['taxi','micro','hump'],['corolla','tuk'],['upyr','town']],ALL=[].concat(...(TIERS[0].push(...KRN),TIERS[1].push(...KBN),TIERS)),$=id=>document.getElementById(id),ld=$('ld');
 const PERF=window.PERF=window.PERF||{};PERF.assets={};PERF.failed=[];PERF.tiers=[];PERF.t0=performance.now();let doneN=0,bytes=0;const waiters={};
 let bar=$('ldbar');if(!bar&&ld){bar=document.createElement('div');bar.id='ldbar';bar.style.cssText='width:min(60vw,320px);height:8px;background:#333;border-radius:4px;margin:8px auto;overflow:hidden';bar.innerHTML='<i style="display:block;height:100%;width:0;background:#f2b705"></i>';ld.after(bar)}
-function prog(){const p=Math.round(doneN/ALL.length*100);if(ld)ld.textContent='جاري تحميل العالم… '+p+'٪ ('+(bytes/1048576).toFixed(1)+' ميجا)';if(bar)bar.firstChild.style.width=p+'%';const bg=$('bgl');if(bg)bg.textContent='جاري تحميل باقي العالم… '+p+'٪'}
+function prog(){const p=Math.round(doneN/ALL.length*100);if(ld)ld.textContent='جاري تحميل العالم… '+p+'٪ ('+(bytes/1048576).toFixed(1)+' ميجا)';if(bar)bar.firstChild.style.width=p+'%';window.__ldp=p;const bg=$('bgl');if(bg)bg.textContent='جاري تحميل باقي العالم… '+p+'٪'}
 window.__done=(k,ok,e)=>{const a=PERF.assets[k]||(PERF.assets[k]={});a.parseMs=Math.round(performance.now()-(a.t1||PERF.t0));a.ok=ok;if(ok){PERF.failed=PERF.failed.filter(x=>x!==k)}else{a.err=String(e&&e.message||e||'parse');if(!PERF.failed.includes(k))PERF.failed.push(k)}const w=waiters[k];if(w){delete waiters[k];w(ok)}};
 async function readAB(r){if(!r.body||!r.body.getReader){const b=await r.arrayBuffer();bytes+=b.byteLength;prog();return b}const rd=r.body.getReader(),ch=[];let n=0;for(;;){const o=await rd.read();if(o.done)break;ch.push(o.value);n+=o.value.length;bytes+=o.value.length;prog()}const u=new Uint8Array(n);let p=0;for(const c of ch){u.set(c,p);p+=c.length}return u.buffer}
 async function fetchAB(k){for(let i=0;i<3;i++){try{const t=performance.now(),ac=typeof AbortController==='function'?new AbortController():null,to=ac?setTimeout(()=>ac.abort(),40000):0,r=await fetch('models/'+k+'.glb',ac?{signal:ac.signal}:undefined);clearTimeout(to);if(!r.ok)throw new Error('HTTP '+r.status);const b=await readAB(r),a=PERF.assets[k]=PERF.assets[k]||{};a.fetchMs=Math.round(performance.now()-t);a.bytes=b.byteLength;return b}catch(e){(PERF.assets[k]=PERF.assets[k]||{}).err=String(e.message||e);await new Promise(r=>setTimeout(r,500*(i+1)))}}return null}
@@ -2069,11 +2085,21 @@ async function loadKey(k){if(k==='town'){try{const r=await fetch('models/town.js
  return new Promise(res=>{const to=setTimeout(()=>{if(waiters[k])window.__done(k,false,'انتهت المهلة')},45000);waiters[k]=ok=>{clearTimeout(to);res(ok)};try{task()}catch(e){window.__done(k,false,e)}})}
 async function runTier(ix,conc){const q=TIERS[ix].slice(),t=performance.now();await Promise.all(Array.from({length:conc},async()=>{while(q.length){const k=q.shift();await loadKey(k);doneN++;prog()}}));PERF.tiers.push({tier:ix,ms:Math.round(performance.now()-t)})}
 let retryBtn=null;function showRetry(){if(!PERF.failed.length){if(retryBtn)retryBtn.style.display='none';return}if(!retryBtn){retryBtn=document.createElement('button');retryBtn.className='go';retryBtn.style.cssText='font-size:14px;padding:6px 16px;margin-top:8px';retryBtn.onclick=async()=>{retryBtn.disabled=true;for(const k of PERF.failed.slice())await loadKey(k);retryBtn.disabled=false;showRetry()};$('go').after(retryBtn)}retryBtn.style.display='inline-block';retryBtn.textContent='⚠ فشل تحميل '+PERF.failed.length+' ملف ('+PERF.failed.slice(0,3).join(' ، ')+') — إعادة المحاولة'}
-try{window.__boot()}catch(e){const w=$('who');if(w)w.textContent='خطأ: '+e.message;return}
+try{window.__boot()}catch(e){const w=$('who');if(w)w.textContent='خطأ: '+e.message;window.__ldErr=1;return}
 await runTier(0,3);if(window.__refreshOnce)window.__refreshOnce();$('go').style.visibility='visible';
 const bg=document.createElement('div');bg.id='bgl';bg.style.cssText='position:fixed;left:50%;transform:translateX(-50%);bottom:4px;font-size:11px;opacity:.7;z-index:4;pointer-events:none;color:#fff;font-weight:800';document.body.appendChild(bg);
-await runTier(1,3);if(window.__refreshOnce)window.__refreshOnce();if(window.__reapply)window.__reapply();await runTier(2,3);if(window.__refreshOnce)window.__refreshOnce();bg.remove();if(ld)ld.textContent='';if(bar)bar.style.display='none';showRetry()
+await runTier(1,3);if(window.__refreshOnce)window.__refreshOnce();if(window.__reapply)window.__reapply();await runTier(2,3);if(window.__refreshOnce)window.__refreshOnce();bg.remove();if(ld)ld.textContent='';if(bar)bar.style.display='none';showRetry();window.__ldDone=1
 })();
+
+/* شاشة التحميل: عربية ماشية على طريق بيتبني، ومفيش أزرار لحد ما العالم يكمل */
+(()=>{const v=document.getElementById('ldv'),pt=document.getElementById('ldp'),rb=v.querySelector('.rb'),cr=v.querySelector('.cr'),ms=document.getElementById('ldm'),AR=n=>Number(n).toLocaleString('ar-EG'),t0=performance.now();let shown=0,fin=0,lt=t0;
+ const tick=()=>{const nw=performance.now(),dtt=Math.min(.25,(nw-lt)/1000),el=nw-t0;lt=nw;const a=(window.__ldp||0)/100,r=window.__rmReady?1:0,c=Math.min(1,(window.__rmCh||0)/9);
+  let tg=.6*a+.25*r+.15*c;if(window.__ldErr||el>90000||(window.__ldDone&&(r&&c>=1||el>60000)))tg=1;else tg=Math.min(tg,.99);
+  shown+=(tg-shown)*(1-Math.exp(-dtt*4))+(tg>shown?.12*dtt:0);if(shown>tg)shown=tg;if(tg>=1&&shown>.995)shown=1;
+  const p=Math.round(shown*100);pt.textContent=AR(p)+'٪';rb.style.width=p+'%';cr.style.left=p+'%';
+  ms.textContent=p<30?'بنجهّز العربيات…':p<60?'بنبني المباني…':p<95?'بنرصف الشوارع…':p<100?'العالم جاهز تقريباً…':'اكتمل التحميل!';
+  if(shown>=1&&!fin){fin=1;setTimeout(()=>{v.classList.add('out');setTimeout(()=>v.remove(),700)},600);return}
+  requestAnimationFrame(tick)};tick()})();
 let dp=null;const inst=document.getElementById('inst'),standalone=matchMedia('(display-mode: standalone)').matches||matchMedia('(display-mode: fullscreen)').matches||navigator.standalone||!!window.Capacitor;
 if(/android/i.test(navigator.userAgent)&&!standalone)document.getElementById('apkw').style.display='block';
 addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e;if(!standalone)inst.style.display='flex'});
