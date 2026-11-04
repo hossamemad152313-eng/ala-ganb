@@ -1135,8 +1135,11 @@ function bbWalk(m){m.userData.u={uPh:{value:0},uAm:{value:0},uSd:{value:0},uAs:{
  m.customProgramCacheKey=()=>'bbw1'}
 function bbSit(t){if(t.userData.sit)return t.userData.sit;const im=t.image,w=im.width,h=im.height,ch=Math.round(h*.6),c=document.createElement('canvas');c.width=w;c.height=ch;c.getContext('2d').drawImage(im,0,0,w,ch,0,0,w,ch);const st=new T.CanvasTexture(c);st.encoding=t.encoding;st.anisotropy=t.anisotropy;t.userData.sit=st;return st}
 /* شخصيات من صور حقيقية (4 زوايا) بتلف مع الكاميرا */
+/* توزيع متساوي: كيس متلخبط لكل مجموعة، كل شخصية بتظهر مرة قبل ما تتكرر، ومفيش شخصيتين ورا بعض */
+const NMB=new Map();let NML=null;
+function nmNext(a){const key=a.map(d=>d.f).join();let bag=NMB.get(key);if(!bag||!bag.length){bag=a.slice();for(let i=bag.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[bag[i],bag[j]]=[bag[j],bag[i]]}if(bag.length>1&&bag[bag.length-1]===NML){const t=bag[0];bag[0]=bag[bag.length-1];bag[bag.length-1]=t}NMB.set(key,bag)}const d=bag.pop();NML=d;return d}
 function nmChar(i,gen){let a=NM.c;if(typeof i==='string')a=a.filter(d=>d.f===i);else if(gen){const b=a.filter(d=>d.g===gen&&!d.me&&!d.kid);if(b.length)a=b}if(!a.length)return null;
- const d=typeof i==='string'?a[0]:a[(i|0)%a.length],g=new T.Group(),H=d.h,o=T.SkeletonUtils.clone(d.scene),mats=[];
+ const d=typeof i==='string'?a[0]:nmNext(a.filter(x=>!x.me).length?a.filter(x=>!x.me):a),g=new T.Group(),H=d.h,o=T.SkeletonUtils.clone(d.scene),mats=[];
  o.rotation.y=PI;g.add(o);
  o.traverse(n=>{if(n.isSkinnedMesh){n.frustumCulled=false;n.castShadow=n.receiveShadow=false;if(d.me)n.material=n.material.clone();mats.push(n.material)}});
  const mx=new T.AnimationMixer(o),ac=mx.clipAction(d.walk);ac.play();
