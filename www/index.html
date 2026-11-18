@@ -1158,14 +1158,14 @@ const NVD=[{k:'micro',f:'n_hiace',y:PI,len:5.25,sp:[9,13],nm:'🚐 ميكروب�
  {k:'taxi',f:'n_fiat148',y:PI,len:3.7,sp:[10,14],nm:'🚕 تاكسي فيات',cap:4,spd:60,acc:58},
  {k:'tuk',f:'n_tuk1',y:PI,len:3.3,sp:[7,10],nm:'🛺 توكتوك',cap:3,spd:34,acc:50},
  {k:'police',f:'n_policeE',y:PI,len:4.9,sp:[11,15],nm:'🚓 عربية شرطة',cap:3,spd:74,acc:66},
- {k:'sedan',f:'n_offroad4',y:PI,len:4.2,sp:[9,13],nm:'🚙 جيب ٤×٤',cap:4,spd:60,acc:55,drv:{x:-.4,y:.15,z:.3}},
- {k:'pick',f:'n_pickup',y:PI,len:4.8,sp:[8,12],nm:'🛻 ربع نقل',cap:2,spd:50,acc:46,drv:{x:-.4,y:.2,z:.55}},
+ {k:'sedan',f:'n_offroad4',y:PI,len:4.2,sp:[9,13],nm:'🚙 جيب ٤×٤',cap:4,spd:60,acc:55,drv:{x:-.4,y:.15,z:.3,noTraffic:1}},
+ {k:'pick',f:'n_pickup',y:PI,len:4.8,sp:[8,12],nm:'🛻 ربع نقل',cap:2,spd:50,acc:46,drv:{x:-.4,y:.2,z:.55,noTraffic:1}},
  {k:'moto',f:'n_moto',y:PI,len:2.1,sp:[11,16],nm:'🏍️ موتوسيكل',cap:1,spd:84,acc:86,bike:1},
  {k:'moped',f:'n_moped',y:PI,len:1.9,sp:[9,13],nm:'🛵 موبيد',cap:1,spd:70,acc:78,bike:1},
- {k:'oldpick',f:'n_1950pickup',y:PI,len:4.6,sp:[8,11],nm:'🛻 ربع نقل ١٩٥٠',cap:2,spd:46,acc:44,lazy:1},
- {k:'roadster',f:'n_1950roadster',y:PI,len:4.4,sp:[10,14],nm:'🏎️ رودستر ١٩٥٠',cap:2,spd:70,acc:60,lazy:1},
- {k:'convert',f:'n_1960conv',y:PI,len:4.6,sp:[10,14],nm:'🚘 مكشوفة ١٩٦٠',cap:3,spd:68,acc:58,lazy:1},
- {k:'offroad',f:'n_1990off',y:PI,len:4.2,sp:[9,12],nm:'🚙 جيب قديم',cap:4,spd:58,acc:52,lazy:1},
+ {k:'oldpick',f:'n_1950pickup',y:PI,len:4.6,sp:[8,11],nm:'🛻 ربع نقل ١٩٥٠',cap:2,spd:46,acc:44,lazy:1,noTraffic:1},
+ {k:'roadster',f:'n_1950roadster',y:PI,len:4.4,sp:[10,14],nm:'🏎️ رودستر ١٩٥٠',cap:2,spd:70,acc:60,lazy:1,noTraffic:1},
+ {k:'convert',f:'n_1960conv',y:PI,len:4.6,sp:[10,14],nm:'🚘 مكشوفة ١٩٦٠',cap:3,spd:68,acc:58,lazy:1,noTraffic:1},
+ {k:'offroad',f:'n_1990off',y:PI,len:4.2,sp:[9,12],nm:'🚙 جيب قديم',cap:4,spd:58,acc:52,lazy:1,noTraffic:1},
  {k:'fire',f:'n_fire',y:PI,len:7.0,sp:[7,10],nm:'🚒 مطافي',cap:2,spd:44,acc:36,lazy:1},
  {k:'tow',f:'n_tow',y:PI,len:6.5,sp:[7,10],nm:'🛻 ونش',cap:2,spd:46,acc:40,lazy:1},
  {k:'garb',f:'n_garbage',y:PI,len:7.0,sp:[6,9],nm:'🚛 عربية زبالة',cap:2,spd:40,acc:34,lazy:1},
@@ -1198,8 +1198,8 @@ const NVD=[{k:'micro',f:'n_hiace',y:PI,len:5.25,sp:[9,13],nm:'🚐 ميكروب�
 /* ===== بروبس: شجر ومطبات وأثاث شوارع وعربية الأكل (موديلات المستخدم، instancing) ===== */
 const PRL={tr1:{f:'p_apple',h:5.4,K:60},tr2:{f:'p_birch',h:8.5,K:45},tr3:{f:'p_oak',h:6.8,K:60},bump:{f:'p_bump',len:1,K:36},dump:{f:'p_dumpster',h:1.5,K:24},bench:{f:'p_bench',h:.95,K:26},bus:{f:'p_busstop',h:2.8,K:10},cab:{f:'p_cabinet',h:1.5,K:22},cone:{f:'p_cone',h:.75,K:60},jer:{f:'p_jersey',len:2.4,K:24},man:{f:'p_manhole',len:1.1,K:5},tl:{f:'p_tlight',h:5.8,K:20},farm:{f:'p_farm',len:3.4,K:10},tom:{f:'p_tomato',h:.9,K:30},cafe:{f:'n_foodtruck',len:5.4,K:8}},PR2={};
 /* ===== مباني مصرية: موديلات من لعبة «يا أسطى!» (بإذن صاحبها)، instancing بأقرب ٧٠ مبنى ===== */
-const BMOD=[],BK=70,BCAP=24,BPN=[0,3,5,8,1,2,4,6,7,9];
-async function loadBP(ld,i){const g=await ld('bp'+i);if(!g)return;g.scene.updateMatrixWorld(true);g.scene.traverse(o=>{if(!o.isMesh)return;const ge=o.geometry.clone();ge.applyMatrix4(o.matrixWorld);ge.computeBoundingBox();const b=ge.boundingBox;ge.translate(-(b.min.x+b.max.x)/2,-b.min.y,-(b.min.z+b.max.z)/2);BMOD.push({n:o.name,w:b.max.x-b.min.x,h:b.max.y-b.min.y,d:b.max.z-b.min.z,g:ge,m:(()=>{const mt=toLam(o.material).clone();mt.emissive=new T.Color(.42,.42,.42);mt.emissiveMap=mt.map;mt.color.setRGB(.75,.75,.75);return mt})(),im:null,idx:BMOD.length})})}
+const BMOD=[],BK=70,BCAP=24,BPN=['bp0','bp3','bp5','bp8','bp1','bp2','bp4','bp6','bp7','bp9',...Array.from({length:41},(_,i)=>'bq'+i)];
+async function loadBP(ld,i){const g=await ld(i);if(!g)return;g.scene.updateMatrixWorld(true);g.scene.traverse(o=>{if(!o.isMesh)return;const ge=o.geometry.clone();ge.applyMatrix4(o.matrixWorld);ge.computeBoundingBox();const b=ge.boundingBox;ge.translate(-(b.min.x+b.max.x)/2,-b.min.y,-(b.min.z+b.max.z)/2);BMOD.push({n:o.name,w:b.max.x-b.min.x,h:b.max.y-b.min.y,d:b.max.z-b.min.z,g:ge,m:(()=>{const mt=toLam(o.material).clone();mt.emissive=new T.Color(.42,.42,.42);mt.emissiveMap=mt.map;mt.color.setRGB(.75,.75,.75);return mt})(),im:null,idx:BMOD.length})})}
 function bmPick(w,d,H,hs){let best=null,bc=1e9,br=0;for(const m of BMOD){for(let r=0;r<2;r++){const mw=r?m.d:m.w,md=r?m.w:m.d,sx=w/mw,sz=d/md,sy=H/m.h;if(sx<.62||sx>1.7||sz<.62||sz>1.7||sy<.65||sy>1.55)continue;const c=Math.abs(Math.log(sx))+Math.abs(Math.log(sz))+.6*Math.abs(Math.log(sy))+hs(m.idx)*.22;if(c<bc){bc=c;best=m;br=r}}}return best?{m:best,r:br}:null}
 const _bd=new T.Object3D();
 function bmRebuild(){if(!BMOD.length)return;const arr=[];for(const c of RM.CH.values()){const a=c.bm;if(!a)continue;for(let i=0;i<a.length;i+=8){const dx=a[i]-px,dz=a[i+2]-pz;arr.push([dx*dx+dz*dz,a,i])}}
