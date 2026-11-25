@@ -960,12 +960,13 @@ function* rmBuildG(ci,cj){const key=rck(ci,cj),g=new T.Group(),mb=rMB(),M=rmMats
      else if(r<.26&&e.c>=2)P('bus',fx2,.3,fz2,ry,1,1,1);
      else if(r<.34)P('cab',fx2,.3,fz2,ry,1,1,1);
      else if(r<.38){for(let q=-1;q<=1;q++)P('jer',fx2+o.tx*q*3,.3,fz2+o.tz*q*3,Math.atan2(o.tx,o.tz)+PI/2,1,1,1);for(let q=-2;q<=2;q+=2)P('cone',fx2+o.tx*q*1.6-nx*1.4,.3,fz2+o.tz*q*1.6-nz*1.4,0,1,1,1)}
-     else if(r<.43&&e.c>=2){P('farm',fx2,.3,fz2,ry,1,1,1);for(let q=0;q<3;q++)P('tom',fx2+o.tx*(q-1)*1.4-nx*1.9,.3,fz2+o.tz*(q-1)*1.4-nz*1.9,q,1,1,1)}}}}
+     else if(r<.43&&e.c>=2){P('kiosk',fx2,.3,fz2,ry,1,1,1)}
+     else if(r<.47&&e.c>=3){P('pharm',fx2,.3,fz2,ry,1,1,1)}}}}
   // أعمدة إنارة وأشجار
   if(!e.br&&e.c>=1&&e.c<=4){const s0=e.cum[k],s1=e.cum[k+1];
    if(e.c>=2){const m=Math.ceil(s0/42);if(m*42<s1){const o=rmAt(e,m*42,{k}),sd=(m+e.i)%2?1:-1,nx=-o.tz*sd,nz=o.tx*sd,off=w2+3,lx=o.x+nx*off,lz=o.z+nz*off,r=Math.atan2(nz,nx);if(rmGap(lx,lz,e.i)>=1.2){bxm(sol,lx,3.3,lz,.09,3.3,.09,0,CPL);bxm(sol,lx-nx*.8,6.5,lz-nz*.8,.8,.07,.07,r,CPL);bxm(sol,lx-nx*1.5,6.4,lz-nz*1.5,.3,.07,.14,r,CLH)}}}
    const m2=Math.ceil(s0/20);if(m2*20<s1&&(e.c>=3||m2%2===0)&&rhh(e.i,m2,4)<.93){const o=rmAt(e,m2*20,{k}),sd=(m2&1)?1:-1,off=w2+(e.c>=3?3.6:3.1)+rhh(e.i,m2,8)*.5,tx=o.x+(-o.tz)*off*sd,tz=o.z+o.tx*off*sd;
-    if(rmGap(tx,tz,e.i)<1.5){}else{const ts=.85+rhh(e.i,m2,14)*.4;P(['tr1','tr2','tr3'][Math.floor(rhh(e.i,m2,13)*3)],tx,.3,tz,rhh(e.i,m2,12)*6.28,ts,ts,ts)}}}}
+    if(rmGap(tx,tz,e.i)<1.5){}else{const ts=.85+rhh(e.i,m2,14)*.4;P(['pal1','pal2','pal3','pal1','pal2','pal3','tr1','tr3'][Math.floor(rhh(e.i,m2,13)*8)],tx,.3,tz,rhh(e.i,m2,12)*6.28,ts,ts,ts)}}}}
  // مباني
  const bl=RM.BG.get(key)||[],KF=KFAC.length?KFAC:null,col2=[];
  const SUB=[];if(KF){for(let q=0;q<4;q++)SUB.push(KF[Math.floor(rhh(ci,cj,q+3)*KF.length)]);if(KBRK.length)SUB.push(KBRK[Math.floor(rhh(ci,cj,19)*KBRK.length)])}const pickF=(i)=>{if(!KF)return null;const u=rhh(i,3,5);return(KBRK.length&&u<.22)?SUB[4]:SUB[Math.floor(rhh(i,1,2)*4)]};
@@ -1196,7 +1197,7 @@ const NVD=[{k:'micro',f:'n_hiace',y:PI,len:5.25,sp:[9,13],nm:'🚐 ميكروب�
  {k:'tuk3',f:'n_tuk3',y:PI,len:3.1,sp:[7,10],nm:'🛺 توكتوك أصفر وبمبي',cap:3,spd:34,acc:50,lazy:1},
  {k:'toktok',f:'n_toktok',y:PI,len:3.2,sp:[7,10],nm:'🛺 توك توك برتقالي',cap:3,spd:34,acc:50,lazy:1}];
 /* ===== بروبس: شجر ومطبات وأثاث شوارع وعربية الأكل (موديلات المستخدم، instancing) ===== */
-const PRL={tr1:{f:'p_apple',h:5.4,K:60},tr2:{f:'p_birch',h:8.5,K:45},tr3:{f:'p_oak',h:6.8,K:60},bump:{f:'p_bump',len:1,K:36},dump:{f:'p_dumpster',h:1.5,K:24},bench:{f:'p_bench',h:.95,K:26},bus:{f:'p_busstop',h:2.8,K:10},cab:{f:'p_cabinet',h:1.5,K:22},cone:{f:'p_cone',h:.75,K:60},jer:{f:'p_jersey',len:2.4,K:24},man:{f:'p_manhole',len:1.1,K:5},tl:{f:'p_tlight',h:5.8,K:20},farm:{f:'p_farm',len:3.4,K:10},tom:{f:'p_tomato',h:.9,K:30},cafe:{f:'n_foodtruck',len:5.4,K:8}},PR2={};
+const PRL={tr1:{f:'p_apple',h:5.4,K:60},tr2:{f:'p_birch',h:8.5,K:45},tr3:{f:'p_oak',h:6.8,K:60},bump:{f:'p_bump',len:1,K:36},dump:{f:'p_dumpster',h:1.5,K:24},bench:{f:'p_bench',len:1.9,K:26},bus:{f:'p_busstop',len:3.6,K:10},cab:{f:'p_cabinet',h:1.5,K:22},cone:{f:'p_cone',h:.75,K:60},jer:{f:'p_jersey',len:2.4,K:24},man:{f:'p_manhole',len:1.1,K:5},tl:{f:'p_tlight',h:5.8,K:20},farm:{f:'p_farm',len:3.4,K:10},pal1:{f:'p_palm1',h:9.5,K:70},pal2:{f:'p_palm2',h:10.5,K:70},pal3:{f:'p_palm3',h:9,K:70},kiosk:{f:'p_kiosk',len:4.2,K:10},pharm:{f:'p_pharm',len:8.5,K:6},tom:{f:'p_tomato',h:.9,K:30},cafe:{f:'n_foodtruck',len:5.4,K:8}},PR2={};
 /* ===== مباني مصرية: موديلات من لعبة «يا أسطى!» (بإذن صاحبها)، instancing بأقرب ٧٠ مبنى ===== */
 const BMOD=[],BK=70,BCAP=24,BPN=['bp0','bp3','bp5','bp8','bp1','bp2','bp4','bp6','bp7','bp9',...Array.from({length:41},(_,i)=>'bq'+i)];
 async function loadBP(ld,i){const g=await ld(i);if(!g)return;g.scene.updateMatrixWorld(true);g.scene.traverse(o=>{if(!o.isMesh)return;const ge=o.geometry.clone();ge.applyMatrix4(o.matrixWorld);ge.computeBoundingBox();const b=ge.boundingBox;ge.translate(-(b.min.x+b.max.x)/2,-b.min.y,-(b.min.z+b.max.z)/2);BMOD.push({n:o.name,w:b.max.x-b.min.x,h:b.max.y-b.min.y,d:b.max.z-b.min.z,g:ge,m:(()=>{const mt=toLam(o.material).clone();mt.emissive=new T.Color(.42,.42,.42);mt.emissiveMap=mt.map;mt.color.setRGB(.75,.75,.75);mt.onBeforeCompile=sh=>{sh.fragmentShader=sh.fragmentShader.replace('#include <color_fragment>','#include <color_fragment>\n{float lu=dot(diffuseColor.rgb,vec3(.299,.587,.114));if(lu<.05)diffuseColor.rgb=mix(vec3(.46,.4,.34),diffuseColor.rgb,lu/.05);}')};mt.customProgramCacheKey=()=>'bld';return mt})(),im:null,idx:BMOD.length})})}
