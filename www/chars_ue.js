@@ -62,6 +62,8 @@
         mats.push(n.material);
       }
     });
+    const TN = [[.92,.92,.92],[.84,.9,1],[1,.9,.82],[.88,1,.9],[.95,.85,.95]][Math.floor(Math.random() * 5)];
+    mats.forEach(m => m.color.setRGB(TN[0], TN[1], TN[2]));
     const mx = new T.AnimationMixer(o), A = {}, W = {};
     for (const k in d.clips) {
       const a = mx.clipAction(d.clips[k]);
@@ -93,7 +95,7 @@
           else if (a2 >= 0.05) {
             want = a2 < 0.8 ? 'Walk' : 'Run';
             const du = d.clips[want] ? d.clips[want].duration : 1;
-            ts = (((ph / (2 * PI)) % 1) + 1) % 1 * du;
+            ts = ((((ph * (want === 'Run' ? 0.68 : 1)) / (2 * PI)) % 1) + 1) % 1 * du;
           }
         }
         for (const k in A) {

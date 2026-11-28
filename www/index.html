@@ -918,19 +918,20 @@ const rRC=h=>{const c=new T.Color(h);return[c.r,c.g,c.b]};
 const CTR=rRC('#6b4b32'),CLF=[rRC('#4d7f2c'),rRC('#5f8f34'),rRC('#3f7a38')],CPL=rRC('#4a4d52'),CLH=rRC('#f2e6b0'),CWT=rRC('#d7d2c6'),CST=rRC('#9c978c'),CPM=rRC('#7a5a3a'),CPL2=rRC('#2f7a3a');
 const CRD=rRC('#e8b800');
 /* ===== جراج مبني (باب بيتفتح) ===== */
-const GARM={};
+const GARM={};let GARI=null;const GARQ=[];
+function garAttach(G){if(!GARI||G.userData.gi)return;const m=GARI.clone();m.rotation.y=-PI/2;m.scale.setScalar(1.1);G.add(m);G.userData.gi=1;if(G.userData.fl)G.userData.fl.visible=false}
 function gtGarage(g,col,p){const gs=GARS.find(q=>Math.abs(q.x-p.x)<.5&&Math.abs(q.z-p.z)<.5);if(!gs)return;
  if(!GARM.wall){const L=c=>new T.MeshLambertMaterial({color:c});GARM.wall=L(0xcdbf98);GARM.roof=L(0x6b6f76);GARM.floor=L(0x1c1e22);GARM.stripe=L(0xff7a00);
   const cv=document.createElement('canvas');cv.width=64;cv.height=128;const x=cv.getContext('2d');x.fillStyle='#9aa1a8';x.fillRect(0,0,64,128);x.fillStyle='#6f757c';for(let i=0;i<16;i++)x.fillRect(0,i*8+6,64,2);const t=new T.CanvasTexture(cv);GARM.door=new T.MeshLambertMaterial({map:t});
   GARM.beam=new T.MeshBasicMaterial({color:0xff8a00,transparent:true,opacity:.22,depthWrite:false,blending:T.AdditiveBlending,side:T.DoubleSide})}
- const fx=gs.fx,fz=gs.fz,tx=fz,tz=-fx,G=new T.Group(),W=11,D=11.5,H=4.7,OW=5.8;G.position.set(p.x,0,p.z);G.rotation.y=Math.atan2(fx,fz);
+ const fx=gs.fx,fz=gs.fz,tx=fz,tz=-fx,G=new T.Group(),W=7.6,D=11.8,H=4.7,OW=5.8;G.position.set(p.x,0,p.z);G.rotation.y=Math.atan2(fx,fz);
  const box=(w,h,d,m,x,y,z)=>{const q=new T.Mesh(new T.BoxGeometry(w,h,d),m);q.position.set(x,y,z);q.userData.own=true;G.add(q);return q};
- box(W+.8,.22,D+.8,GARM.floor,0,.11,0);box(W,H,.4,GARM.wall,0,H/2,-D/2);box(.4,H,D,GARM.wall,-W/2,H/2,0);box(.4,H,D,GARM.wall,W/2,H/2,0);box(W+.9,.4,D+.9,GARM.roof,0,H+.2,0);
+ G.userData.fl=box(W+.8,.22,D+.8,GARM.floor,0,.11,0);box(W,H,.4,GARM.wall,0,H/2,-D/2);box(.4,H,D,GARM.wall,-W/2,H/2,0);box(.4,H,D,GARM.wall,W/2,H/2,0);box(W+.9,.4,D+.9,GARM.roof,0,H+.2,0);
  const sg=(W-OW)/2;box(sg,H,.4,GARM.wall,-(OW/2+sg/2),H/2,D/2);box(sg,H,.4,GARM.wall,OW/2+sg/2,H/2,D/2);box(OW,H-3.7,.4,GARM.wall,0,3.7+(H-3.7)/2,D/2);box(W+.1,.35,.5,GARM.stripe,0,H-.3,D/2+.02);
  const door=box(OW-.2,3.7,.14,GARM.door,0,1.85,D/2-.28);
  const sm=new T.Mesh(new T.PlaneGeometry(7,1.5),stex(p.name,'#ff7a00'));sm.position.set(0,H+1.3,D/2+.15);G.add(sm);
  const bm=new T.Mesh(new T.CylinderGeometry(.9,.9,70,8,1,true),GARM.beam);bm.position.set(W/2-.5,35,D/2-.5);G.add(bm);
- g.add(G);gs.door=door;gs.G=G;
+ g.add(G);gs.door=door;gs.G=G;GARQ.push(G);garAttach(G);
  const cw=(lx,lz,hw,hd)=>{const cx=p.x+tx*lx+fx*lz,cz=p.z+tz*lx+fz*lz,ex=Math.abs(tx*hw)+Math.abs(fx*hd),ez=Math.abs(tz*hw)+Math.abs(fz*hd);col.push({x0:cx-ex,x1:cx+ex,z0:cz-ez,z1:cz+ez,cx,cz,tx,tz,fx,fz,hw:hw-.05,hd:hd-.05,bld:1})};
  cw(0,-D/2,W/2,.3);cw(-W/2,0,.3,D/2);cw(W/2,0,.3,D/2);cw(-(OW/2+sg/2),D/2,sg/2,.3);cw(OW/2+sg/2,D/2,sg/2,.3)}
 function* rmBuildG(ci,cj){const key=rck(ci,cj),g=new T.Group(),mb=rMB(),M=rmMats(),col=[],cs=RM.CS,rads=[],bms=[],prs={},hps=[],P=(n,...a)=>{if(PR2[n])(prs[n]||(prs[n]=[])).push(...a)};
@@ -1212,6 +1213,7 @@ async function nmInit(){const ld=k=>fetch((k.indexOf('/')>=0?k:'models2/'+k)+'.g
  for(const d of NVD){const g=await ld(d.f);if(!g)continue;try{const flat=g.scene;flat.traverse(o=>{if(o.isMesh){o.material=carMatNew(toLam(o.material));o.castShadow=o.receiveShadow=false}});const out=new T.Group(),mid=new T.Group();mid.add(flat);mid.rotation.y=d.y;out.add(mid);out.updateMatrixWorld(true);const b=new T.Box3().setFromObject(out),c=b.getCenter(new T.Vector3()),s=b.getSize(new T.Vector3()),k=d.len/Math.max(s.x,s.z);
    mid.scale.setScalar(k);mid.position.set(-c.x*k,-b.min.y*k,-c.z*k);d.w=Math.min(s.x,s.z)*k;d.l=Math.max(s.x,s.z)*k;d.hh=s.y*k;d.tpl=out;NM.v.push(d);NM.vr=NM.v.length;{const nc=NVD.filter(x=>!x.lazy).length,dn=NM.v.filter(x=>!x.lazy).length;window.__nmAll=NM.v.length/NVD.length;window.__nmP=Math.min(1,dn/nc);if(dn>=nc)window.__nmDone=1;try{if(typeof SAVE!=='undefined'&&d.k===SAVE.cur||(dn>=nc&&!window.__nmApplied)){window.__nmApplied=dn>=nc;if(typeof applyCar==='function')applyCar()}}catch(e){}}if(typeof CAP!=='undefined'){CAP[d.k]=d.cap}if(typeof CZ!=='undefined')CZ[d.k]=1;if(typeof VEM!=='undefined')VEM[d.k]=d.bike?'🛵':'🚐';if(typeof ENG!=='undefined'){ENG[d.k]=d.bike?[80,1.8,'square',1200,.5,30]:(/^(pick|maz|isuzu|laban|oldpick|fire|tow|garb|mixer|tank|exca|roll|ftruck|ambu|scania|truck01|bus2|bus3|rob3)$/.test(d.k)?ENG.truck:ENG.micro);HORN[d.k]=d.bike?[700,820]:HORN.micro}if(typeof CNM!=='undefined')CNM[d.k]=d.nm}catch(e){console.warn('nm veh',d.f,e)}}
  {try{if(window.UE){const jr=await fetch('models3/characters/anims_ue.json').then(r=>r.json());for(const f of UEW){const g=await ld('models3/characters/'+f.file);if(!g)continue;try{UE.setup(f,g,jr);NM.c.push(f);NM.cr=NM.c.length}catch(e){console.warn('ue',f.f,e)}}}}catch(e){console.warn('ue chars',e)}}
+ try{const gg=await ld('models3/world/garage_interior');if(gg){GARI=gg.scene;GARI.traverse(o=>{if(o.isMesh){o.castShadow=false;o.receiveShadow=true;o.material=toLam(o.material)}});for(const G of GARQ)garAttach(G)}}catch(e){console.warn('garage',e)}
  window.__nmDone=1;window.__nmFull=1;try{if(typeof SAVE!=='undefined'&&NM.v.some(d=>d.k===SAVE.cur)&&typeof applyCar==='function')applyCar();const gx=document.getElementById('gx');if(gx&&!gx.classList.contains('gh')&&typeof gxBuild==='function'){gxBuild();gxThumbs()}}catch(e){}}
 (function(){const w=setInterval(()=>{if(typeof GLd!=='undefined'&&GLd){clearInterval(w);nmInit()}},250)})();
 function nvPick(keys){const a=keys?NM.v.filter(d=>keys.includes(d.k)):NM.v;return a.length?pick(a):null}
@@ -1260,7 +1262,7 @@ function bbSit(t){if(t.userData.sit)return t.userData.sit;const im=t.image,w=im.
 /* توزيع متساوي: كيس متلخبط لكل مجموعة، كل شخصية بتظهر مرة قبل ما تتكرر، ومفيش شخصيتين ورا بعض */
 const NMB=new Map();let NML=null;
 function nmNext(a){const key=a.map(d=>d.f).join();let bag=NMB.get(key);if(!bag||!bag.length){bag=a.slice();for(let i=bag.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[bag[i],bag[j]]=[bag[j],bag[i]]}if(bag.length>1&&bag[bag.length-1]===NML){const t=bag[0];bag[0]=bag[bag.length-1];bag[bag.length-1]=t}NMB.set(key,bag)}const d=bag.pop();NML=d;return d}
-function nmChar(i,gen){let a=NM.c;if(typeof i==='string')a=a.filter(d=>d.f===i);else if(gen){const b=a.filter(d=>d.g===gen&&!d.me&&!d.kid);if(b.length)a=b}if(!a.length)return null;
+function nmChar(i,gen){let a=NM.c;if(typeof i==='string')a=a.filter(d=>d.f===i);else if(gen){const b=a.filter(d=>d.g===gen&&!d.me&&!d.kid);if(b.length)a=b;if(gen==='m'){const ue=a.filter(d=>d.ue);if(ue.length)a=ue}}if(!a.length)return null;
  const d=typeof i==='string'?a[0]:nmNext(a.filter(x=>!x.me).length?a.filter(x=>!x.me):a);if(d.ue)return UE.make(d);const g=new T.Group(),H=d.h,o=T.SkeletonUtils.clone(d.scene),mats=[];
  o.rotation.y=PI;g.add(o);
  o.traverse(n=>{if(n.isSkinnedMesh){n.frustumCulled=false;n.castShadow=n.receiveShadow=false;if(d.me)n.material=n.material.clone();mats.push(n.material)}});
@@ -2091,13 +2093,13 @@ addEventListener('pointerdown',e=>{if(!layEd)return;if(e.target&&e.target.id==='
 addEventListener('pointermove',e=>{if(!layDrag||e.pointerId!==layDrag.pid)return;e.preventDefault();const p=[cl(e.clientX/innerWidth,.04,.96),cl(e.clientY/innerHeight,.06,.96)];LAY[layDrag.id]=p;layPlace(layDrag.t,p)},true);
 ['pointerup','pointercancel'].forEach(n=>addEventListener(n,e=>{if(layDrag&&e.pointerId===layDrag.pid){layDrag=null;laySave()}},true));
 layApply();
-function mkAv(){const cw=nmChar('p_me');if(!cw)return null;cw.mats.forEach(m=>{m.emissive.setRGB(.17,.17,.21);m.color.multiplyScalar(1.5)});sc.add(cw.g);return{g:cw.g,cw,bn:null,ph:0,x:0,z:0,h:0}}
+function mkAv(){const cw=nmChar('w_norm')||nmChar('p_me');if(!cw)return null;cw.mats.forEach(m=>{m.emissive.setRGB(.17,.17,.21);m.color.multiplyScalar(1.5)});sc.add(cw.g);return{g:cw.g,cw,bn:null,ph:0,x:0,z:0,h:0}}
 function stepAv(dt,str){const a=AV;if(SIT){if(K.G||K.B||K.W||K.N||FJ.a||Math.abs(str)>.3){SIT=0;say('قمت 🚶')}else{SAVE.energy=Math.min(100,SAVE.energy+dt*3);a.g.position.set(a.x,-.32,a.z);return}}a.h-=FCN.st?0:(FJ.a?FJ.x:str)*2.4*Math.min(1.3,S.sens)*dt;const sp=FCN.st?0:K.N?5.4:K.W?2.6:(FJ.a&&FJ.y>.65)?-1.4:K.G?2.6:K.B?-1.4:0,fx=-Math.sin(a.h),fz=-Math.cos(a.h);a.x+=fx*sp*dt;a.z+=fz*sp*dt;
  const r=pushRect(a.x,a.z,.4,COL2);a.x+=r[0];a.z+=r[1];if(a.x>2850&&CCOL.length){const r2=pushRect(a.x,a.z,.4,CCOL);a.x+=r2[0];a.z+=r2[1]}
  {const obb=(cx,cz,fx2,fz2,w,l)=>{const dx=a.x-cx,dz=a.z-cz;if(Math.abs(dx)>l+3||Math.abs(dz)>l+3)return;const rx=-fz2,rz=fx2,u=dx*rx+dz*rz,wl=dx*fx2+dz*fz2,hw=w/2+.38,hl=l/2+.38;if(Math.abs(u)<hw&&Math.abs(wl)<hl){const pu=hw-Math.abs(u),pw=hl-Math.abs(wl);if(pu<pw){const sg=u<0?-1:1;a.x+=rx*sg*pu;a.z+=rz*sg*pu}else{const sg=wl<0?-1:1;a.x+=fx2*sg*pw;a.z+=fz2*sg*pw}}};
  obb(px,pz,PFX,PFZ,pv.w,pv.l);for(const c of cars){const o=c.o;if(!o||!o.g.visible)continue;const ry=o.g.rotation.y;obb(o.g.position.x,o.g.position.z,-Math.sin(ry),-Math.cos(ry),c.w,c.l)}}
  a.x=cl(a.x,-EXT+8,4500);a.z=cl(a.z,-EXT+8,EXT-8);let y=0;for(const q of COL)if(a.x>q.x0&&a.x<q.x1&&a.z>q.z0&&a.z<q.z1){y=.18;break}
- a.ph+=dt*Math.abs(sp)*2.6;a.g.position.set(a.x,y,a.z);a.g.rotation.y=a.h;a.moving=!!sp;if(a.cw)a.cw.set(a.ph,sp?.62:0,0,0,a.sk)}
+ a.ph+=dt*Math.abs(sp)*2.6;a.g.position.set(a.x,y,a.z);a.g.rotation.y=a.h;a.moving=!!sp;if(a.cw)a.cw.set(a.ph,sp?(Math.abs(sp)>4?.95:.62):0,0,0,a.sk)}
 function toggleCar(){if(!started)return;if(!onFoot){if(Math.abs(v)>2.5){say('وقّف العربية الأول يا اسطى',1);return}if(!AV)AV=mkAv();if(!AV){say('الشخصيات لسه بتتحمل — جرّب بعد ثانية',1);return}v=0;onFoot=true;if(pv&&pv.dr)pv.dr.g.visible=false;AV.h=hd;AV.x=px-Math.cos(hd)*2.3+PFX*.8;AV.z=pz+Math.sin(hd)*2.3+PFZ*.8;chd=hd;say('نزلت من العربية 🚶 (دوس 🚪 قرب العربية عشان تركب)')}
  else{const dOwn=Math.hypot(AV.x-px,AV.z-pz);let bc=null,bd=4.6;for(const c of cars){const dd=Math.hypot(AV.x-c.x,AV.z-c.z);if(dd<bd&&(c.park||c.v<3)){bd=dd;bc=c}}if(bc&&(dOwn>5||bd<dOwn)){boardOther(bc);return}if(dOwn>5){say('قرّب من أي عربية عشان تركب',1);return}onFoot=false;if(pv&&pv.dr)pv.dr.g.visible=true;$('svc').classList.add('h');svcCur=null;say('ركبت العربية 🚗')}}
 const CNM={micro:'ميكروباص',taxi:'تاكسي',sedan:'سيدان',tuk:'توكتوك',truck:'عربية نقل',bus:'أتوبيس',cart:'كارو'};
@@ -2174,13 +2176,14 @@ function applyPR(){R.setPixelRatio(Q.pr);rs()}
 function adapt(){const ok=t-(Q.lc||0);if(HQ&&Q.ema>48&&ok>3){Q.hqc=(Q.hqc||0)+1;if(Q.hqc>=5){Q.hqc=0;Q.lc=t;setHQ(false);S.hq=0;saveS();STR=3;$('hq').textContent='الجودة: عادية';$('hqs').textContent='⚠ اتقل جدًا فرجّعتها عادية';say('الموبايل اتقل جدًا — رجّعت الجودة العادية',1);return}}else if(HQ&&Q.ema<=48)Q.hqc=0;
  if(Q.ema>27&&ok>3){Q.lc=t;if(Q.sh){Q.sh=false;sun.castShadow=false;R.shadowMap.enabled=false;sc.traverse(o=>{if(o.material)(Array.isArray(o.material)?o.material:[o.material]).forEach(m=>{m.needsUpdate=true})})}else if(Q.pr>Q.min+.01){Q.pr=Math.max(Q.min,Q.pr-.15);applyPR()}else if(STR>2)STR=2}
  else if(Q.ema<12&&Q.pr<Q.max&&ok>12){Q.pr=Math.min(Q.max,Q.pr+.1);Q.lc=t;applyPR()}}
-var COMP=null,GPS=null,HQ=0;
+const SBLUR={uniforms:{tDiffuse:{value:null},amt:{value:0}},vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',fragmentShader:'uniform sampler2D tDiffuse;uniform float amt;varying vec2 vUv;void main(){vec2 d=vUv-vec2(.5,.47);float r=length(d);vec2 s=d*amt*smoothstep(.12,.75,r);vec4 c=texture2D(tDiffuse,vUv);float w=1.;for(int i=1;i<=6;i++){float f=float(i)/6.;c+=texture2D(tDiffuse,vUv-s*f);w+=1.;}gl_FragColor=c/w;}'};
+var COMP=null,GPS=null,SBP=null,HQ=0;
 const GRADE={uniforms:{tDiffuse:{value:null},tm:{value:0}},vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',fragmentShader:'uniform sampler2D tDiffuse;uniform float tm;varying vec2 vUv;float hh(vec2 p){return fract(sin(dot(p,vec2(12.9898,78.233)))*43758.5453);}void main(){vec4 c=texture2D(tDiffuse,vUv);vec2 d=vUv-.5;float v=smoothstep(.9,.3,length(d));c.rgb*=mix(.7,1.,v);float l=dot(c.rgb,vec3(.299,.587,.114));c.rgb=mix(vec3(l),c.rgb,.9);c.rgb=(c.rgb-.5)*1.08+.5;c.rgb+=(hh(vUv*vec2(900.)+tm)-.5)*.018;gl_FragColor=c;}'};
 function setHQ(on){if(on){if(!T.EffectComposer||!T.UnrealBloomPass||!T.RenderPass||!T.ShaderPass||!T.CopyShader||!T.WebGLMultisampleRenderTarget){say('الجودة العالية مش متاحة هنا',1);$('hqs').textContent='❌ ملفات التأثيرات ما اتحملتش';return false}
   const a=$('app'),w=a.clientWidth||innerWidth,H=a.clientHeight||innerHeight,pr=R.getPixelRatio();
-  try{const rt=new T.WebGLMultisampleRenderTarget(w*pr,H*pr,{format:T.RGBAFormat});rt.samples=2;COMP=new T.EffectComposer(R,rt);COMP.addPass(new T.RenderPass(sc,cam));COMP.addPass(new T.UnrealBloomPass(new T.Vector2(w/4,H/4),.5,.7,.8));GPS=new T.ShaderPass(GRADE);GPS.renderToScreen=true;COMP.addPass(GPS);COMP.setPixelRatio(pr);COMP.setSize(w,H)}catch(e){COMP=null;GPS=null;say('الجودة العالية مش مدعومة على الجهاز ده',1);$('hqs').textContent='❌ مش مدعومة على الجهاز ده';return false}
+  try{const rt=new T.WebGLMultisampleRenderTarget(w*pr,H*pr,{format:T.RGBAFormat});rt.samples=2;COMP=new T.EffectComposer(R,rt);COMP.addPass(new T.RenderPass(sc,cam));COMP.addPass(new T.UnrealBloomPass(new T.Vector2(w/4,H/4),.5,.7,.8));SBP=new T.ShaderPass(SBLUR);SBP.enabled=false;COMP.addPass(SBP);GPS=new T.ShaderPass(GRADE);GPS.renderToScreen=true;COMP.addPass(GPS);COMP.setPixelRatio(pr);COMP.setSize(w,H)}catch(e){COMP=null;GPS=null;SBP=null;say('الجودة العالية مش مدعومة على الجهاز ده',1);$('hqs').textContent='❌ مش مدعومة على الجهاز ده';return false}
   sun.shadow.mapSize.set(1536,1536);if(sun.shadow.map){sun.shadow.map.dispose();sun.shadow.map=null}try{sc.environment=ENV||mkEnv()}catch(e){}HQ=1;return true}
- COMP=null;GPS=null;HQ=0;sc.environment=null;sun.shadow.mapSize.set(1024,1024);if(sun.shadow.map){sun.shadow.map.dispose();sun.shadow.map=null}return true}
+ COMP=null;GPS=null;SBP=null;HQ=0;sc.environment=null;sun.shadow.mapSize.set(1024,1024);if(sun.shadow.map){sun.shadow.map.dispose();sun.shadow.map=null}return true}
 $('hq').onclick=()=>{if(HQ){setHQ(false);S.hq=0;$('hq').textContent='الجودة: عادية';STR=3}else if(setHQ(true)){S.hq=1;$('hq').textContent='الجودة: عالية ✨';$('hqs').textContent='✅ شغّالة (توهج وألوان) — لو الموبايل تقل جدًا هترجع عادي'}saveS()};
 if(S.hq&&setHQ(true)){$('hq').textContent='الجودة: عالية ✨'}
 const QP=[{pr:1.25,max:1.5,min:1,sh:1024,hq:0,n:'الجودة: عادية'},{pr:1.5,max:2,min:1.25,sh:1536,hq:1,n:'الجودة: عالية ✨'},{pr:2,max:3,min:1.5,sh:2048,hq:1,n:'الجودة: 4K ✨✨'}];
@@ -2210,6 +2213,18 @@ if(/[?&]dev=1/.test(location.search))devToggle(true);
 let last=performance.now(),mmT=0,cullT=0,wallCd=0;cam.rotation.order='YXZ';
 const HLS=[-1,1].map(s=>{const l=new T.SpotLight(0xfff0cc,0,70,.6,.55,1.1);sc.add(l);sc.add(l.target);return l});
 function hlStep(){const on=typeof pv!=='undefined'&&pv&&started&&!onFoot,n=on?Math.max(0,Math.min(1,(.55-dayF)*2.2)):0;HLS.forEach((l,i)=>{l.intensity=n*2.6;if(!n)return;const sd=i?.45:-.45;l.position.set(px+PFX*1.8+PFZ*sd,.8,pz+PFZ*1.8-PFX*sd);l.target.position.set(px+PFX*28+PFZ*sd*.5,0,pz+PFZ*28-PFX*sd*.5)})}
+/* ===== سينمائي: بلور السرعة (radial) + لقطات الدريفت بشرائط سينما ===== */
+const DRC={on:0,t:0,hold:0,cd:3,n:0,f0:60,sg:1,sh:0};
+const LBX=(()=>{const a=$('app')||document.body,mk=(top)=>{const d=document.createElement('div');d.style.cssText='position:absolute;left:0;right:0;height:0;background:#000;z-index:6;pointer-events:none;transition:height .35s ease;'+(top?'top:0':'bottom:0');a.appendChild(d);return d};return[mk(1),mk(0)]})();
+function lbar(on){const h=on?'11%':'0';LBX[0].style.height=h;LBX[1].style.height=h}
+function drStart(){DRC.on=1;DRC.t=0;DRC.sh=DRC.n++%3;DRC.f0=cam.fov;DRC.sg=st>=0?1:-1;HS=Math.max(HS,.35);lbar(1)}
+function drDetect(dt){if(DRC.cd>0)DRC.cd-=dt;const sp=Math.abs(v),d=!onFoot&&started&&!paused&&!DRC.on&&!GCN.st&&!FCN.st&&!(CRS.t>0)&&sp>13&&(K.D||K.B||(K.T&&K.G))&&Math.abs(st)>.2;if(d){DRC.hold+=dt;if(DRC.hold>.6&&DRC.cd<=0){DRC.hold=0;drStart()}}else DRC.hold=Math.max(0,DRC.hold-dt*2)}
+function drCam(raw){DRC.t+=raw;const D=2.4,u=DRC.t/D;if(u>=1||onFoot||paused||CRS.t>0||GCN.st||FCN.st){DRC.on=0;DRC.cd=8;cam.fov=DRC.f0;cam.updateProjectionMatrix();lbar(0);return}
+ const fx=PFX,fz=PFZ,rx=-PFZ,rz=PFX,s=DRC.sg,L=pv.l||4.5;let X,Y,Z,F;
+ if(DRC.sh===0){X=px+rx*s*(L*1.5)+fx*(-L*.9+L*2.2*u);Y=.85+.5*u;Z=pz+rz*s*(L*1.5)+fz*(-L*.9+L*2.2*u);F=38}
+ else if(DRC.sh===1){X=px+fx*(L*2.2-L*1.3*u)+rx*s*(L*.55+L*.7*u);Y=.55+.5*u;Z=pz+fz*(L*2.2-L*1.3*u)+rz*s*(L*.55+L*.7*u);F=32+6*u}
+ else{const a=(-.9+1.8*u)*s;X=px+(-fx*Math.cos(a)+rx*Math.sin(a))*(L*2.1);Y=3.1-1.2*u;Z=pz+(-fz*Math.cos(a)+rz*Math.sin(a))*(L*2.1);F=46}
+ cam.position.set(X,Y,Z);cam.lookAt(px+fx*.8,.7,pz+fz*.8);cam.fov=F;cam.updateProjectionMatrix()}
 function frame(now){requestAnimationFrame(frame);const raw=Math.min(.2,(now-last)/1000),dt=Math.min(.05,raw)*(HS>0?.3:1);HS=Math.max(0,HS-raw);last=now;FRM++;devTick(raw);Q.ema+=(raw*1000-Q.ema)*.05;Q.t+=raw;if(Q.t>1.5){Q.t=0;if(t>4)adapt()}
  if(!paused){t+=dt;wxStep(dt);dayStep(dt);hlStep();COR.visible=false;stnStep(dt);rmStream();tlStep(dt);lodStep(dt);{const cn=px>2700;if(cn!==CIRC.on){CIRC.on=cn;palmsDirty=true;if(cn&&!CIRC.seen){CIRC.seen=1;say('🏁 حلبة القاهرة للتفحيط — اعمل اللي نفسك فيه!')}}}if(palmsDirty)rebuildPalms();if(needRefresh&&performance.now()>refreshAt){needRefresh=false;refreshBlocks()}
   if(!spawned&&((NM.v.length>=3&&window.__nmDone&&RM.ready)||t>90)){spawned=1;for(let i=0;i<28;i++)spawnCar();for(let i=0;i<16;i++)spawnParked()}
@@ -2233,17 +2248,18 @@ function frame(now){requestAnimationFrame(frame);const raw=Math.min(.2,(now-last
   humpStep();const tg=on&&!onFoot?.18:0;CB.vy+=((tg-CB.y)*150-CB.vy*17)*d2;CB.y+=CB.vy*d2;if(CB.y<0){CB.y=0;if(CB.vy<0)CB.vy*=-.25}CB.pv+=(-CB.pa*110-CB.pv*11)*d2;CB.pa+=CB.pv*d2}
  pv.g.visible=!cock||onFoot;CPK.on=!!(cock&&!onFoot&&CPK.m&&CPK.ok[cpType(pv.t)]);cpSet(CPK.on,cpType(pv.t));ck.visible=cock&&!onFoot&&!CPK.on;if(AV)AV.g.visible=onFoot;pv.g.position.set(px,Math.sin(t*25)*.012*cl(Math.abs(v)/30,0,1)+CB.y+Math.sin(WH.a)*pv.l*.32,pz);nvWheelStep(pv,v,st,dt);pv.g.rotation.order='YXZ';pv.g.rotation.y=hd;pv.g.rotation.x=CB.pa+WH.a;if(cock&&!onFoot&&!pvIn&&!CPK.on)mkInside();if(pvIn){pvIn.visible=cock&&!onFoot&&!CPK.on;if(pvIn.visible){pvIn.position.copy(pv.g.position);pvIn.rotation.order='YXZ';pvIn.rotation.y=hd;pvIn.rotation.x=CB.pa}}
  shake*=.9;const sx=(Math.random()-.5)*shake,sy=(Math.random()-.5)*shake;chd+=angd(onFoot&&AV?AV.h:hd+angd(td,hd)*.35,chd)*Math.min(1,dt*5);
- cam.fov=cam.fov;cam.updateProjectionMatrix();SV.style.opacity=HQ?Math.min(.55,Math.max(0,(Math.abs(v)-16)/38)):0;
+ cam.fov=cam.fov;cam.updateProjectionMatrix();SV.style.opacity=Math.min(HQ?.55:.32,Math.max(0,(Math.abs(v)-16)/38));
  if(onFoot&&AV){const cy0=chd+CAMO.y,cx=-Math.sin(cy0),cz=-Math.cos(cy0);cam.position.set(AV.x-cx*4.2*Math.max(.8,Math.min(2.6,S.camz||1))+sx,2.1+sy+CAMO.p*3.5,AV.z-cz*4.2*Math.max(.8,Math.min(2.6,S.camz||1)));camPush();{const kk=6-5.2*Math.min(1,Math.abs(CAMO.y)*1.3);cam.lookAt(AV.x+cx*kk,1.4,AV.z+cz*kk)}}else if(cock){cam.position.set(px+PFX*(pv.t==='micro'?3.3:pv.t==='tuk'?.2:.45)-Math.cos(hd)*(pv.t==='micro'?.55:.4)+sx*.3,(pv.t==='micro'?1.78:pv.t==='tuk'?1.25:1.2)+sy*.3+CB.y*.9,pz+PFZ*(pv.t==='micro'?3.3:pv.t==='tuk'?.2:.45)+Math.sin(hd)*(pv.t==='micro'?.55:.4));cam.rotation.set(-.075-CB.pa*1.3,hd-st*.05,0)}
  else{const cy0=chd+CAMO.y,cx=-Math.sin(cy0),cz=-Math.cos(cy0),av=Math.abs(v),czm=Math.max(.8,Math.min(2.6,S.camz||1));cdist+=((5.4*Math.max(.7,pv.l/4.7)+av*.05)*czm-cdist)*Math.min(1,dt*3);cam.position.set(px-cx*cdist+sx,(1.85*Math.max(.9,pv.l/4.7*.95)+av*.012)*(1+(czm-1)*.75)+sy+CB.y*.6+CAMO.p*4.5,pz-cz*cdist);camPush();{const kk=12-11*Math.min(1,Math.abs(CAMO.y)*1.3);cam.lookAt(px+cx*kk,.35+(pv.l>6?.5:0),pz+cz*kk)}}
  if(!started&&RM.ready){const ot=performance.now()/5500;cam.position.set(px+Math.cos(ot)*8.4,2.3+Math.sin(ot*.8)*.5,pz+Math.sin(ot)*8.4);cam.lookAt(px,1.1,pz)}
- if(started&&onFoot&&AV)gtaFootCam(dt);if(PCt>0&&started&&onFoot&&AV&&!FCN.st)punchCam(raw);if(CRS.t>0&&!GCN.st)crashCam(raw);if(FCN.st)fcStep(raw);if(GCN.st)gcCam(dt);
+ if(started&&onFoot&&AV)gtaFootCam(dt);if(PCt>0&&started&&onFoot&&AV&&!FCN.st)punchCam(raw);if(CRS.t>0&&!GCN.st)crashCam(raw);if(FCN.st)fcStep(raw);if(GCN.st)gcCam(dt);if(!DRC.on)drDetect(dt);if(DRC.on)drCam(raw);
  HLM.visible=dayF<.5&&!onFoot&&started;if(HLM.visible){HLM.position.set(px+PFX*11,.12,pz+PFZ*11);HLM.rotation.y=hd;HLM.material.opacity=cl(1-dayF*1.6,0,1)}
  if(TGT&&!onFoot&&!cock){const dx=TGT.x-px,dz=TGT.z-pz;ARR.visible=true;ARR.position.set(px,3.4+Math.sin(t*4)*.12,pz);ARR.rotation.y=Math.atan2(-dx,-dz)}else ARR.visible=false;
  tor.rotation.z=-st*1.2;bd.rotation.z=-st*.3+Math.sin(t*3)*.03+Math.sin(t*40)*.01*cl(Math.abs(v)/30,0,1);
  const av=Math.abs(v),kmh=Math.round(av*3.6),b=[0,11,22,33,44,100];let gi=0;while(av>=b[gi+1])gi++;const rpm=1000+cl((av-b[gi])/(b[gi+1]-b[gi]),0,1)*5600*(gi<4?1:.7);
  if((dlT+=dt)>.05){dlT=0;$('spd').textContent=kmh;const sb=$('spbar');sb.style.width=Math.min(100,kmh/2)+'%';sb.classList.toggle('tb',!!window.__tb)}if(cock&&!onFoot&&((clT+=dt)>.05)){clT=0;if(CPK.on)updCockpit(kmh,rpm);else updCluster(kmh,rpm)}$('sc').textContent=Math.floor(score);$('ds').textContent=(dist/1000).toFixed(2);if((mmT+=dt)>.05){mmT=0;drawMM()}
  A.upd(rpm,K.G&&started?1:0,TGT?Math.hypot(px-TGT.x,pz-TGT.z):999,pd);
+ if(SBP){const am=(!onFoot&&started&&!paused)?cl((Math.abs(v)-13)/38,0,1)*.2+(DRC.on?.07:0):0;SBP.enabled=am>.004;SBP.uniforms.amt.value=am}
  if(COMP){if(GPS)GPS.uniforms.tm.value=t;COMP.render(dt)}else R.render(sc,cam)}
 requestAnimationFrame(frame);
 };
