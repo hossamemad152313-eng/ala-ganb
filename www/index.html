@@ -475,6 +475,7 @@ body #ctl .trb{left:auto!important;right:calc(var(--sr) + var(--vh)*2 + var(--u)
 <script src="libs/three.min.js"></script>
 <script src="libs/GLTFLoader.js"></script>
 <script src="libs/SkeletonUtils.js"></script>
+<script src="chars_ue.js"></script>
 <script src="libs/BufferGeometryUtils.js"></script>
 <script src="libs/CopyShader.js"></script>
 <script src="libs/LuminosityHighPassShader.js"></script>
@@ -1077,7 +1078,7 @@ function mkWpn(id){if(CW[id])return CW[id];const g=new T.Group(),steel=new T.Mes
 function cbHurtPlayer(dmg,p){if(CBT.down)return;CBT.hp=Math.max(0,CBT.hp-dmg);CBT.hurtT=3;shake=Math.max(shake,.4);const h=$('hitfx');if(h){h.style.transition='none';h.style.opacity=.6;void h.offsetWidth;setTimeout(()=>{h.style.transition='opacity .6s';h.style.opacity=0},40)}if(A.hit)A.hit(false);if(AV)bloodAt(AV.x,1.3,AV.z,0,0,5);if(p&&Math.random()<.5)bubble(AV.x,2.2,AV.z,pick(LN.hurtp),'#ffb4b4',.9);if(CBT.hp<=0){CBT.down=3.2;bubble(AV.x,2.2,AV.z,'آه... وقعت!','#ffb4b4');say('اتضربت وقعت! 😵',1)}}
 function cbRespawn(){CBT.down=0;CBT.hp=70;const loss=Math.min(Math.floor(SAVE.cash*.15),300);SAVE.cash=Math.max(0,SAVE.cash-loss);if(RM.start){px=RM.start.x;pz=RM.start.z;hd=RM.start.hd;td=hd;chd=hd;PFX=-Math.sin(hd);PFZ=-Math.cos(hd)}onFoot=false;if(pv&&pv.dr)pv.dr.g.visible=true;v=0;say('صحيت في الإسعاف 🏥 وخسرت '+AR(loss)+' ج.م',1)}
 /* ضرب */
-function cbHurt(p,dmg,fx,fz,big){if(p.dead)return;p.hp=(p.hp==null?60:p.hp)-dmg;p.stun=big?.6:.35;p.x+=fx*(big?.5:.25);p.z+=fz*(big?.5:.25);bloodAt(p.x,1.2,p.z,fx,fz,big?22:10);if(A.hit)A.hit(big);
+function cbHurt(p,dmg,fx,fz,big){if(p.dead)return;p.hp=(p.hp==null?60:p.hp)-dmg;p.stun=big?.6:.35;if(p.cw&&p.cw.hit)p.cw.hit();p.x+=fx*(big?.5:.25);p.z+=fz*(big?.5:.25);bloodAt(p.x,1.2,p.z,fx,fz,big?22:10);if(A.hit)A.hit(big);
  if(p.hp<=0){p.dead=1;p.dt=0;p.mood=0;bloodAt(p.x,1,p.z,fx,fz,14);decal(p.x,p.z,1.4);bubble(p.x,2.2,p.z,pick(LN.die),'#ffd0d0');const cash=Math.floor(5+Math.random()*40);SAVE.cash+=cash;say('+'+AR(cash)+' ج.م من جيبه 💸');return}
  if(!p.mood){p.mood=Math.random()<.62?'fight':'flee';if(p.mood==='fight')fcStart(p);p.mt=0;p.kn=Math.random()<.12;bubble(p.x,2.2,p.z,pick(p.mood==='fight'?LN.fight:LN.flee),p.mood==='fight'?'#ffd27a':'#cfe8ff',p.mood==='fight'?.8:1.25)}else if(Math.random()<.4)bubble(p.x,2.2,p.z,pick(LN.hit),'#fff',1)}
 function cbAttack(){if(!onFoot||!AV||CBT.cd>0||CBT.down)return;const w=WPN[CBT.w];if(w.id==='gun'&&CBT.ammo<=0){say('الخرطوش فاضي! 🔫 (اشتري خرطوش من أي بنزينة)',1);CBT.cd=.5;return}
@@ -1091,7 +1092,7 @@ function cbNext(){CBT.w=(CBT.w+1)%WPN.length;const w=WPN[CBT.w];say(w.ic+' '+w.n
 function cbUi(){const w=WPN[CBT.w],a=$('cbA'),b=$('cbW');if(!a)return;a.textContent=w.ic;b.textContent=w.id==='gun'?'🔫'+AR(CBT.ammo):w.ic+' ⇄'}
 /* مشاة: واقع/بيهرب/بيضرب */
 function cbPed(p,dt){const tx=onFoot&&AV?AV.x:px,tz=onFoot&&AV?AV.z:pz,dxp=tx-p.x,dzp=tz-p.z,d=Math.hypot(dxp,dzp)||.01;if(p.stun>0)p.stun-=dt;p.g.rotation.order='YXZ';
- if(p.dead){p.dt+=dt;const k=Math.min(1,p.dt/.45);p.g.rotation.x=-PI/2*k;p.g.position.set(p.x,.2+.1*k,p.z);if(p.dt>25){p.dead=0;p.mood=0;p.hp=60;p.g.rotation.x=0;respawnPed(p)}p.g.visible=!!p.dr&&d<160;return d}
+ if(p.dead){p.dt+=dt;const k=Math.min(1,p.dt/.45);if(p.cw&&p.cw.ue){p.cw.die(p.dt);p.g.rotation.x=0;p.g.position.set(p.x,0,p.z)}else{p.g.rotation.x=-PI/2*k;p.g.position.set(p.x,.2+.1*k,p.z)}if(p.dt>25){p.dead=0;p.mood=0;p.hp=60;p.g.rotation.x=0;if(p.cw&&p.cw.revive)p.cw.revive();respawnPed(p)}p.g.visible=!!p.dr&&d<160;return d}
  if(p.mood==='fight'){if(p.stun<=0){if(d>1.25){p.dx=dxp/d;p.dz=dzp/d;p.x+=p.dx*2.8*dt;p.z+=p.dz*2.8*dt;p.ph+=dt*9}else{p.ac=(p.ac||0)-dt;if(p.ac<=0){p.ac=1.2;if(p.cw&&p.cw.punch)p.cw.punch();if(onFoot)cbHurtPlayer(p.kn?15:7,p);else{shake=Math.max(shake,.25)}}}}p.mt=(p.mt||0)+dt;if(p.mt>16||d>70){p.mood=0;p.mt=0}}
  else if(p.mood==='flee'){p.dx=-dxp/d;p.dz=-dzp/d;if(p.stun<=0){p.x+=p.dx*3.7*dt;p.z+=p.dz*3.7*dt;p.ph+=dt*10}p.mt=(p.mt||0)+dt;if(p.mt>7||d>70){p.mood=0;p.mt=0}}
  const rr=pushRect(p.x,p.z,.35,COL2);p.x+=rr[0];p.z+=rr[1];
@@ -1188,6 +1189,7 @@ function propRebuild(){for(const n in PR2){const Q=PR2[n];let N=0;const arr=[];f
   for(const im of Q.ims)im.instanceMatrix.needsUpdate=true}}
 const NCD3=[{f:'p_man',file:'p3_man',h:1.8,g:'m'},{f:'p_biz',file:'p3_biz',h:1.8,g:'m'},{f:'p_doc',file:'p3_doc',h:1.8,g:'m'},{f:'p_teen',file:'p3_teen',h:1.65,g:'m'},{f:'p_nurse',file:'p3_nurse',h:1.68,g:'f',dress:1},{f:'p_me',file:'p3_me_hi',h:1.8,g:'m',me:1,tex:1}];
 const NCD=[];
+const UEW=[{f:'w_norm',file:'w_norm',h:1.78,g:'m',ue:1},{f:'w_tall',file:'w_tall',h:1.88,g:'m',ue:1},{f:'w_fat',file:'w_fat',h:1.74,g:'m',ue:1},{f:'w_afr',file:'w_afr',h:1.8,g:'m',ue:1},{f:'w_asian',file:'w_asian',h:1.7,g:'m',ue:1}];
 const LAMC=new Map();
 function toLam(m){if(!m)return m;let r=LAMC.get(m.uuid);if(r)return r;r=new T.MeshLambertMaterial({color:m.color?m.color.clone():new T.Color(0xffffff),map:m.map||null,vertexColors:!!m.vertexColors,transparent:!!m.transparent,opacity:m.opacity==null?1:m.opacity,alphaTest:m.alphaTest||0,side:m.side||T.FrontSide,emissive:m.emissive?m.emissive.clone():new T.Color(0),emissiveMap:m.emissiveMap||null});if(/glass/i.test(m.name||'')){r.transparent=true;r.opacity=Math.min(r.opacity,.32);r.depthWrite=false}LAMC.set(m.uuid,r);return r}
 function nmFlat(root){root.updateMatrixWorld(true);const fl=new T.Group(),ms=[];root.traverse(o=>{if(o.isMesh&&!o.isSkinnedMesh)ms.push(o)});for(const o of ms){const g=o.geometry.clone();g.applyMatrix4(o.matrixWorld);const q=new T.Mesh(g,Array.isArray(o.material)?o.material.map(toLam):toLam(o.material));q.castShadow=q.receiveShadow=false;fl.add(q)}return fl}
@@ -1203,6 +1205,7 @@ async function nmInit(){const ld=k=>fetch((k.indexOf('/')>=0?k:'models2/'+k)+'.g
    g.scene.traverse(n=>{if(n.isSkinnedMesh){n.material=d.tex?new T.MeshLambertMaterial({map:n.material.map,skinning:true,emissive:new T.Color(.05,.05,.06)}):lm;if(d.tex)n.material.color.setRGB(.92,.92,.92);n.frustumCulled=false}});d.scene=g.scene;d.walk=clip;d.dur=clip.duration;d.idle=.025*clip.duration;NM.c.push(d);NM.cr=NM.c.length}catch(e){}}}
  for(const d of NVD){const g=await ld(d.f);if(!g)continue;try{const flat=g.scene;flat.traverse(o=>{if(o.isMesh){o.material=carMatNew(toLam(o.material));o.castShadow=o.receiveShadow=false}});const out=new T.Group(),mid=new T.Group();mid.add(flat);mid.rotation.y=d.y;out.add(mid);out.updateMatrixWorld(true);const b=new T.Box3().setFromObject(out),c=b.getCenter(new T.Vector3()),s=b.getSize(new T.Vector3()),k=d.len/Math.max(s.x,s.z);
    mid.scale.setScalar(k);mid.position.set(-c.x*k,-b.min.y*k,-c.z*k);d.w=Math.min(s.x,s.z)*k;d.l=Math.max(s.x,s.z)*k;d.hh=s.y*k;d.tpl=out;NM.v.push(d);NM.vr=NM.v.length;{const nc=NVD.filter(x=>!x.lazy).length,dn=NM.v.filter(x=>!x.lazy).length;window.__nmAll=NM.v.length/NVD.length;window.__nmP=Math.min(1,dn/nc);if(dn>=nc)window.__nmDone=1;try{if(typeof SAVE!=='undefined'&&d.k===SAVE.cur||(dn>=nc&&!window.__nmApplied)){window.__nmApplied=dn>=nc;if(typeof applyCar==='function')applyCar()}}catch(e){}}if(typeof CAP!=='undefined'){CAP[d.k]=d.cap}if(typeof CZ!=='undefined')CZ[d.k]=1;if(typeof VEM!=='undefined')VEM[d.k]=d.bike?'🛵':'🚐';if(typeof ENG!=='undefined'){ENG[d.k]=d.bike?[80,1.8,'square',1200,.5,30]:(/^(pick|maz|isuzu|laban|oldpick|fire|tow|garb|mixer|tank|exca|roll|ftruck|ambu|scania|truck01|bus2|bus3|rob3)$/.test(d.k)?ENG.truck:ENG.micro);HORN[d.k]=d.bike?[700,820]:HORN.micro}if(typeof CNM!=='undefined')CNM[d.k]=d.nm}catch(e){console.warn('nm veh',d.f,e)}}
+ {try{if(window.UE){const jr=await fetch('models3/characters/anims_ue.json').then(r=>r.json());for(const f of UEW){const g=await ld('models3/characters/'+f.file);if(!g)continue;try{UE.setup(f,g,jr);NM.c.push(f);NM.cr=NM.c.length}catch(e){console.warn('ue',f.f,e)}}}}catch(e){console.warn('ue chars',e)}}
  window.__nmDone=1;window.__nmFull=1;try{if(typeof SAVE!=='undefined'&&NM.v.some(d=>d.k===SAVE.cur)&&typeof applyCar==='function')applyCar();const gx=document.getElementById('gx');if(gx&&!gx.classList.contains('gh')&&typeof gxBuild==='function'){gxBuild();gxThumbs()}}catch(e){}}
 (function(){const w=setInterval(()=>{if(typeof GLd!=='undefined'&&GLd){clearInterval(w);nmInit()}},250)})();
 function nvPick(keys){const a=keys?NM.v.filter(d=>keys.includes(d.k)):NM.v;return a.length?pick(a):null}
@@ -1252,7 +1255,7 @@ function bbSit(t){if(t.userData.sit)return t.userData.sit;const im=t.image,w=im.
 const NMB=new Map();let NML=null;
 function nmNext(a){const key=a.map(d=>d.f).join();let bag=NMB.get(key);if(!bag||!bag.length){bag=a.slice();for(let i=bag.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[bag[i],bag[j]]=[bag[j],bag[i]]}if(bag.length>1&&bag[bag.length-1]===NML){const t=bag[0];bag[0]=bag[bag.length-1];bag[bag.length-1]=t}NMB.set(key,bag)}const d=bag.pop();NML=d;return d}
 function nmChar(i,gen){let a=NM.c;if(typeof i==='string')a=a.filter(d=>d.f===i);else if(gen){const b=a.filter(d=>d.g===gen&&!d.me&&!d.kid);if(b.length)a=b}if(!a.length)return null;
- const d=typeof i==='string'?a[0]:nmNext(a.filter(x=>!x.me).length?a.filter(x=>!x.me):a),g=new T.Group(),H=d.h,o=T.SkeletonUtils.clone(d.scene),mats=[];
+ const d=typeof i==='string'?a[0]:nmNext(a.filter(x=>!x.me).length?a.filter(x=>!x.me):a);if(d.ue)return UE.make(d);const g=new T.Group(),H=d.h,o=T.SkeletonUtils.clone(d.scene),mats=[];
  o.rotation.y=PI;g.add(o);
  o.traverse(n=>{if(n.isSkinnedMesh){n.frustumCulled=false;n.castShadow=n.receiveShadow=false;if(d.me)n.material=n.material.clone();mats.push(n.material)}});
  const mx=new T.AnimationMixer(o),ac=mx.clipAction(d.walk);ac.play();
@@ -1269,7 +1272,7 @@ function nmChar(i,gen){let a=NM.c;if(typeof i==='string')a=a.filter(d=>d.f===i);
   if(this.pt){const el=(performance.now()-this.pt)/1000,du=.42;if(el>=du)this.pt=0;else{const k=el/du,ls=(a,b,u)=>a+(b-a)*u,es=u=>u*u*(3-2*u);let A,F,Tw,Cu;if(k<.3){const u=es(k/.3);A=ls(0,.5,u);F=ls(0,2.2,u);Tw=ls(0,-.25,u);Cu=ls(0,1.6,u)}else if(k<.6){const u=es((k-.3)/.3);A=ls(.5,1.5,u);F=ls(2.2,.05,u);Tw=ls(-.25,.55,u);Cu=1.6}else{const u=es((k-.6)/.4);A=ls(1.5,0,u);F=ls(.05,0,u);Tw=ls(.55,0,u);Cu=ls(1.6,0,u)}const sg=this.pa?-1:1;rotW(sp,Tw*sg,upV);rotW(this.pa?la2:ra,A);rotW(this.pa?lf:rf,F);for(const f of this.pa?lfg:rfg)rotW(f,Cu)}}},
   hand(a){const v=new T.Vector3(.17*H,.8*H-.36*H*Math.cos(a),-.36*H*Math.sin(a));mid.updateWorldMatrix(true,false);return mid.localToWorld(v)}};
  cw.set(0,0,0,0);return cw}
-const CHW={c_old:3,c_man:3,c_malay:2,c_white:2,c_hijab2:2,c_fem:1,c_woman:1};
+const CHW={w_norm:2,w_tall:2,w_fat:1,w_afr:2,w_asian:2,c_old:3,c_man:3,c_malay:2,c_white:2,c_hijab2:2,c_fem:1,c_woman:1};
 function nmPickIdx(){const w=d=>d.me?0:(CHW[d.f]||1);let t=0;for(const d of NM.c)t+=w(d);let r=Math.random()*t;for(let i=0;i<NM.c.length;i++){r-=w(NM.c[i]);if(r<=0&&w(NM.c[i])>0)return i}return NM.c.findIndex(d=>!d.me)}
 function nmAssign(p){const cw=nmChar(nmPickIdx());if(!cw)return;const sc2=.95+Math.random()*.1;cw.g.scale.setScalar(sc2);p.cw=cw;p.g.add(cw.g);p.dr=1}
 function nmFigure(par,x,col,k){const cw=nmChar(k*3+((Math.random()*9)|0));if(!cw){return new T.Group()}cw.g.position.set(x,0,0);cw.g.rotation.y=(Math.random()-.5)*.8;par.add(cw.g);NM.figs.push({cw,g:cw.g,ph:Math.random()*6});return cw.g}
